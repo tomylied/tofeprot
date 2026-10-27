@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Chakra+Petch:ital,wght@0,600;0,700;1,700&family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,600;1,600;1,700&family=Orbitron:wght@700;900&family=Russo+One&display=swap');
 
+:root {
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -10,6 +17,7 @@ html {
     overflow-x: hidden;
     max-width: 100%;
     -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* ========================================== */
@@ -38,6 +46,9 @@ body.theme-dark {
     --energy-glow: rgba(139, 47, 201, 0.45);
     --badge-bg: #8b2fc9;
     --badge-text: #ffffff;
+    --font-display: 'Black Ops One', 'Russo One', sans-serif;
+    --font-heading: 'Russo One', 'Chakra Petch', sans-serif;
+    --font-sub: 'Chakra Petch', sans-serif;
     background-color: #050507;
 }
 
@@ -66,6 +77,9 @@ body.theme-light {
     --energy-glow: rgba(245, 158, 11, 0.32);
     --badge-bg: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     --badge-text: #ffffff;
+    --font-display: 'Cinzel', Georgia, serif;
+    --font-heading: 'Cinzel', Georgia, serif;
+    --font-sub: 'Cormorant Garamond', Georgia, serif;
     background-color: #f7f3ea;
 }
 
@@ -234,7 +248,7 @@ body.theme-light .cinematic-grain {
     pointer-events: none;
     z-index: 1;
     opacity: 0.35;
-    transition: all 0.6s ease;
+    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
 }
 
 .glow-left {
@@ -260,7 +274,7 @@ body.theme-light .cinematic-grain {
     height: 100dvh;
     max-width: none;
     aspect-ratio: auto;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.32s var(--ease-spring), opacity 0.28s var(--ease-out), box-shadow 0.28s var(--ease-out);
     user-select: none;
     display: flex;
     align-items: center;
@@ -424,7 +438,7 @@ body.theme-light .cinematic-grain {
     cursor: pointer;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.22s var(--ease-spring), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out);
     position: relative;
     z-index: 3;
 }
@@ -648,7 +662,7 @@ body.theme-light .cinematic-grain {
     padding: 1.2rem;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.4s ease;
+    transition: opacity 0.25s var(--ease-out), visibility 0.25s var(--ease-out);
 }
 
 .unlock-modal-overlay.active {
@@ -667,7 +681,7 @@ body.theme-light .cinematic-grain {
     position: relative;
     box-shadow: var(--card-shadow);
     transform: scale(0.95);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.36s var(--ease-drawer);
 }
 
 .unlock-modal-overlay.active .unlock-modal-content {
@@ -689,7 +703,7 @@ body.theme-light .cinematic-grain {
     font-size: 1.5rem;
     cursor: pointer;
     color: var(--text-muted);
-    transition: 0.3s;
+    transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), color 0.18s var(--ease-out);
     background: none;
     border: none;
 }
@@ -746,7 +760,7 @@ body.theme-light .cinematic-grain {
     margin-bottom: 1rem;
     border-radius: 4px;
     outline: none;
-    transition: 0.3s;
+    transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), color 0.18s var(--ease-out);
     text-align: center;
 }
 body.theme-light .unlock-form input {
@@ -770,7 +784,7 @@ body.theme-light .unlock-form input {
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 900;
-    transition: all 0.3s;
+    transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
     box-shadow: 0 4px 20px var(--energy-glow);
 }
 .unlock-form .submit-btn:hover {
@@ -787,7 +801,7 @@ body.theme-light .unlock-form input {
     color: var(--text-muted);
     cursor: pointer;
     text-decoration: none;
-    transition: 0.3s;
+    transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), color 0.18s var(--ease-out);
 }
 .skip-unlock:hover {
     color: var(--text-main);
@@ -814,7 +828,7 @@ body.theme-light .unlock-form input {
     border: 1px solid rgba(139, 47, 201, 0.35);
     border-radius: 9999px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 0 14px rgba(139, 47, 201, 0.2);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.22s var(--ease-spring), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out);
     user-select: none;
     padding: 3px 6px;
 }
@@ -841,7 +855,7 @@ body.theme-light .floating-nav-pill {
     cursor: pointer;
     color: var(--text-main);
     border-radius: 9999px;
-    transition: all 0.2s ease;
+    transition: transform 0.16s var(--ease-out), background-color 0.16s var(--ease-out), color 0.16s var(--ease-out), filter 0.16s var(--ease-out);
     outline: none;
 }
 
@@ -964,7 +978,7 @@ body.theme-light .floating-cart-count {
     border-left: 1px solid rgba(139, 47, 201, 0.35);
     z-index: 10002;
     transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.36s var(--ease-drawer);
     display: flex;
     flex-direction: column;
     box-shadow: -15px 0 50px rgba(0, 0, 0, 0.85);
@@ -1021,7 +1035,7 @@ body.theme-light .nav-drawer-panel {
     justify-content: center;
     font-size: 1.1rem;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), border-color 0.18s var(--ease-out), color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
 }
 
 .nav-drawer-close:hover {
@@ -1059,7 +1073,7 @@ body.theme-light .nav-drawer-panel {
     color: var(--text-main);
     font-size: 0.92rem;
     outline: none;
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
 }
 
 body.theme-light .drawer-search-box input {
@@ -1091,7 +1105,7 @@ body.theme-light .drawer-search-box input {
     letter-spacing: 1.2px;
     text-decoration: none;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s var(--ease-spring), background-color 0.18s var(--ease-out), border-color 0.18s var(--ease-out), box-shadow 0.2s var(--ease-out), color 0.18s var(--ease-out);
 }
 
 body.theme-light .drawer-nav-item {
@@ -1224,7 +1238,7 @@ body.theme-light .drawer-nav-item {
     background: linear-gradient(90deg, #1b0a29 0%, #101114 50%, #241b06 100%);
     color: #ffffff;
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.22s var(--ease-spring), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out);
     border: 1px solid rgba(255, 255, 255, 0.22);
     display: inline-flex;
     align-items: center;
@@ -1291,7 +1305,7 @@ body.theme-light .drawer-nav-item {
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.3s;
+    transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
 }
 .auth-btn:hover { 
     background: var(--accent-purple); 
@@ -1504,7 +1518,7 @@ body.theme-light .hero p {
     border-radius: 4px;
     cursor: pointer;
     letter-spacing: 2px;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.22s var(--ease-spring), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     text-transform: uppercase;
     font-weight: 900;
@@ -1529,7 +1543,7 @@ body.theme-light .hero p {
     letter-spacing: 2px;
     text-transform: uppercase;
     backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
 }
 
 .hero-btn-secondary:hover {
@@ -2039,7 +2053,7 @@ body.theme-light .card-3d-tilt::before {
     text-align: center;
     position: relative;
     clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
     box-shadow: 0 10px 25px rgba(0,0,0,0.6);
     z-index: 3;
 }
@@ -2100,7 +2114,7 @@ body.theme-light .card-3d-tilt::before {
     font-size: 0.85rem;
     cursor: pointer;
     text-transform: uppercase;
-    transition: 0.3s;
+    transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), color 0.18s var(--ease-out);
     clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
 }
 .side-prod-btn:hover {
@@ -2170,7 +2184,7 @@ body.theme-light .section-wrapper {
     border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
 }
 
 body.theme-light .calc-form select,
@@ -2227,7 +2241,7 @@ body.theme-light .calc-form input {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 2.2rem 1.8rem; text-align: center;
-    transition: all 0.3s ease; cursor: pointer; position: relative;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s; cursor: pointer; position: relative;
 }
 .membership-card:hover { border-color: var(--accent-purple); box-shadow: 0 5px 25px var(--energy-glow); transform: translateY(-5px); }
 .membership-card.active { background: var(--surface-light); border-color: var(--accent-purple); box-shadow: 0 0 25px var(--energy-glow); }
@@ -2263,7 +2277,7 @@ body.theme-light .calc-form input {
     border: 1.5px solid var(--border-color);
     border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
 }
 .store-tab:hover {
     border-color: var(--accent-purple);
@@ -2303,7 +2317,7 @@ body.theme-light .calc-form input {
     font-size: 0.8rem;
     color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
     border-radius: 4px;
     padding: 0.5rem;
     gap: 4px;
@@ -2316,7 +2330,7 @@ body.theme-light .calc-form input {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.26s var(--ease-spring), opacity 0.22s var(--ease-out), border-color 0.22s var(--ease-out), box-shadow 0.26s var(--ease-out), visibility 0.22s;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -2417,7 +2431,7 @@ body.theme-light .product-flavor-section {
     font-size: 0.72rem;
     color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s var(--ease-spring), background-color 0.18s var(--ease-out), border-color 0.18s var(--ease-out), box-shadow 0.2s var(--ease-out), color 0.18s var(--ease-out);
     outline: none;
     user-select: none;
 }
@@ -2520,7 +2534,7 @@ body.theme-light .product-image {
     font-family: 'Russo One', sans-serif;
     font-size: 0.88rem;
     font-weight: 900;
-    transition: all 0.3s;
+    transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
     text-transform: uppercase;
     letter-spacing: 1.5px;
 }
@@ -2588,7 +2602,7 @@ body.theme-light .product-image {
 .exp-bar-bg { width: 100%; height: 8px; background: var(--bg-black); border-radius: 2px; overflow: hidden; border: 1px solid var(--border-color); }
 .exp-bar-fill { width: 65%; height: 100%; background: linear-gradient(90deg, var(--accent-purple), #fff); box-shadow: 0 0 10px var(--energy-glow); }
 
-.logout-btn { width: 100%; background: transparent; border: 1px solid #ff4444; color: #ff4444; padding: 0.6rem; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+.logout-btn { width: 100%; background: transparent; border: 1px solid #ff4444; color: #ff4444; padding: 0.6rem; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), color 0.18s var(--ease-out); }
 .logout-btn:hover { background: #ff4444; color: white; }
 
 /* ========================================== */
@@ -2597,13 +2611,13 @@ body.theme-light .product-image {
 .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; }
 .modal.active { display: flex; }
 .modal-content { background: var(--card-texture), var(--card-bg); border: 1px solid var(--accent-purple); padding: 2rem; border-radius: 8px; width: 90%; max-width: 400px; position: relative; box-shadow: var(--card-shadow); }
-.close-btn { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); transition: 0.3s; }
+.close-btn { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), color 0.18s var(--ease-out); }
 .close-btn:hover { color: var(--accent-purple); text-shadow: 0 0 10px var(--energy-glow); }
 .form-group { margin-bottom: 1rem; }
 .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: var(--text-main); }
 .form-group input, .form-group select { width: 100%; padding: 0.8rem; background: var(--surface-light); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 2px; font-size: 1rem; }
 .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--accent-purple); box-shadow: 0 0 10px var(--energy-glow); }
-.submit-btn { width: 100%; background: var(--accent-purple); color: #ffffff; border: none; padding: 1rem; border-radius: 2px; font-family: 'Russo One', sans-serif; cursor: pointer; margin-top: 1rem; transition: all 0.3s; letter-spacing: 1px; font-weight: 900; }
+.submit-btn { width: 100%; background: var(--accent-purple); color: #ffffff; border: none; padding: 1rem; border-radius: 2px; font-family: 'Russo One', sans-serif; cursor: pointer; margin-top: 1rem; transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out); letter-spacing: 1px; font-weight: 900; }
 .submit-btn:hover { background: var(--accent-purple-hover); color: #ffffff; box-shadow: 0 0 15px var(--energy-glow); }
 .toggle-form { text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted); }
 .toggle-form a { color: var(--accent-purple); cursor: pointer; text-decoration: underline; font-weight: bold; }
@@ -2637,7 +2651,7 @@ body.theme-light .product-image {
     display: flex;
     flex-direction: column;
     transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.34s var(--ease-drawer);
     -webkit-overflow-scrolling: touch;
 }
 .cart-modal.active { transform: translateX(0); }
@@ -2661,12 +2675,12 @@ body.theme-light .product-image {
 .cart-item { padding: 1rem; border-bottom: 1px solid var(--border-color); gap: 0.5rem; }
 .cart-item-name { font-weight: bold; color: var(--text-main); font-size: 0.95rem; }
 .cart-item-price { color: var(--accent-purple); font-weight: bold; font-family: 'Russo One', sans-serif; font-size: 1.05rem; }
-.remove-btn { background: transparent; border: 1px solid #ff4444; color: #ff4444; padding: 0.4rem 0.8rem; border-radius: 2px; cursor: pointer; font-size: 0.8rem; transition: 0.3s; min-height: 34px; }
+.remove-btn { background: transparent; border: 1px solid #ff4444; color: #ff4444; padding: 0.4rem 0.8rem; border-radius: 2px; cursor: pointer; font-size: 0.8rem; transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), color 0.18s var(--ease-out); min-height: 34px; }
 .remove-btn:hover { background: #ff4444; color: white; }
 .cart-footer { padding: 1.2rem; border-top: 1px solid var(--border-color); background: var(--bg-black); }
 .cart-total { display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 1.25rem; font-weight: bold; color: var(--text-main); font-family: 'Russo One', sans-serif; }
 .membership-discount-info { background: var(--surface-light); border: 1px solid var(--border-color); padding: 0.8rem; border-radius: 2px; margin-bottom: 1rem; font-size: 0.85rem; color: var(--accent-purple); font-weight: bold; }
-.checkout-btn { width: 100%; background: var(--accent-purple); color: #ffffff; font-family: 'Russo One', sans-serif; letter-spacing: 1px; border: none; padding: 1.1rem; border-radius: 2px; cursor: pointer; transition: all 0.3s; font-weight: 900; min-height: 48px; }
+.checkout-btn { width: 100%; background: var(--accent-purple); color: #ffffff; font-family: 'Russo One', sans-serif; letter-spacing: 1px; border: none; padding: 1.1rem; border-radius: 2px; cursor: pointer; transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out); font-weight: 900; min-height: 48px; }
 .checkout-btn:hover { background: var(--accent-purple-hover); color: #ffffff; box-shadow: 0 0 15px var(--energy-glow); }
 body.theme-light .cart-modal {
     box-shadow: -10px 0 35px rgba(180, 140, 60, 0.15);
@@ -2705,7 +2719,7 @@ body.theme-light .cart-bundle-container {
     border-radius: 6px;
     padding: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(255, 70, 85, 0.05);
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
 }
 
 body.theme-light .cart-bundle-card {
@@ -2870,7 +2884,7 @@ body.theme-light .cart-bundle-price-promo {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    transition: all 0.25s ease;
+    transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), border-color 0.18s var(--ease-out), color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
     box-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
 }
 
@@ -3156,7 +3170,7 @@ footer { background: var(--bg-black); border-top: 1px solid var(--border-color);
     padding: 2rem 1.5rem;
     position: relative;
     clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
 }
 .how-step-card:hover {
     border-color: var(--accent-purple);
@@ -3236,7 +3250,7 @@ footer { background: var(--bg-black); border-top: 1px solid var(--border-color);
     font-size: 0.85rem;
     letter-spacing: 0.5px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
     clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
     display: inline-flex;
     align-items: center;
@@ -3311,7 +3325,7 @@ footer { background: var(--bg-black); border-top: 1px solid var(--border-color);
     color: var(--text-muted);
     font-size: 0.8rem;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
     opacity: 0.65;
     padding: 4px 10px;
     border: 1px dashed transparent;
@@ -3427,7 +3441,7 @@ footer { background: var(--bg-black); border-top: 1px solid var(--border-color);
     align-items: center;
     gap: 12px;
     text-align: left;
-    transition: all 0.3s;
+    transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
 }
 .gift-feature-item:hover {
     border-color: var(--accent-purple);
@@ -3580,7 +3594,7 @@ body.theme-light .cart-gift-text strong {
     gap: 12px;
     padding: 0.5rem 0.8rem;
     border-radius: 3px;
-    transition: all 0.3s;
+    transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
 }
 .trust-item:hover {
     background: rgba(255, 255, 255, 0.03);
@@ -3707,7 +3721,7 @@ body.theme-light .trust-text p {
     backdrop-filter: blur(8px);
     transform: translateY(120%);
     opacity: 0;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.32s var(--ease-spring), opacity 0.28s var(--ease-out), box-shadow 0.28s var(--ease-out);
     pointer-events: auto;
 }
 .live-sales-toast.show {
@@ -3795,7 +3809,7 @@ body.theme-light .live-sales-toast .toast-close:hover {
     border: 1px solid var(--card-border);
     border-radius: 8px;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
     box-shadow: var(--card-shadow);
 }
 .faq-item.active {
@@ -3960,7 +3974,7 @@ body.theme-light .guarantee-text p {
     font-weight: 700;
     border-radius: 2px;
     cursor: pointer;
-    transition: all 0.25s;
+    transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), border-color 0.18s var(--ease-out), color 0.18s var(--ease-out);
     text-align: center;
     line-height: 1.25;
 }
@@ -4034,14 +4048,14 @@ body.theme-light .cart-savings-row {
     width: 100%;
     height: 100%;
     position: relative;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.36s var(--ease-drawer);
 }
 
 .vector-tub-svg {
     width: 95px;
     height: 115px;
     filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.7));
-    transition: all 0.35s ease;
+    transition: transform 0.24s var(--ease-out), opacity 0.22s var(--ease-out), visibility 0.22s var(--ease-out);
 }
 
 .product-card:hover .vector-tub-svg {
@@ -4107,7 +4121,7 @@ body.theme-light .cart-savings-row {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.25s ease;
+    transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), border-color 0.18s var(--ease-out), color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
     user-select: none;
 }
 .sound-toggle-btn:hover {
@@ -4131,7 +4145,7 @@ body.theme-light .cart-savings-row {
     z-index: 11000;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.35s ease;
+    transition: transform 0.24s var(--ease-out), opacity 0.22s var(--ease-out), visibility 0.22s var(--ease-out);
 }
 .modal-backdrop.active {
     opacity: 1;
@@ -4152,7 +4166,7 @@ body.theme-light .cart-savings-row {
     overflow-y: auto;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.26s var(--ease-spring), opacity 0.22s var(--ease-out), border-color 0.22s var(--ease-out), box-shadow 0.26s var(--ease-out), visibility 0.22s;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px var(--energy-glow);
 }
 .product-modal-dialog.active {
@@ -4278,7 +4292,7 @@ body.theme-light .cart-savings-row {
     font-size: 0.85rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), border-color 0.18s var(--ease-out), color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -4468,7 +4482,7 @@ body.theme-light .cart-savings-row {
     font-size: 1rem;
     cursor: pointer;
     letter-spacing: 1px;
-    transition: all 0.25s ease;
+    transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), border-color 0.18s var(--ease-out), color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
     box-shadow: 0 4px 15px var(--energy-glow);
 }
 .pm-equip-btn:hover {
@@ -4565,7 +4579,7 @@ body.theme-light .pm-equip-btn:hover {
     z-index: 11001;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
     padding: 1.5rem;
     box-shadow: 0 20px 60px rgba(0,0,0,0.9);
 }
@@ -4624,7 +4638,7 @@ body.theme-light .pm-equip-btn:hover {
     font-size: 0.75rem;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.16s var(--ease-out), background-color 0.16s var(--ease-out), color 0.16s var(--ease-out), filter 0.16s var(--ease-out);
 }
 .copy-alias-btn:hover {
     filter: brightness(1.2);
@@ -4681,7 +4695,7 @@ body.theme-light .copy-alias-btn:hover {
     border-radius: 4px;
     cursor: pointer;
     margin: 0.5rem 0 0.8rem 0;
-    transition: all 0.2s ease;
+    transition: transform 0.16s var(--ease-out), background-color 0.16s var(--ease-out), color 0.16s var(--ease-out), filter 0.16s var(--ease-out);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -4711,31 +4725,58 @@ body.theme-light .copy-alias-btn:hover {
 .manifesto-card {
     background: var(--card-texture), var(--card-bg);
     border: 1px solid var(--border-color);
-    padding: 2.5rem 1.5rem;
-    text-align: center;
-    border-radius: 8px;
+    border-top: 3px solid var(--accent-purple);
+    padding: 2.2rem 1.8rem;
+    text-align: left;
+    border-radius: 6px;
     box-shadow: var(--card-shadow);
-    transition: transform 0.3s ease;
+    transition: transform 0.24s var(--ease-spring), border-color 0.22s var(--ease-out), box-shadow 0.24s var(--ease-out);
+    display: flex;
+    flex-direction: column;
 }
 .manifesto-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     border-color: var(--accent-purple);
     box-shadow: var(--card-hover-shadow);
 }
+.manifesto-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+body.theme-light .manifesto-card-top {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.manifesto-index {
+    font-family: var(--font-display, 'Russo One', sans-serif);
+    font-size: 1.65rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--accent-purple);
+    line-height: 1;
+}
 .manifesto-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    color: var(--text-main);
+    opacity: 0.85;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 .manifesto-card h3 {
-    font-family: 'Russo One', sans-serif;
+    font-family: var(--font-heading, 'Russo One', sans-serif);
     color: var(--text-main);
-    margin-bottom: 0.8rem;
-    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
+    font-size: 1.18rem;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
 }
 .manifesto-card p {
     color: var(--text-muted);
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-size: 0.94rem;
+    line-height: 1.55;
 }
 
 /* ========================================== */
@@ -4756,7 +4797,7 @@ body.theme-light .copy-alias-btn:hover {
     text-decoration: none;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     z-index: 9998;
-    transition: all 0.3s ease;
+    transition: transform 0.22s var(--ease-out), opacity 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out), visibility 0.2s;
 }
 .floating-wa-btn:hover {
     transform: translateY(-3px) scale(1.05);
@@ -4973,4 +5014,161 @@ body.theme-light .copy-alias-btn:hover {
         padding: 0.7rem 0.85rem;
     }
 }
+
+/* ========================================== */
+/* EMIL KOWALSKI & MOBILE-NATIVE POLISH       */
+/* ========================================== */
+
+/* 1. Respuesta táctil inmediata (:active) y eliminación del delay de 300ms en móvil */
+button,
+.hero-btn,
+.hero-btn-secondary,
+.add-to-cart-btn,
+.submit-btn,
+.checkout-btn,
+.pm-equip-btn,
+.floating-btn-section,
+.drawer-nav-item,
+.duality-bando-btn,
+.store-tab,
+.flavor-pill,
+.copy-alias-btn,
+.gateway-enter-btn,
+.qty-btn,
+.nav-drawer-close,
+.sound-toggle-btn,
+.floating-wa-btn,
+.goal-card,
+.membership-card {
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.hero-btn:active,
+.hero-btn-secondary:active,
+.add-to-cart-btn:active,
+.submit-btn:active,
+.checkout-btn:active,
+.pm-equip-btn:active,
+.duality-bando-btn:active,
+.store-tab:active,
+.gateway-enter-btn:active,
+.copy-alias-btn:active,
+.remove-btn:active,
+.logout-btn:active {
+    transform: scale(0.97) !important;
+    transition-duration: 0.1s !important;
+}
+
+.floating-btn-section:active,
+.flavor-pill:active,
+.qty-btn:active,
+.nav-drawer-close:active,
+.sound-toggle-btn:active,
+.floating-wa-btn:active {
+    transform: scale(0.94) !important;
+    transition-duration: 0.1s !important;
+}
+
+.drawer-nav-item:active {
+    transform: scale(0.98) translateX(2px) !important;
+    transition-duration: 0.1s !important;
+}
+
+.product-card:active {
+    transform: scale(0.99);
+}
+
+/* 2. Estabilidad de altura en móvil (svh para Hero, dvh para Drawers/Modales) */
+@supports (min-height: 100svh) {
+    .hero,
+    .hero-editorial {
+        min-height: 86svh;
+    }
+}
+
+/* 3. Prevención de auto-zoom en iOS Safari al enfocar inputs (< 16px) */
+@media (pointer: coarse) {
+    input,
+    textarea,
+    select {
+        font-size: 16px !important;
+    }
+}
+
+/* 4. Respeto de áreas seguras (Notch / Dynamic Island / Home Indicator) */
+.floating-nav-pill {
+    top: max(18px, env(safe-area-inset-top, 18px));
+    right: max(22px, env(safe-area-inset-right, 22px));
+}
+
+.floating-wa-btn {
+    bottom: max(20px, env(safe-area-inset-bottom, 20px));
+}
+
+.nav-drawer-panel,
+.cart-modal {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* 5. Accesibilidad: Reducción de movimiento si el usuario lo prefiere en su SO */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ========================================== */
+/* 6. IDENTIDAD TIPOGRÁFICA INTEGRAL POR BANDO */
+/* ========================================== */
+.section-title,
+.gift-title,
+.calc-form h2,
+.pr-container h2,
+.guarantee-content h3,
+.drawer-brand-title,
+.product-modal-title,
+.cart-header h2 {
+    font-family: var(--font-display, 'Russo One', sans-serif) !important;
+    letter-spacing: 2px;
+}
+
+body.theme-light .section-title,
+body.theme-light .gift-title,
+body.theme-light .calc-form h2,
+body.theme-light .pr-container h2,
+body.theme-light .guarantee-content h3,
+body.theme-light .drawer-brand-title,
+body.theme-light .product-modal-title,
+body.theme-light .cart-header h2 {
+    font-weight: 900;
+    letter-spacing: 3px;
+}
+
+.product-name,
+.pr-lift,
+.gift-feature-text h4,
+.trust-text h4 {
+    font-family: var(--font-heading, 'Russo One', sans-serif);
+}
+
+.editorial-subtitle,
+.gift-description {
+    font-family: var(--font-sub, sans-serif);
+}
+
+body.theme-light .editorial-subtitle,
+body.theme-light .gift-description {
+    font-style: italic;
+    font-size: 1.16rem;
+    font-weight: 600;
+}
+
+
 
