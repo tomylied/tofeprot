@@ -632,6 +632,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeNavDrawer();
+            if (document.getElementById('productModal')?.classList.contains('active')) closeProductModal();
+            if (document.getElementById('transferModal')?.classList.contains('active')) closeTransferModal();
+            if (document.getElementById('cartModal')?.classList.contains('active')) toggleCart();
+            if (document.getElementById('authModal')?.classList.contains('active')) toggleAuthModal();
         }
     });
 });
@@ -1134,8 +1138,19 @@ function verCertificado(nombre) {
 }
 
 // ========================================== */
-// TIENDA INDIVIDUAL                          */
+// TIENDA INDIVIDUAL (ARMERÍA EDITORIAL)      */
 // ========================================== */
+function getProductYieldLabel(product) {
+    const servingsStr = (product.nutrition && product.nutrition.servingsPerTub) || '30 tomas';
+    const numMatch = servingsStr.match(/\d+/);
+    const numServings = numMatch ? parseInt(numMatch[0], 10) : 30;
+    const perServing = Math.round(product.price / numServings);
+    return {
+        servingsTag: `${numServings} TOMAS`,
+        perServingText: `${formatPrice(perServing)} / toma`
+    };
+}
+
 function renderTienda(items) {
     const grid = document.getElementById('tiendaGrid');
     if (!grid) return;
@@ -1151,21 +1166,23 @@ function renderTienda(items) {
     grid.innerHTML = displayItems.map(product => {
         const stock = getStock(product.id);
         const isSoldOut = stock <= 0;
-        const badgeHTML = product.badge ? `<div class="product-badge holographic-badge" data-badge="${product.badge}">${product.badge}</div>` : '';
+        const badgeHTML = product.badge ? `<div class="product-badge holographic-badge" id="prodBadge_${product.id}" data-badge="${product.badge}">${product.badge}</div>` : '';
         const soldOutBadge = isSoldOut ? `<div class="out-of-stock-badge">AGOTADO</div>` : '';
         const transferPrice = Math.round(product.price * 0.85);
+        const installmentPrice = Math.round(product.price / 3);
+        const yieldInfo = getProductYieldLabel(product);
 
         const specsHTML = product.specs ? `
             <div class="product-specs-list" id="prodSpecs_${product.id}">
-                ${product.specs.map(s => `<span class="product-spec-pill">${s}</span>`).join('')}
+                ${product.specs.map((s, i) => `<span class="product-spec-pill ${i === 0 ? 'highlight' : ''}">${s}</span>`).join('')}
             </div>
         ` : '';
 
         const ratingHTML = product.rating ? `
-            <div class="product-rating">
+            <div class="product-rating" id="prodRating_${product.id}">
                 <span class="stars" aria-label="Calificación ${product.rating} de 5">★★★★★</span>
-                <span style="font-weight:bold; color:var(--text-main); font-size:0.75rem;">${product.rating}</span>
-                <span class="rating-count">(${product.reviews || 100}+ reseñas)</span>
+                <span class="rating-score">${product.rating}</span>
+                <span class="rating-count">(${product.reviews || 100})</span>
             </div>
         ` : '';
 
@@ -1175,15 +1192,16 @@ function renderTienda(items) {
         const flavorSelectorHTML = (flavors && flavors.length > 1) ? `
             <div class="product-flavor-section" id="flavorSec_${product.id}">
                 <div class="flavor-label-header">
-                    <span class="flavor-label-caption">Sabor:</span>
+                    <span class="flavor-label-caption">Variante / Sabor</span>
                     <span class="flavor-active-name" id="flavorActiveName_${product.id}">${currentFlavorName}</span>
                 </div>
-                <div class="flavor-pills-container" id="flavorPills_${product.id}">
+                <div class="flavor-pills-container" id="flavorPills_${product.id}" role="radiogroup" aria-label="Seleccionar variante de ${product.name}">
                     ${flavors.map((flv, idx) => `
                         <button type="button" 
                                 class="flavor-pill-btn ${idx === 0 ? 'active' : ''}" 
                                 style="--flavor-color: ${flv.color};" 
                                 onclick="selectQuickFlavor(${product.id}, ${idx}, event)"
+                                aria-pressed="${idx === 0 ? 'true' : 'false'}"
                                 title="${flv.name}">
                             <span class="flavor-pill-dot" style="background: ${flv.color};"></span>
                             <span class="flavor-pill-text">${flv.short}</span>
@@ -1193,18 +1211,32 @@ function renderTienda(items) {
             </div>
         ` : '';
 
-        const btnHTML = isSoldOut
-            ? `<button class="add-to-cart-btn" disabled style="opacity:0.5; cursor:not-allowed; border-color:#555; color:#888;">SIN STOCK</button>`
-            : `<button class="add-to-cart-btn btn-shimmer" id="addBtn_${product.id}" data-current-id="${product.id}" onclick="addIndividualToCart(parseInt(this.dataset.currentId || ${product.id}), this)">AGREGAR AL CARRITO</button>`;
+        const actionsHTML = isSoldOut
+            ? `<div class="product-card-actions"><button type="button" class="add-to-cart-btn" disabled style="opacity:0.5; cursor:not-allowed; border-color:#555; color:#888;">SIN STOCK</button></div>`
+            : `
+            <div class="product-card-actions">
+                <div class="card-qty-stepper" aria-label="Cantidad">
+                    <button type="button" class="card-qty-btn" onclick="changeCardQty(${product.id}, -1, event)" aria-label="Disminuir cantidad">−</button>
+                    <span class="card-qty-val" id="cardQty_${product.id}">1</span>
+                    <button type="button" class="card-qty-btn" onclick="changeCardQty(${product.id}, 1, event)" aria-label="Aumentar cantidad">+</button>
+                </div>
+                <button type="button" class="add-to-cart-btn btn-shimmer" id="addBtn_${product.id}" data-current-id="${product.id}" data-base-id="${product.id}" onclick="addIndividualToCart(parseInt(this.dataset.currentId || ${product.id}), this, ${product.id})">EQUIPAR AL ARSENAL</button>
+            </div>`;
 
         return `
-            <div class="product-card card-3d-tilt ${isSoldOut ? 'is-sold-out' : ''}" id="prodCard_${product.id}">
+            <article class="product-card card-3d-tilt ${isSoldOut ? 'is-sold-out' : ''}" id="prodCard_${product.id}">
                 ${soldOutBadge}
-                ${badgeHTML}
-                <div class="product-image" id="prodImg_${product.id}" role="button" tabindex="0" aria-label="Ver ficha técnica de ${product.name}" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer;" title="Click para ver ficha completa">
-                    ${product.customImage 
-                        ? `<img src="${product.customImage}" alt="${product.name}" class="product-custom-img" style="max-height: 140px; max-width: 140px; object-fit: contain; margin: 0 auto; filter: drop-shadow(0 6px 15px rgba(0,0,0,0.7)); display:block;">` 
-                        : getProductSVG(product.tubType, product.tubLabel, product.tubSub)}
+                <div class="product-stage-top">
+                    <span class="product-yield-pill" id="prodYield_${product.id}">${yieldInfo.servingsTag}</span>
+                    ${badgeHTML}
+                </div>
+                <div class="product-image" id="prodImg_${product.id}" role="button" tabindex="0" aria-label="Ver ficha técnica de ${product.name}" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer;" title="Click para inspeccionar ficha técnica y certificado CoA">
+                    <div class="product-tub-stage" id="prodTubStage_${product.id}">
+                        ${product.customImage 
+                            ? `<img src="${product.customImage}" alt="${product.name}" class="product-custom-img" style="max-height: 140px; max-width: 140px; object-fit: contain; margin: 0 auto; filter: drop-shadow(0 6px 15px rgba(0,0,0,0.7)); display:block;">` 
+                            : getProductSVG(product.tubType, product.tubLabel, product.tubSub)}
+                    </div>
+                    <span class="product-stage-hint" aria-hidden="true">INSPECCIONAR FICHA & CoA ↗</span>
                 </div>
                 <div class="product-info">
                     <div class="product-meta-top">
@@ -1214,22 +1246,38 @@ function renderTienda(items) {
                             <span>Ficha & CoA →</span>
                         </button>
                     </div>
-                    <div class="product-name" id="prodName_${product.id}" role="button" tabindex="0" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer;" title="Ver Ficha Técnica">${product.name}</div>
-                    <div class="product-desc" id="prodDesc_${product.id}">${product.description}</div>
+                    <h3 class="product-name" id="prodName_${product.id}" role="button" tabindex="0" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer;" title="Ver Ficha Técnica">${product.name}</h3>
+                    <p class="product-desc" id="prodDesc_${product.id}">${product.description}</p>
                     ${specsHTML}
                     ${flavorSelectorHTML}
                     <div class="product-price" id="prodPrice_${product.id}">
                         <div class="price-container">
-                            <span class="price">${formatPrice(product.price)}</span>
-                            <span class="transfer-discount-badge">${formatPrice(transferPrice)} con Transferencia</span>
+                            <div class="price-main-row">
+                                <span class="price">${formatPrice(product.price)}</span>
+                                <span class="price-per-serving">${yieldInfo.perServingText}</span>
+                            </div>
+                            <div class="price-sub-row">
+                                <span class="transfer-discount-badge">${formatPrice(transferPrice)} Transferencia (15% OFF)</span>
+                                <span class="installments-caption">3 cuotas sin interés de ${formatPrice(installmentPrice)}</span>
+                            </div>
                         </div>
                     </div>
-                    ${btnHTML}
+                    ${actionsHTML}
                 </div>
-            </div>
+            </article>
         `;
     }).join('');
     initCard3DTilt();
+}
+
+function changeCardQty(baseProductId, delta, event) {
+    if (event) event.stopPropagation();
+    playSFX('click');
+    const qtyEl = document.getElementById(`cardQty_${baseProductId}`);
+    if (!qtyEl) return;
+    let current = parseInt(qtyEl.textContent, 10) || 1;
+    current = Math.max(1, Math.min(10, current + delta));
+    qtyEl.textContent = current;
 }
 
 function selectQuickFlavor(baseProductId, flavorIdx, event) {
@@ -1248,11 +1296,9 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
     if (pillsContainer) {
         const buttons = pillsContainer.querySelectorAll('.flavor-pill-btn');
         buttons.forEach((btn, i) => {
-            if (i === flavorIdx) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+            const isSelected = i === flavorIdx;
+            btn.classList.toggle('active', isSelected);
+            btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
         });
     }
 
@@ -1262,10 +1308,14 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
         labelEl.textContent = selectedFlavor.name;
     }
 
-    // 3. Actualizar nombre del producto
+    // 3. Actualizar nombre del producto (incluyendo sub-variante si comparte ID como Pre-entreno)
     const nameEl = document.getElementById(`prodName_${baseProductId}`);
     if (nameEl) {
-        nameEl.textContent = targetProduct.name;
+        if (targetVariantId === baseProductId && baseProduct.flavors.length > 1) {
+            nameEl.textContent = `${baseProduct.name} - ${selectedFlavor.short}`;
+        } else {
+            nameEl.textContent = targetProduct.name;
+        }
     }
 
     // 4. Actualizar descripción si la variante tiene una propia
@@ -1274,33 +1324,61 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
         descEl.textContent = targetProduct.description;
     }
 
-    // 5. Actualizar specs si la variante tiene
+    // 5. Actualizar specs, badge, rating y rendimiento
     const specsEl = document.getElementById(`prodSpecs_${baseProductId}`);
     if (specsEl && targetProduct.specs) {
-        specsEl.innerHTML = targetProduct.specs.map(s => `<span class="product-spec-pill">${s}</span>`).join('');
+        specsEl.innerHTML = targetProduct.specs.map((s, i) => `<span class="product-spec-pill ${i === 0 ? 'highlight' : ''}">${s}</span>`).join('');
+    }
+
+    const badgeEl = document.getElementById(`prodBadge_${baseProductId}`);
+    if (badgeEl && targetProduct.badge) {
+        badgeEl.textContent = targetProduct.badge;
+        badgeEl.setAttribute('data-badge', targetProduct.badge);
+    }
+
+    const ratingEl = document.getElementById(`prodRating_${baseProductId}`);
+    if (ratingEl && targetProduct.rating) {
+        ratingEl.innerHTML = `
+            <span class="stars" aria-label="Calificación ${targetProduct.rating} de 5">★★★★★</span>
+            <span class="rating-score">${targetProduct.rating}</span>
+            <span class="rating-count">(${targetProduct.reviews || 100})</span>
+        `;
+    }
+
+    const yieldInfo = getProductYieldLabel(targetProduct);
+    const yieldEl = document.getElementById(`prodYield_${baseProductId}`);
+    if (yieldEl) {
+        yieldEl.textContent = yieldInfo.servingsTag;
     }
 
     // 6. Actualizar imagen o SVG del pote
-    const imgEl = document.getElementById(`prodImg_${baseProductId}`);
-    if (imgEl) {
+    const tubStageEl = document.getElementById(`prodTubStage_${baseProductId}`);
+    if (tubStageEl) {
         if (targetProduct.customImage) {
-            imgEl.innerHTML = `<img src="${targetProduct.customImage}" alt="${targetProduct.name}" class="product-custom-img" style="max-height: 120px; max-width: 120px; object-fit: contain; margin: 0 auto; filter: drop-shadow(0 6px 15px rgba(0,0,0,0.7)); display:block;">`;
+            tubStageEl.innerHTML = `<img src="${targetProduct.customImage}" alt="${targetProduct.name}" class="product-custom-img" style="max-height: 140px; max-width: 140px; object-fit: contain; margin: 0 auto; filter: drop-shadow(0 6px 15px rgba(0,0,0,0.7)); display:block;">`;
         } else {
             const tubType = selectedFlavor.tubType || targetProduct.tubType || baseProduct.tubType;
             const tubLabel = targetProduct.tubLabel || baseProduct.tubLabel;
             const tubSub = selectedFlavor.tubSub || targetProduct.tubSub || baseProduct.tubSub;
-            imgEl.innerHTML = getProductSVG(tubType, tubLabel, tubSub);
+            tubStageEl.innerHTML = getProductSVG(tubType, tubLabel, tubSub);
         }
     }
 
-    // 7. Actualizar precio
+    // 7. Actualizar precio, transferencia y cuotas
     const priceEl = document.getElementById(`prodPrice_${baseProductId}`);
     if (priceEl) {
         const transferPrice = Math.round(targetProduct.price * 0.85);
+        const installmentPrice = Math.round(targetProduct.price / 3);
         priceEl.innerHTML = `
             <div class="price-container">
-                <span class="price">${formatPrice(targetProduct.price)}</span>
-                <span class="transfer-discount-badge">${formatPrice(transferPrice)} con Transferencia</span>
+                <div class="price-main-row">
+                    <span class="price">${formatPrice(targetProduct.price)}</span>
+                    <span class="price-per-serving">${yieldInfo.perServingText}</span>
+                </div>
+                <div class="price-sub-row">
+                    <span class="transfer-discount-badge">${formatPrice(transferPrice)} Transferencia (15% OFF)</span>
+                    <span class="installments-caption">3 cuotas sin interés de ${formatPrice(installmentPrice)}</span>
+                </div>
             </div>
         `;
     }
@@ -1319,7 +1397,7 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
             btn.disabled = false;
             btn.style.opacity = '1';
             btn.style.cursor = 'pointer';
-            btn.textContent = 'AGREGAR AL CARRITO';
+            btn.textContent = 'EQUIPAR AL ARSENAL';
         }
     }
 
@@ -1332,7 +1410,7 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
     }
 }
 
-function addIndividualToCart(productId, btnElement) {
+function addIndividualToCart(productId, btnElement, baseCardId) {
     playSFX('equip');
     if (getStock(productId) <= 0) {
         alert('⚠️ Este producto se encuentra actualmente agotado.');
@@ -1345,18 +1423,27 @@ function addIndividualToCart(productId, btnElement) {
     const product = individualProducts.find(p => p.id === productId);
     if (!product) return;
 
+    let qtyToAdd = 1;
+    if (baseCardId) {
+        const qtyEl = document.getElementById(`cardQty_${baseCardId}`);
+        if (qtyEl) {
+            qtyToAdd = Math.max(1, parseInt(qtyEl.textContent, 10) || 1);
+            qtyEl.textContent = '1';
+        }
+    }
+
     if (btnElement) {
         btnElement.classList.add('ki-charge');
-        btnElement.textContent = '¡CARGADO!';
+        btnElement.textContent = `✓ EQUIPADO (${qtyToAdd})`;
         setTimeout(() => {
             btnElement.classList.remove('ki-charge');
-            btnElement.textContent = btnElement.classList.contains('side-prod-btn') ? '+ EQUIPAR' : 'AGREGAR AL CARRITO';
-        }, 500);
+            btnElement.textContent = btnElement.classList.contains('side-prod-btn') ? '+ EQUIPAR' : 'EQUIPAR AL ARSENAL';
+        }, 650);
     }
 
     const existing = cart.find(i => i.type === 'product' && i.productId === productId);
     if (existing) {
-        existing.qty++;
+        existing.qty += qtyToAdd;
     } else {
         cart.push({
             type: 'product',
@@ -1365,7 +1452,7 @@ function addIndividualToCart(productId, btnElement) {
             name: product.name,
             emoji: product.emoji,
             price: product.price,
-            qty: 1
+            qty: qtyToAdd
         });
     }
     updateCartUI();
@@ -2326,6 +2413,7 @@ function openProductModal(productId) {
     const modal = document.getElementById('productModal');
     const badge = document.getElementById('pmBadge');
     const title = document.getElementById('pmTitle');
+    const floatingBtn = document.getElementById('floatingNavBtn');
 
     if (!backdrop || !modal) return;
 
@@ -2336,6 +2424,7 @@ function openProductModal(productId) {
 
     backdrop.classList.add('active');
     modal.classList.add('active');
+    if (floatingBtn) floatingBtn.classList.add('drawer-open');
     document.body.style.overflow = 'hidden';
     playSFX('click');
 }
@@ -2343,11 +2432,29 @@ function openProductModal(productId) {
 function closeProductModal() {
     const backdrop = document.getElementById('productBackdrop');
     const modal = document.getElementById('productModal');
+    const floatingBtn = document.getElementById('floatingNavBtn');
+    const cartOpen = document.getElementById('cartModal')?.classList.contains('active');
+    const navOpen = document.getElementById('navDrawerPanel')?.classList.contains('active');
     if (backdrop) backdrop.classList.remove('active');
     if (modal) modal.classList.remove('active');
-    if (!document.getElementById('cartModal')?.classList.contains('active')) {
+    if (floatingBtn && !cartOpen && !navOpen) {
+        floatingBtn.classList.remove('drawer-open');
+    }
+    if (!cartOpen && !navOpen) {
         document.body.style.overflow = '';
     }
+}
+
+function selectModalFlavor(variantId) {
+    const targetProduct = individualProducts.find(p => p.id === variantId);
+    if (!targetProduct) return;
+    currentModalProductId = variantId;
+    const badge = document.getElementById('pmBadge');
+    const title = document.getElementById('pmTitle');
+    if (badge) badge.textContent = targetProduct.badge || 'SUPLEMENTACIÓN TÁCTICA';
+    if (title) title.textContent = targetProduct.name;
+    renderProductModalContent(targetProduct);
+    playSFX('click');
 }
 
 function setModalTab(tab) {
@@ -2363,9 +2470,14 @@ function setModalTab(tab) {
 }
 
 function changeModalQty(delta) {
-    currentModalQty = Math.max(1, currentModalQty + delta);
+    currentModalQty = Math.max(1, Math.min(10, currentModalQty + delta));
     const qtyEl = document.getElementById('modalQtyVal');
     if (qtyEl) qtyEl.textContent = currentModalQty;
+    const equipBtn = document.getElementById('pmEquipBtn');
+    const product = individualProducts.find(p => p.id === currentModalProductId);
+    if (equipBtn && product) {
+        equipBtn.textContent = `+ EQUIPAR AL ARSENAL (${formatPrice(product.price * currentModalQty)})`;
+    }
     playSFX('click');
 }
 
@@ -2399,32 +2511,7 @@ function addModalProductToCart() {
     updateCartUI();
     playSFX('equip');
     closeProductModal();
-
-    // ORDER BUMP (Upsell)
-    // Si no tienen un shaker ya en el carrito, ofrecemos uno.
-    const hasShaker = cart.some(i => i.name.toLowerCase().includes('shaker'));
-    if (!hasShaker) {
-        setTimeout(() => {
-            const wantBump = confirm("🔥 OFERTA ÚNICA: ¿Querés llevarte el Shaker Tofeprot Premium por solo $4.000 extra? (Ideal para mezclar este suplemento sin grumos)");
-            if (wantBump) {
-                cart.push({
-                    type: 'product',
-                    id: Date.now() + 1,
-                    productId: 999,
-                    name: 'Shaker Tofeprot Pro',
-                    emoji: '🥤',
-                    price: 4000,
-                    qty: 1
-                });
-                saveState();
-                updateCartUI();
-                playSFX('equip');
-            }
-            setTimeout(toggleCart, 300);
-        }, 300);
-    } else {
-        setTimeout(toggleCart, 300);
-    }
+    setTimeout(toggleCart, 180);
 }
 
 function renderProductModalContent(product) {
@@ -2432,10 +2519,28 @@ function renderProductModalContent(product) {
     if (!body) return;
 
     const transferPrice = Math.round(product.price * 0.85);
+    const installmentPrice = Math.round(product.price / 3);
     const nut = product.nutrition || {};
     const aminos = product.aminos || [];
     const timing = product.timing || {};
     const coa = product.coa || {};
+
+    const modalFlavorsHTML = (product.flavors && product.flavors.length > 1) ? `
+        <div class="pm-flavor-switcher">
+            <span class="flavor-label-caption">Cambiar Variante:</span>
+            <div class="flavor-pills-container" style="margin-top:6px;">
+                ${product.flavors.map(flv => `
+                    <button type="button"
+                            class="flavor-pill-btn ${flv.id === product.id ? 'active' : ''}"
+                            style="--flavor-color: ${flv.color};"
+                            onclick="selectModalFlavor(${flv.id})">
+                        <span class="flavor-pill-dot" style="background: ${flv.color};"></span>
+                        <span class="flavor-pill-text">${flv.name}</span>
+                    </button>
+                `).join('')}
+            </div>
+        </div>
+    ` : '';
 
     body.innerHTML = `
         <div class="pm-hero-grid">
@@ -2446,29 +2551,31 @@ function renderProductModalContent(product) {
             </div>
             <div class="pm-quick-info">
                 ${product.rating ? `
-                <div class="product-rating" style="margin-bottom: 0.8rem;">
-                    <span class="stars" style="font-size: 1.1rem;">★★★★★</span>
-                    <span style="font-weight:bold; color:var(--text-main); font-size:0.9rem; margin-left: 5px;">${product.rating}</span>
+                <div class="product-rating" style="margin-bottom: 0.6rem;">
+                    <span class="stars" style="font-size: 1rem;">★★★★★</span>
+                    <span class="rating-score" style="margin-left: 5px;">${product.rating}</span>
                     <span class="rating-count" style="margin-left: 5px;">(${product.reviews || 100}+ reseñas verificadas)</span>
                 </div>
                 ` : ''}
                 <div class="pm-desc">${product.description}</div>
                 <div class="pm-highlights">
-                    ${(product.specs || []).map(s => `<span class="pm-highlight-pill">${s}</span>`).join('')}
-                    <span class="pm-highlight-pill" style="color: #4ade80;">✓ Muestra gratis incluida</span>
+                    ${(product.specs || []).map((s, i) => `<span class="pm-highlight-pill ${i === 0 ? 'highlight' : ''}">${s}</span>`).join('')}
+                    <span class="pm-highlight-pill" style="color: #4ade80;">✓ 1 Doypack Gratis Incluido</span>
                 </div>
+                ${modalFlavorsHTML}
                 <div class="pm-price-box">
                     <div class="pm-price-main">${formatPrice(product.price)}</div>
-                    <div class="pm-price-transfer">🏷️ ${formatPrice(transferPrice)} con Transferencia Bancaria (15% OFF)</div>
+                    <div class="pm-price-transfer">✓ ${formatPrice(transferPrice)} con Transferencia Bancaria (15% OFF)</div>
+                    <div style="font-size:0.76rem; color:var(--text-muted); margin-top:3px;">Hasta 3 cuotas sin interés de ${formatPrice(installmentPrice)}</div>
                 </div>
             </div>
         </div>
 
         <!-- TABS DE DETALLE TÉCNICO -->
-        <div class="pm-tabs">
-            <button class="pm-tab-btn ${currentModalTab === 'nutrition' ? 'active' : ''}" id="tabBtn_nutrition" onclick="setModalTab('nutrition')">📊 Nutrición & Aminograma</button>
-            <button class="pm-tab-btn ${currentModalTab === 'timing' ? 'active' : ''}" id="tabBtn_timing" onclick="setModalTab('timing')">⏱️ Modo de Uso</button>
-            <button class="pm-tab-btn ${currentModalTab === 'coa' ? 'active' : ''}" id="tabBtn_coa" onclick="setModalTab('coa')">📜 Pureza (CoA)</button>
+        <div class="pm-tabs" role="tablist">
+            <button type="button" class="pm-tab-btn ${currentModalTab === 'nutrition' ? 'active' : ''}" id="tabBtn_nutrition" onclick="setModalTab('nutrition')">01 // Nutrición & Aminograma</button>
+            <button type="button" class="pm-tab-btn ${currentModalTab === 'timing' ? 'active' : ''}" id="tabBtn_timing" onclick="setModalTab('timing')">02 // Protocolo de Uso</button>
+            <button type="button" class="pm-tab-btn ${currentModalTab === 'coa' ? 'active' : ''}" id="tabBtn_coa" onclick="setModalTab('coa')">03 // Pureza (CoA)</button>
         </div>
 
         <!-- TAB 1: TABLA NUTRICIONAL -->
@@ -2489,7 +2596,7 @@ function renderProductModalContent(product) {
 
             ${aminos.length > 0 ? `
                 <div style="margin-top: 1rem;">
-                    <div style="font-weight: 800; font-size: 0.88rem; margin-bottom: 0.6rem; color: var(--text-main);">Perfil Aminoacídico por Scoop:</div>
+                    <div style="font-weight: 800; font-size: 0.88rem; margin-bottom: 0.6rem; color: var(--text-main);">Perfil de Activos por Scoop:</div>
                     <div class="aminos-grid">
                         ${aminos.map(a => `
                             <div class="amino-bar-item">
@@ -2506,15 +2613,15 @@ function renderProductModalContent(product) {
         <div class="pm-tab-pane ${currentModalTab === 'timing' ? 'active' : ''}" id="tabPane_timing">
             <div class="timing-cards-grid">
                 <div class="timing-card">
-                    <div class="timing-card-title">🎯 Momento Óptimo</div>
+                    <div class="timing-card-title">01 // Momento Óptimo</div>
                     <div class="timing-card-desc">${timing.best || 'Consumir inmediatamente post-entrenamiento o entre comidas principales.'}</div>
                 </div>
                 <div class="timing-card">
-                    <div class="timing-card-title">🥛 Preparación</div>
+                    <div class="timing-card-title">02 // Preparación</div>
                     <div class="timing-card-desc">${timing.instructions || 'Disolver 1 scoop en 200-250ml de agua o bebida favorita fría.'}</div>
                 </div>
                 <div class="timing-card">
-                    <div class="timing-card-title">⚡ Efecto Esperado</div>
+                    <div class="timing-card-title">03 // Impacto Fisiológico</div>
                     <div class="timing-card-desc">${timing.goal || 'Máximo rendimiento, hipertrofia muscular y recuperación sin fatiga residual.'}</div>
                 </div>
             </div>
@@ -2523,7 +2630,7 @@ function renderProductModalContent(product) {
         <!-- TAB 3: CERTIFICADO DE ANÁLISIS (COA) -->
         <div class="pm-tab-pane ${currentModalTab === 'coa' ? 'active' : ''}" id="tabPane_coa">
             <div class="coa-seal-box">
-                <div class="coa-seal-title">🛡️ CERTIFICADO OFICIAL DE ANÁLISIS (CoA)</div>
+                <div class="coa-seal-title">CERTIFICADO OFICIAL DE ANÁLISIS (CoA)</div>
                 <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 500px; margin: 0 auto 0.8rem auto;">
                     Cada lote de Tofeprot es sometido a espectrometría HPLC y microfiltración estricta para garantizar 100% de pureza sin adulterantes ni rellenos de amino spiking.
                 </p>
@@ -2541,12 +2648,12 @@ function renderProductModalContent(product) {
         <!-- ACTIONS FOOTER -->
         <div class="pm-actions-footer">
             <div class="qty-selector">
-                <button type="button" class="qty-btn" onclick="changeModalQty(-1)">-</button>
-                <span class="qty-value" id="modalQtyVal">1</span>
-                <button type="button" class="qty-btn" onclick="changeModalQty(1)">+</button>
+                <button type="button" class="qty-btn" onclick="changeModalQty(-1)" aria-label="Disminuir cantidad">−</button>
+                <span class="qty-value" id="modalQtyVal">${currentModalQty}</span>
+                <button type="button" class="qty-btn" onclick="changeModalQty(1)" aria-label="Aumentar cantidad">+</button>
             </div>
-            <button class="pm-equip-btn" onclick="addModalProductToCart()">
-                + EQUIPAR AL ARSENAL (${formatPrice(product.price)})
+            <button type="button" class="pm-equip-btn" id="pmEquipBtn" onclick="addModalProductToCart()">
+                + EQUIPAR AL ARSENAL (${formatPrice(product.price * currentModalQty)})
             </button>
         </div>
     `;
@@ -2558,12 +2665,18 @@ function renderProductModalContent(product) {
 function openTransferModal() {
     document.getElementById('transferBackdrop')?.classList.add('active');
     document.getElementById('transferModal')?.classList.add('active');
+    document.getElementById('floatingNavBtn')?.classList.add('drawer-open');
     playSFX('click');
 }
 
 function closeTransferModal() {
     document.getElementById('transferBackdrop')?.classList.remove('active');
     document.getElementById('transferModal')?.classList.remove('active');
+    const cartOpen = document.getElementById('cartModal')?.classList.contains('active');
+    const navOpen = document.getElementById('navDrawerPanel')?.classList.contains('active');
+    if (!cartOpen && !navOpen) {
+        document.getElementById('floatingNavBtn')?.classList.remove('drawer-open');
+    }
 }
 
 function copyAlias() {
