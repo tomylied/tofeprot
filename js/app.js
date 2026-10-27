@@ -1721,7 +1721,7 @@ function renderCartBundleOffer() {
     if (offer.type === 'completed') {
         container.innerHTML = `
             <div class="cart-bundle-completed">
-                <div class="cart-bundle-completed-icon">🏆</div>
+                <div class="cart-bundle-completed-icon" style="font-family:var(--font-display, 'Russo One', sans-serif); font-size:0.75rem; color:var(--accent-purple); border:1px solid var(--accent-purple); padding:4px 8px; border-radius:4px;">MAX</div>
                 <div>
                     <div class="cart-bundle-completed-title">${offer.title}</div>
                     <div class="cart-bundle-completed-desc">${offer.description}</div>
@@ -1739,14 +1739,12 @@ function renderCartBundleOffer() {
         thumbHtml = `<img src="${prod.customImage}" alt="${prod.name}">`;
     } else if (typeof getProductSVG === 'function') {
         thumbHtml = getProductSVG(prod.tubType || 'creatine', prod.tubLabel || 'SUPP', prod.tubSub || 'CLINICAL');
-    } else {
-        thumbHtml = `<span style="font-size:1.8rem;">${prod.emoji || '⚡'}</span>`;
     }
 
     container.innerHTML = `
         <div class="cart-bundle-card">
             <div class="cart-bundle-header">
-                <span class="cart-bundle-tag">🔥 ${offer.title}</span>
+                <span class="cart-bundle-tag">${offer.title}</span>
                 <span class="cart-bundle-discount-badge">-${offer.discountPct}% OFF</span>
             </div>
             <div class="cart-bundle-body">
@@ -1754,7 +1752,7 @@ function renderCartBundleOffer() {
                     ${thumbHtml}
                 </div>
                 <div class="cart-bundle-details">
-                    <div class="cart-bundle-name">${prod.emoji} ${prod.name}</div>
+                    <div class="cart-bundle-name">${prod.name}</div>
                     <div class="cart-bundle-synergy">${offer.synergy}</div>
                     <div class="cart-bundle-pricing">
                         <span class="cart-bundle-price-orig">${formatPrice(prod.price)}</span>
@@ -1765,7 +1763,7 @@ function renderCartBundleOffer() {
             </div>
             <div class="cart-bundle-action">
                 <button type="button" class="cart-bundle-btn" onclick="addBundleToCart(${prod.id}, ${offer.discountPct}, ${offer.bundlePrice})">
-                    <span>⚡ SUMAR AL ARSENAL (+${formatPrice(offer.bundlePrice)})</span>
+                    <span>SUMAR AL ARSENAL (+${formatPrice(offer.bundlePrice)})</span>
                 </button>
             </div>
         </div>
@@ -1822,7 +1820,15 @@ function updateCartUI() {
 
     const count = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
     const cartCountEl = document.getElementById('cartCount');
-    if (cartCountEl) cartCountEl.textContent = count;
+    if (cartCountEl) {
+        cartCountEl.textContent = count;
+        cartCountEl.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+
+    const cartHeaderSub = document.getElementById('cartHeaderCountSub');
+    if (cartHeaderSub) {
+        cartHeaderSub.textContent = `// ${count} ${count === 1 ? 'PRODUCTO' : 'PRODUCTOS'}`;
+    }
 
     const floatingCartBadge = document.getElementById('floatingCartBadge');
     if (floatingCartBadge) {
@@ -1835,11 +1841,36 @@ function updateCartUI() {
     const savingsRowEl = document.getElementById('cartSavingsRow');
     const savingsAmountEl = document.getElementById('cartSavingsAmount');
     const bundleContainer = document.getElementById('cartBundleContainer');
+    const shippingTextEl = document.getElementById('cartShippingText');
+    const shippingFillEl = document.getElementById('cartShippingFill');
 
     if (!cartItems) return;
 
+    const rawSubtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+    const FREE_SHIPPING_THRESHOLD = 65000;
+    if (shippingTextEl && shippingFillEl) {
+        const pct = Math.min(100, Math.round((rawSubtotal / FREE_SHIPPING_THRESHOLD) * 100));
+        shippingFillEl.style.width = `${pct}%`;
+        if (rawSubtotal === 0) {
+            shippingTextEl.innerHTML = `Sumá <strong>$65.000</strong> para desbloquear <strong>ENVÍO GRATIS</strong>`;
+            shippingFillEl.classList.remove('unlocked');
+        } else if (rawSubtotal >= FREE_SHIPPING_THRESHOLD) {
+            shippingTextEl.innerHTML = `<span style="color:#00ff88; font-weight:700;">✓ ¡ENVÍO GRATIS DESBLOQUEADO EN TU ORDEN!</span>`;
+            shippingFillEl.classList.add('unlocked');
+        } else {
+            const missing = FREE_SHIPPING_THRESHOLD - rawSubtotal;
+            shippingTextEl.innerHTML = `Te faltan <strong>${formatPrice(missing)}</strong> para <strong>ENVÍO GRATIS</strong>`;
+            shippingFillEl.classList.remove('unlocked');
+        }
+    }
+
     if (cart.length === 0) {
-        cartItems.innerHTML = '<div class="empty-cart">Arsenal vacío. Agregá suplementos para equiparte.</div>';
+        cartItems.innerHTML = `
+            <div class="empty-cart">
+                <div class="empty-cart-title">TU ARSENAL ESTÁ VACÍO</div>
+                <p class="empty-cart-sub">Seleccioná tus suplementos clínicos en la tienda para armar tu orden.</p>
+            </div>
+        `;
         if (giftNoticeEl) giftNoticeEl.style.display = 'none';
         if (savingsRowEl) savingsRowEl.style.display = 'none';
         if (bundleContainer) {
@@ -1859,17 +1890,17 @@ function updateCartUI() {
             : '';
         return `
             <div class="cart-item">
-                <div style="display:flex; justify-content:space-between; margin-bottom: 6px;">
-                    <div class="cart-item-name">${item.emoji} ${item.name} ${bundleBadge}</div>
+                <div class="cart-item-top">
+                    <div class="cart-item-name">${item.name} ${bundleBadge}</div>
                     <div class="cart-item-price">${formatPrice(itemTotal)}</div>
                 </div>
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="display:flex; align-items:center; gap: 8px;">
-                        <button class="remove-btn" style="padding:2px 8px; font-weight:bold;" onclick="changeIndividualQty(${item.id}, -1)">-</button>
-                        <span style="font-size:0.85rem; font-weight:bold;">${item.qty}</span>
-                        <button class="remove-btn" style="padding:2px 8px; font-weight:bold;" onclick="changeIndividualQty(${item.id}, 1)">+</button>
+                <div class="cart-item-controls">
+                    <div class="cart-qty-stepper">
+                        <button type="button" class="cart-qty-btn" onclick="changeIndividualQty(${item.id}, -1)" aria-label="Restar unidad">−</button>
+                        <span class="cart-qty-val">${item.qty}</span>
+                        <button type="button" class="cart-qty-btn" onclick="changeIndividualQty(${item.id}, 1)" aria-label="Sumar unidad">+</button>
                     </div>
-                    <button class="remove-btn" onclick="removeIndividualFromCart(${item.id})">Quitar</button>
+                    <button type="button" class="cart-remove-link" onclick="removeIndividualFromCart(${item.id})">Eliminar</button>
                 </div>
             </div>
         `;
@@ -1878,11 +1909,10 @@ function updateCartUI() {
     // Actualizar oferta interactiva de Bundle Dinámico
     renderCartBundleOffer();
 
-    const rawSubtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
     const discountAmount = selectedPaymentMethod === 'transfer' ? Math.round(rawSubtotal * 0.15) : 0;
     const subtotalAfterDiscount = rawSubtotal - discountAmount;
 
-    const isFreeShipping = rawSubtotal >= 65000;
+    const isFreeShipping = rawSubtotal >= FREE_SHIPPING_THRESHOLD;
     const shipping = (rawSubtotal > 0 && !isFreeShipping) ? 5000 : 0;
     const finalTotal = subtotalAfterDiscount + shipping;
 
@@ -1995,10 +2025,13 @@ function closeNavDrawer() {
     const drawer = document.getElementById('navDrawerPanel');
     const backdrop = document.getElementById('navDrawerBackdrop');
     const floatingBtn = document.getElementById('floatingNavBtn');
+    const cartModal = document.getElementById('cartModal');
     if (drawer) drawer.classList.remove('active');
     if (backdrop) backdrop.classList.remove('active');
-    if (floatingBtn) floatingBtn.classList.remove('drawer-open');
-    if (!document.getElementById('cartModal')?.classList.contains('active') &&
+    if (floatingBtn && !cartModal?.classList.contains('active')) {
+        floatingBtn.classList.remove('drawer-open');
+    }
+    if (!cartModal?.classList.contains('active') &&
         !document.getElementById('authModal')?.classList.contains('active')) {
         document.body.style.overflow = '';
     }
@@ -2026,12 +2059,22 @@ function toggleLoginRegister() {
 function toggleCart() {
     const modal = document.getElementById('cartModal');
     const backdrop = document.getElementById('cartBackdrop');
+    const floatingBtn = document.getElementById('floatingNavBtn');
+    const navDrawer = document.getElementById('navDrawerPanel');
     if (modal) modal.classList.toggle('active');
     if (backdrop) backdrop.classList.toggle('active');
-    if (modal && modal.classList.contains('active')) {
+    const isCartOpen = modal && modal.classList.contains('active');
+    if (floatingBtn) {
+        if (isCartOpen || navDrawer?.classList.contains('active')) {
+            floatingBtn.classList.add('drawer-open');
+        } else {
+            floatingBtn.classList.remove('drawer-open');
+        }
+    }
+    if (isCartOpen) {
         document.body.style.overflow = 'hidden';
         if (typeof startCartTimer === 'function' && cart.length > 0) startCartTimer();
-    } else if (!document.getElementById('authModal')?.classList.contains('active')) {
+    } else if (!document.getElementById('authModal')?.classList.contains('active') && !navDrawer?.classList.contains('active')) {
         document.body.style.overflow = '';
     }
 }
