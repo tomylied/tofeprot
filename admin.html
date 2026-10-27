@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tofeprot HQ - Panel de Administración</title>
+    <style>
+        /* ========================================== */
+        /* PANEL DE ADMINISTRACIÓN - TEMA SOBRIO & CLARO */
+        /* ========================================== */
+        :root {
+            --admin-bg: #f8fafc;
+            --admin-card-bg: #ffffff;
+            --admin-border: #e2e8f0;
+            --admin-border-focus: #2563eb;
+            --admin-text-main: #0f172a;
+            --admin-text-muted: #64748b;
+            --admin-primary: #0f172a;
+            --admin-primary-hover: #1e293b;
+            --admin-blue: #2563eb;
+            --admin-blue-hover: #1d4ed8;
+            --accent-purple: #2563eb;
+            --accent-purple-hover: #1d4ed8;
+            --energy-glow: rgba(37, 99, 235, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body.admin-body {
+            background-color: var(--admin-bg);
+            color: var(--admin-text-main);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Desactivar cualquier filtro o fondo global heredado */
+        body.admin-body::before,
+        body.admin-body::after {
+            display: none !important;
+        }
+
+        /* ========================================== */
+        /* HEADER PRINCIPAL                           */
+        /* ========================================== */
+        .admin-header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--admin-border);
+            padding: 0.85rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-brand .logo-text {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+
+        .admin-brand .logo-text span {
+            color: var(--admin-blue);
+        }
+
+        .admin-tag {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            font-size: 0.68rem;
+            padding: 3px 8px;
+            letter-spacing: 0.8px;
+            font-weight: 800;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .admin-status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .admin-status-indicator::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #16a34a;
+        }
+
+        .admin-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* ========================================== */
+        /* BOTONES DEL PANEL                          */
+        /* ========================================== */
+        .admin-btn {
+            background: #ffffff;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            padding: 0.48rem 0.95rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.84rem;
+            font-weight: 600;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+
+        .admin-btn:hover {
+            background: #f8fafc;
+            color: #0f172a;
+            border-color: #94a3b8;
+        }
+
+        .admin-btn-primary {
+            background: var(--admin-primary);
+            color: #ffffff;
+            border: 1px solid var(--admin-primary);
+        }
+
+        .admin-btn-primary:hover {
+            background: var(--admin-primary-hover);
+            color: #ffffff;
+            border-color: var(--admin-primary-hover);
+        }
+
+        .admin-btn-blue {
+            background: var(--admin-blue);
+            color: #ffffff;
+            border: 1px solid var(--admin-blue);
+        }
+
+        .admin-btn-blue:hover {
+            background: var(--admin-blue-hover);
+            color: #ffffff;
+            border-color: var(--admin-blue-hover);
+        }
+
+        .admin-btn-danger {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .admin-btn-danger:hover {
+            background: #fee2e2;
+            color: #b91c1c;
+            border-color: #fca5a5;
+        }
+
+        .admin-btn-edit {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+
+        .admin-btn-edit:hover {
+            background: #dcfce7;
+            color: #15803d;
+            border-color: #86efac;
+        }
+
+        /* ========================================== */
+        /* NAVEGACIÓN POR PESTAÑAS                    */
+        /* ========================================== */
+        .admin-tab-nav {
+            display: flex;
+            gap: 0.4rem;
+            background: #ffffff;
+            border-bottom: 1px solid var(--admin-border);
+            padding: 0.4rem 2rem 0 2rem;
+            overflow-x: auto;
+            position: sticky;
+            top: 55px;
+            z-index: 90;
+        }
+
+        .admin-tab-btn {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--admin-text-muted);
+            padding: 0.75rem 1.1rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            border-radius: 6px 6px 0 0;
+            font-family: inherit;
+        }
+
+        .admin-tab-btn:hover {
+            color: var(--admin-text-main);
+            background: #f8fafc;
+        }
+
+        .admin-tab-btn.active {
+            color: var(--admin-blue);
+            border-bottom: 2px solid var(--admin-blue);
+            background: #eff6ff;
+            font-weight: 700;
+        }
+
+        .tab-counter {
+            background: #e2e8f0;
+            color: #334155;
+            font-size: 0.72rem;
+            padding: 2px 7px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
+        .tab-badge-new {
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========================================== */
+        /* CONTENEDOR PRINCIPAL                       */
+        /* ========================================== */
+        .admin-container {
+            max-width: 1320px;
+            margin: 1.8rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .admin-tab-view {
+            display: none;
+        }
+
+        .admin-tab-view.active {
+            display: block;
+        }
+
+        /* ========================================== */
+        /* TARJETAS KPI (DASHBOARD)                   */
+        /* ========================================== */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: #ffffff;
+            border: 1px solid var(--admin-border);
+            padding: 1.4rem 1.6rem;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .kpi-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .kpi-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--admin-blue);
+        }
+
+        .kpi-card:nth-child(2)::before { background: #10b981; }
+        .kpi-card:nth-child(3)::before { background: #6366f1; }
+        .kpi-card:nth-child(4)::before { background: #f59e0b; }
+
+        .kpi-label {
+            font-size: 0.74rem;
+            color: var(--admin-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .kpi-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--admin-text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .kpi-sub {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        /* ========================================== */
+        /* SECCIONES Y TABLAS                         */
+        /* ========================================== */
+        .admin-section {
+            background: #ffffff;
+            border: 1px solid var(--admin-border);
+            border-radius: 8px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-head h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--admin-text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #f8fafc;
+            border: 1px solid var(--admin-border);
+            color: var(--admin-text-muted);
+            padding: 0.4rem 0.85rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.15s ease;
+            font-family: inherit;
+        }
+
+        .filter-btn:hover {
+            background: #f1f5f9;
+            color: var(--admin-text-main);
+        }
+
+        .filter-btn.active {
+            background: var(--admin-primary);
+            color: #ffffff;
+            border-color: var(--admin-primary);
+        }
+
+        .orders-table-wrapper {
+            overflow-x: auto;
+            border: 1px solid var(--admin-border);
+            border-radius: 6px;
+        }
+
+        table.admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            text-align: left;
+            background: #ffffff;
+        }
+
+        table.admin-table th {
+            background: #f8fafc;
+            color: #475569;
+            padding: 0.85rem 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.72rem;
+            border-bottom: 1px solid var(--admin-border);
+        }
+
+        table.admin-table td {
+            padding: 0.95rem 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+            color: #1e293b;
+        }
+
+        table.admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        table.admin-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .status-select {
+            background: #ffffff;
+            color: var(--admin-text-main);
+            border: 1px solid #cbd5e1;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            outline: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: inherit;
+        }
+
+        .status-select:focus {
+            border-color: var(--admin-blue);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.74rem;
+            font-weight: 700;
+        }
+
+        .status-pending { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+        .status-packing { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+        .status-shipped { background: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe; }
+        .status-delivered { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+
+        /* ========================================== */
+        /* INVENTARIO Y STOCK                         */
+        /* ========================================== */
+        .stock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 1rem;
+        }
+
+        .stock-card {
+            background: #ffffff;
+            border: 1px solid var(--admin-border);
+            padding: 1.1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+            transition: border-color 0.2s;
+        }
+
+        .stock-card.zero-stock {
+            border-color: #fca5a5;
+            background: #fff5f5;
+        }
+
+        .stock-info-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--admin-text-main);
+            margin-bottom: 3px;
+        }
+
+        .stock-info-type {
+            font-size: 0.72rem;
+            color: var(--admin-text-muted);
+        }
+
+        .stock-control {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stock-qty-input {
+            width: 60px;
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: var(--admin-text-main);
+            padding: 0.45rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        .stock-qty-input:focus {
+            border-color: var(--admin-blue);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+            outline: none;
+        }
+
+        /* ========================================== */
+        /* FORMULARIO DE CARGA / EDICIÓN              */
+        /* ========================================== */
+        .product-form-card {
+            background: #ffffff;
+            border: 1px solid var(--admin-border);
+            border-radius: 8px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .form-header-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--admin-border);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .form-header-wrap h4 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--admin-text-main);
+            letter-spacing: -0.3px;
+        }
+
+        .form-mode-badge {
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-mode-badge.create {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .form-mode-badge.edit {
+            background: #fef3c7;
+            color: #854d0e;
+            border: 1px solid #fde047;
+        }
+
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .form-group label {
+            font-size: 0.78rem;
+            color: #334155;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: var(--admin-text-main);
+            padding: 0.65rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--admin-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-help {
+            font-size: 0.72rem;
+            color: var(--admin-text-muted);
+        }
+
+        .image-preview-box {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 6px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+            text-align: center;
+        }
+
+        /* ========================================== */
+        /* CATÁLOGO DE PRODUCTOS EN EL PANEL          */
+        /* ========================================== */
+        .admin-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .admin-product-card {
+            background: #ffffff;
+            border: 1px solid var(--admin-border);
+            border-radius: 8px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .admin-product-card:hover {
+            border-color: #94a3b8;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .admin-prod-top {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .admin-prod-thumb {
+            width: 75px;
+            height: 95px;
+            background: #f8fafc;
+            border: 1px solid var(--admin-border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .admin-prod-details {
+            flex: 1;
+        }
+
+        .admin-prod-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid var(--admin-border);
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .admin-prod-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--admin-text-main);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .admin-prod-price {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--admin-text-main);
+        }
+
+        .admin-prod-transfer {
+            font-size: 0.75rem;
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .admin-prod-stock {
+            font-size: 0.78rem;
+            color: var(--admin-text-muted);
+            margin-top: 4px;
+        }
+
+        .admin-prod-desc-text {
+            font-size: 0.8rem;
+            color: #475569;
+            line-height: 1.45;
+            margin-bottom: 0.6rem;
+        }
+
+        .admin-prod-actions {
+            display: flex;
+            gap: 0.5rem;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 0.8rem;
+            margin-top: 0.8rem;
+        }
+
+        .admin-prod-actions .admin-btn {
+            flex: 1;
+            justify-content: center;
+            font-size: 0.78rem;
+            padding: 0.45rem;
+        }
+
+        /* ========================================== */
+        /* PANTALLA DE ACCESO POR PIN                 */
+        /* ========================================== */
+        .admin-lock-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 1.5rem;
+        }
+
+        .pin-card {
+            background: #ffffff;
+            border: 1px solid var(--admin-border);
+            padding: 2.5rem 2rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+            border-radius: 12px;
+        }
+
+        .pin-card h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--admin-text-main);
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.3px;
+        }
+
+        .pin-input {
+            width: 180px;
+            letter-spacing: 10px;
+            font-size: 1.8rem;
+            text-align: center;
+            padding: 0.65rem;
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            color: var(--admin-text-main);
+            margin: 1.5rem auto;
+            display: block;
+            border-radius: 8px;
+            outline: none;
+            font-weight: 700;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+
+        .pin-input:focus {
+            border-color: var(--admin-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--admin-primary);
+            color: #ffffff;
+            border: none;
+            padding: 0.85rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-weight: 700;
+            border-radius: 6px;
+            transition: background 0.15s ease;
+            font-family: inherit;
+        }
+
+        .submit-btn:hover {
+            background: var(--admin-primary-hover);
+        }
+
+        /* ========================================== */
+        /* TOAST DE NOTIFICACIÓN                      */
+        /* ========================================== */
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 0.85rem 1.4rem;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            z-index: 10000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.25s ease;
+            font-family: inherit;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Buscador de productos */
+        .admin-search-input {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
+            padding: 0.5rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            outline: none;
+            font-family: inherit;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .admin-search-input:focus {
+            border-color: var(--admin-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        @media (max-width: 768px) {
+            .admin-header { padding: 0.8rem 1rem; flex-direction: column; gap: 0.8rem; align-items: flex-start; }
+            .admin-nav-actions { width: 100%; justify-content: space-between; }
+            .kpi-grid { grid-template-columns: 1fr; }
+            .admin-tab-nav { padding: 0.4rem 1rem 0 1rem; }
+            .admin-tab-btn { padding: 0.6rem 0.9rem; font-size: 0.82rem; }
+            .form-grid-3, .form-grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="admin-body">
+
+    <!-- ========================================== -->
+    <!-- BLOQUEO POR PIN (ACCESO DE SEGURIDAD)       -->
+    <!-- ========================================== -->
+    <div id="adminLockScreen" class="admin-lock-screen">
+        <div class="pin-card">
+            <div style="font-size: 2.5rem; margin-bottom: 10px;">🔒</div>
+            <h2>Tofeprot HQ</h2>
+            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 1rem;">Acceso restringido para administración de pedidos y stock.</p>
+            <input type="password" id="adminPinInput" class="pin-input" maxlength="6" placeholder="••••" autofocus onkeyup="if(event.key==='Enter') checkAdminPin()">
+            <button class="submit-btn" style="margin-top:0;" onclick="checkAdminPin()">Desbloquear Panel</button>
+            <div style="margin-top: 15px; font-size: 0.78rem; color: #64748b;">
+                PIN por defecto: <strong>1234</strong>
+            </div>
+            <div style="margin-top: 20px;">
+                <a href="index.html" style="color: #2563eb; text-decoration: none; font-weight: 600; font-size: 0.82rem;">← Volver a la Tienda</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- HEADER ADMIN                               -->
+    <!-- ========================================== -->
+    <header class="admin-header">
+        <div class="admin-brand">
+            <div class="logo-text">Tofe<span>prot</span></div>
+            <span class="admin-tag">PANEL HQ</span>
+            <span class="admin-status-indicator">SISTEMA ACTIVO</span>
+        </div>
+        <div class="admin-nav-actions">
+            <button class="admin-btn" onclick="generateTestOrder()">+ Simular Pedido Test</button>
+            <a href="index.html" class="admin-btn">🏪 Ver Tienda</a>
+            <button class="admin-btn admin-btn-danger" onclick="logoutAdmin()">Cerrar Panel</button>
+        </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- BARRA DE NAVEGACIÓN POR PESTAÑAS           -->
+    <!-- ========================================== -->
+    <nav class="admin-tab-nav">
+        <button class="admin-tab-btn active" id="tabBtnOrders" onclick="switchAdminTab('orders')">
+            📦 Pedidos & KPIs <span class="tab-counter" id="tabOrdersCounter">0</span>
+        </button>
+        <button class="admin-tab-btn" id="tabBtnProducts" onclick="switchAdminTab('products')">
+            ⚡ Carga & Gestión de Productos <span class="tab-badge-new">NUEVO</span>
+        </button>
+        <button class="admin-tab-btn" id="tabBtnStock" onclick="switchAdminTab('stock')">
+            📊 Control de Stock
+        </button>
+        <button class="admin-tab-btn" id="tabBtnSettings" onclick="switchAdminTab('settings')">
+            ⚙️ Ajustes
+        </button>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- CONTENIDO PRINCIPAL                        -->
+    <!-- ========================================== -->
+    <main class="admin-container">
+
+        <!-- ========================================== -->
+        <!-- PESTAÑA 1: PEDIDOS & KPIS                  -->
+        <!-- ========================================== -->
+        <div id="viewOrders" class="admin-tab-view active">
+            <!-- 1. DASHBOARD KPIS -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Facturación Total</div>
+                    <div class="kpi-value" id="kpiRevenue">$0</div>
+                    <div class="kpi-sub">Calculado de pedidos confirmados</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Pedidos Registrados</div>
+                    <div class="kpi-value" id="kpiOrdersCount">0</div>
+                    <div class="kpi-sub" id="kpiPendingCount">0 pendientes de entrega</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Loot Boxes Vendidas</div>
+                    <div class="kpi-value" id="kpiLootBoxesCount">0</div>
+                    <div class="kpi-sub">Cajas de Prueba de Poder</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Muestra Más Popular</div>
+                    <div class="kpi-value" style="font-size: 1.25rem;" id="kpiTopSample">-</div>
+                    <div class="kpi-sub">Sabor con mayor rotación</div>
+                </div>
+            </div>
+
+            <!-- 2. GESTIÓN DE PEDIDOS -->
+            <section class="admin-section">
+                <div class="section-head">
+                    <h3>📦 Pedidos de Clientes</h3>
+                    <div class="filter-tabs">
+                        <button class="filter-btn active" onclick="filterOrders('all', this)">Todos</button>
+                        <button class="filter-btn" onclick="filterOrders('pending', this)">Pendientes</button>
+                        <button class="filter-btn" onclick="filterOrders('packing', this)">Empaquetando</button>
+                        <button class="filter-btn" onclick="filterOrders('shipped', this)">Enviados</button>
+                        <button class="filter-btn" onclick="filterOrders('delivered', this)">Entregados</button>
+                    </div>
+                </div>
+
+                <div class="orders-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID & Fecha</th>
+                                <th>Cliente</th>
+                                <th>Detalle del Pedido (Loot Box / Tienda)</th>
+                                <th>Total ($ ARS)</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr>
+                                <td colspan="6" style="text-align:center; padding: 2.5rem; color: var(--admin-text-muted);">
+                                    No hay pedidos registrados aún. Cuando un cliente inicie el pedido en la tienda o hagas clic en "Simular Pedido Test", aparecerá aquí.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PESTAÑA 2: CARGA & GESTIÓN DE PRODUCTOS    -->
+        <!-- ========================================== -->
+        <div id="viewProducts" class="admin-tab-view">
+            <div class="section-head" style="margin-bottom: 1.5rem;">
+                <div>
+                    <h3>⚡ Carga & Gestión de Suplementos</h3>
+                    <div style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 4px;">
+                        Cargá nuevos suplementos o actualizá los existentes (precios, imágenes, descripciones y fichas técnicas en tiempo real).
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="adminProdSearchInput" class="admin-search-input" placeholder="🔍 Filtrar suplementos..." oninput="filterAdminProductsList()">
+                    <button class="admin-btn admin-btn-primary" onclick="startNewProductForm()">+ Cargar Nuevo Suplemento</button>
+                </div>
+            </div>
+
+            <!-- FORMULARIO DE CARGA / EDICIÓN -->
+            <div class="product-form-card" id="productFormCard">
+                <div class="form-header-wrap">
+                    <div>
+                        <h4 id="formHeaderTitle" style="font-size: 1.2rem; margin-bottom: 2px;">⚡ Cargar Nuevo Suplemento</h4>
+                        <div style="font-size: 0.78rem; color: var(--admin-text-muted);">Completá los campos para impactar inmediatamente en la tienda web.</div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <span class="form-mode-badge create" id="formModeBadge">MODO: CREACIÓN</span>
+                        <button class="admin-btn" style="padding: 4px 8px; font-size: 0.75rem;" onclick="resetProductForm()">✕ Limpiar</button>
+                    </div>
+                </div>
+
+                <form id="adminProductForm" onsubmit="event.preventDefault(); saveProductFromForm();">
+                    <input type="hidden" id="formEditId" value="">
+
+                    <!-- FILA 1: BÁSICOS -->
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label>Nombre del Suplemento *</label>
+                            <input type="text" id="formName" placeholder="Ej: Proteína Whey 1kg - Cookies & Cream" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Categoría</label>
+                            <select id="formCategory" onchange="autoFillFormDefaults(this.value)">
+                                <option value="whey">Proteína Whey (Concentrada / Aislada)</option>
+                                <option value="creatine">Creatina (Micronizada / 200 Mesh)</option>
+                                <option value="preworkout">Pre-entreno (Berserk / Energía)</option>
+                                <option value="amino">Aminoácidos (BCAAs / Glutamina)</option>
+                                <option value="other">Otro Suplemento</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Precio de Lista ($ ARS) *</label>
+                            <input type="number" id="formPrice" placeholder="Ej: 48000" min="1000" required oninput="updatePricePreview(this.value)">
+                            <span class="form-help" id="formPricePreview">Con 15% OFF Transferencia: $0</span>
+                        </div>
+                    </div>
+
+                    <!-- FILA 2: BADGE, STOCK Y EMOJI -->
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label>Badge / Distintivo</label>
+                            <input type="text" id="formBadge" placeholder="Ej: Fórmula Pura / Más Vendido / Nuevo">
+                        </div>
+                        <div class="form-group">
+                            <label>Stock Disponible (Unidades) *</label>
+                            <input type="number" id="formStock" placeholder="Ej: 25" min="0" required value="20">
+                        </div>
+                        <div class="form-group">
+                            <label>Emoji Icono</label>
+                            <select id="formEmoji">
+                                <option value="🥛">🥛 Vaso de Leche / Proteína</option>
+                                <option value="🍫">🍫 Chocolate / Cacao</option>
+                                <option value="🍓">🍓 Frutilla / Frutos Rojos</option>
+                                <option value="💪">💪 Músculo / Creatina</option>
+                                <option value="🍋">🍋 Limón / Citrus</option>
+                                <option value="🚀">🚀 Cohete / Pre-entreno</option>
+                                <option value="🔥">🔥 Fuego Berserk</option>
+                                <option value="⚡">⚡ Rayo / Energía</option>
+                                <option value="💊">💊 Cápsula / Pureza</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- FILA 3: ESTILO DE POTE VECTORIAL O IMAGEN PROPIA -->
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label>Color Pote 3D Vectorial</label>
+                            <select id="formTubType" onchange="updateTubPreview()">
+                                <option value="vanilla">Oro Sagrado (Vainilla)</option>
+                                <option value="chocolate">Marrón Cacao (Chocolate)</option>
+                                <option value="strawberry">Rojo Frutal (Frutilla)</option>
+                                <option value="creatine">Celeste Neón (Creatina)</option>
+                                <option value="citrus">Verde Lima (Citrus Energy)</option>
+                                <option value="preworkout">Rojo Fuego (Pre-entreno Berserk)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Texto Pote Línea 1</label>
+                            <input type="text" id="formTubLabel" placeholder="Ej: WHEY 1KG" value="WHEY 1KG" oninput="updateTubPreview()">
+                        </div>
+                        <div class="form-group">
+                            <label>Texto Pote Línea 2</label>
+                            <input type="text" id="formTubSub" placeholder="Ej: CLINICAL / PURE" value="PURE" oninput="updateTubPreview()">
+                        </div>
+                    </div>
+
+                    <!-- FILA 4: FOTO O IMAGEN PERSONALIZADA (OPCIONAL) -->
+                    <div class="form-grid-2" style="background: #f8fafc; border: 1px solid var(--admin-border); padding: 1.2rem; border-radius: 8px;">
+                        <div>
+                            <label style="font-size: 0.8rem; color: #334155; font-weight: 700; display:block; margin-bottom: 6px;">
+                                🖼️ Cargar Imagen Propia / Foto Real (Opcional)
+                            </label>
+                            <input type="file" id="formImageFile" accept="image/*" onchange="handleAdminImageUpload(this)" style="margin-bottom: 8px;">
+                            <div style="font-size: 0.72rem; color: var(--admin-text-muted); margin-bottom: 6px;">O ingresá un enlace web de imagen:</div>
+                            <input type="text" id="formImageUrl" placeholder="https://ejemplo.com/foto-suplemento.png" oninput="handleImageUrlInput(this.value)">
+                            <input type="hidden" id="formCustomImageData" value="">
+                            <button type="button" class="admin-btn" style="margin-top: 8px; font-size: 0.75rem;" onclick="clearCustomImage()">↺ Quitar foto (usar Pote 3D)</button>
+                        </div>
+                        <div class="image-preview-box" id="formVisualPreview">
+                            <!-- Renderizado en vivo del pote o imagen subida -->
+                        </div>
+                    </div>
+
+                    <!-- FILA 5: DESCRIPCIÓN & SPECS -->
+                    <div class="form-group" style="margin-top: 1.2rem;">
+                        <label>Descripción Comercial del Producto *</label>
+                        <textarea id="formDesc" placeholder="Describe los beneficios, pureza, sabor y materias primas del suplemento..." required></textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Especificaciones Clave (Pills separadas por coma)</label>
+                        <input type="text" id="formSpecs" placeholder="Ej: ⚡ 25g Proteína, 💪 5.5g BCAAs, 🚫 0% Azúcar, 🌿 Sin TACC" value="⚡ 25g Proteína, 💪 5.5g BCAAs, 🚫 0% Azúcar">
+                        <span class="form-help">Aparecerán como etiquetas rápidas en la tarjeta del producto.</span>
+                    </div>
+
+                    <!-- FILA 6: FICHA NUTRICIONAL & COA -->
+                    <div style="background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 8px; padding: 1.2rem; margin-top: 1.2rem;">
+                        <h5 style="color: var(--admin-text-main); font-weight: 800; margin-bottom: 0.8rem; font-size: 0.95rem;">🔬 Ficha Nutricional & Certificado (Aparece en el Modal)</h5>
+                        
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label>Tamaño de Porción</label>
+                                <input type="text" id="formNutServing" placeholder="Ej: 30g (1 scoop)" value="30g (1 scoop)">
+                            </div>
+                            <div class="form-group">
+                                <label>Porciones por Pote</label>
+                                <input type="text" id="formNutServingsPerTub" placeholder="Ej: 33 tomas" value="33 tomas">
+                            </div>
+                            <div class="form-group">
+                                <label>Calorías</label>
+                                <input type="text" id="formNutCals" placeholder="Ej: 118 kcal" value="118 kcal">
+                            </div>
+                        </div>
+
+                        <div class="form-grid-3" style="margin-top: 0.8rem;">
+                            <div class="form-group">
+                                <label>Proteína por toma</label>
+                                <input type="text" id="formNutProtein" placeholder="Ej: 25g" value="25g">
+                            </div>
+                            <div class="form-group">
+                                <label>Carbohidratos</label>
+                                <input type="text" id="formNutCarbs" placeholder="Ej: 1.8g" value="1.8g">
+                            </div>
+                            <div class="form-group">
+                                <label>Grasas Totales</label>
+                                <input type="text" id="formNutFats" placeholder="Ej: 1.2g" value="1.2g">
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2" style="margin-top: 0.8rem;">
+                            <div class="form-group">
+                                <label>Modo de Uso Recomendado</label>
+                                <input type="text" id="formTimingBest" placeholder="Ej: Post-entreno con 250ml de agua fría" value="Post-entreno con 250ml de agua fría">
+                            </div>
+                            <div class="form-group">
+                                <label>Lote & Pureza CoA</label>
+                                <input type="text" id="formCoa" placeholder="Ej: #TF-8835 - Pureza 99.8% testada" value="#TF-8835 - Pureza 99.8% testada">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BOTONES DE ACCIÓN -->
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+                        <button type="submit" class="admin-btn admin-btn-blue" style="padding: 0.75rem 1.8rem; font-size: 0.95rem;">
+                            💾 Guardar Suplemento en Tienda
+                        </button>
+                        <button type="button" class="admin-btn" style="padding: 0.75rem 1.5rem;" onclick="resetProductForm()">
+                            ✕ Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- LISTA DE PRODUCTOS ACTIVOS EN LA TIENDA -->
+            <div class="section-head">
+                <h3>📦 Catálogo Actual de Productos (<span id="adminProductsCount">0</span>)</h3>
+                <div style="font-size: 0.8rem; color: var(--admin-text-muted);">
+                    Hacé clic en "Editar" para modificar precio, foto, descripción o especificaciones.
+                </div>
+            </div>
+
+            <div class="admin-products-grid" id="adminProductsList">
+                <!-- Rellenado dinámicamente por JS -->
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PESTAÑA 3: CONTROL DE STOCK                -->
+        <!-- ========================================== -->
+        <div id="viewStock" class="admin-tab-view">
+            <section class="admin-section" style="margin-bottom: 0;">
+                <div class="section-head">
+                    <h3>📊 Inventario y Stock en Tiempo Real</h3>
+                    <div style="font-size: 0.8rem; color: var(--admin-text-muted);">
+                        Modificá las unidades disponibles y presioná OK. Se sincroniza en vivo con la tienda principal.
+                    </div>
+                </div>
+                <div class="stock-grid" id="stockGridContainer"></div>
+            </section>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PESTAÑA 4: AJUSTES                         -->
+        <!-- ========================================== -->
+        <div id="viewSettings" class="admin-tab-view">
+            <section class="admin-section">
+                <div class="section-head">
+                    <h3>⚙️ Ajustes del Panel</h3>
+                </div>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start;">
+                    <div style="background: #f8fafc; border: 1px solid var(--admin-border); padding: 1.5rem; border-radius: 8px; min-width: 280px;">
+                        <label style="font-size:0.85rem; color:var(--admin-text-main); font-weight:bold; display:block; margin-bottom:6px;">Cambiar PIN de Acceso</label>
+                        <p style="font-size: 0.75rem; color: var(--admin-text-muted); margin-bottom: 12px;">El PIN actual predeterminado es 1234.</p>
+                        <div style="display:flex; gap:6px;">
+                            <input type="password" id="newPinInput" placeholder="Nuevo PIN" maxlength="6" style="background:#ffffff; border:1px solid #cbd5e1; color:var(--admin-text-main); padding:0.5rem 0.75rem; border-radius:6px; width:130px; font-size:0.88rem;">
+                            <button class="admin-btn admin-btn-primary" onclick="changeAdminPin()">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div style="background: #fef2f2; border: 1px solid #fecaca; padding: 1.5rem; border-radius: 8px; max-width: 400px;">
+                        <label style="font-size:0.85rem; color:#b91c1c; font-weight:bold; display:block; margin-bottom:6px;">Zona de Peligro</label>
+                        <p style="font-size: 0.75rem; color: #7f1d1d; margin-bottom: 12px;">Restablece pedidos de demostración y devuelve los productos iniciales por defecto.</p>
+                        <button class="admin-btn admin-btn-danger" style="width: 100%; justify-content: center; font-weight: 700;" onclick="resetAdminData()">Reiniciar Todo a Fábrica</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- TOAST DE NOTIFICACIÓN -->
+    <div id="adminToast" class="toast">Mensaje del sistema</div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

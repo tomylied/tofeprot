@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tofeprot - Suplementación deportiva premium en Argentina. Proteínas whey aisladas, creatinas 200 mesh y pre-entrenos de pureza clínica. Incluye muestra gratis en cada compra.">
+    <title>Tofeprot - Suplementos Deportivos Premium | Tienda Oficial</title>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="assets/images/favicon.png">
+    <meta name="theme-color" content="#060408">
+
+    <!-- Open Graph / Redes Sociales & WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Tofeprot - Suplementos Deportivos Premium | Tienda Oficial">
+    <meta property="og:description" content="Proteínas Whey, Creatinas 200 Mesh y Pre-entrenos con materia prima importada. 15% OFF por transferencia y 1 Doypack de muestra gratis incluido.">
+    <meta property="og:image" content="assets/images/logo-oscuridad.png">
+    <meta property="og:locale" content="es_AR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tofeprot - Suplementación Deportiva Premium">
+    <meta name="twitter:description" content="Proteínas Whey, Creatina Pura 200 Mesh y Pre-entreno Berserk. Elige tu bando: Luz o Oscuridad.">
+    <meta name="twitter:image" content="assets/images/logo-oscuridad.png">
+
+    <link rel="stylesheet" href="css/styles.css?v=3.5">
+
+    <!-- Pre-detección de bando guardado: ingreso directo sin parpadeo del Gateway -->
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('tofeprot_side');
+                if (saved === 'light' || saved === 'dark') {
+                    document.documentElement.className = saved === 'light' ? 'theme-light' : 'theme-dark';
+                    var style = document.createElement('style');
+                    style.id = 'gatewayPreHide';
+                    style.textContent = '#gatewayScreen { display: none !important; visibility: hidden !important; opacity: 0 !important; }';
+                    document.head.appendChild(style);
+                }
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body class="theme-dark">
+
+    <!-- ========================================== -->
+    <!-- OVERLAY CINEMÁTICO DE CAMBIO DE BANDO      -->
+    <!-- ========================================== -->
+    <div id="sideTransitionOverlay" class="side-transition-overlay" aria-hidden="true">
+        <div class="portal-transition-core">
+            <span class="portal-rune-symbol" id="portalRuneSymbol">⚡</span>
+            <span class="portal-rune-name" id="portalRuneName">TRANSMUTANDO DESTINO...</span>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ATMÓSFERA Y FONDOS CINEMÁTICOS (3D DEPTH)   -->
+    <!-- ========================================== -->
+    <div class="cinematic-atmosphere" aria-hidden="true">
+        <div class="cinematic-grain"></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 1. PANTALLA DE SELECCIÓN INICIAL (GATEWAY)  -->
+    <!-- ========================================== -->
+    <div id="gatewayScreen" class="gateway-screen">
+        <!-- Fondo ambiental sutil -->
+        <div class="gateway-backdrop-blur"></div>
+        <div class="gateway-ambient-glow glow-left"></div>
+        <div class="gateway-ambient-glow glow-right"></div>
+
+        <!-- Escenario de Selección de Bando (Pantalla Completa Inmersiva) -->
+        <div class="gateway-stage" id="gatewayStage">
+            <!-- Interior del Cartel -->
+            <div class="gateway-interior">
+                <div class="gateway-interior-split">
+                    <!-- Opción 1: BERSERKER -->
+                    <div class="gateway-chamber chamber-dark" 
+                         onmouseenter="setGatewayHover('dark')" 
+                         onmouseleave="clearGatewayHover()" 
+                         ontouchstart="setGatewayHover('dark')"
+                         onclick="selectSide('dark')">
+                        <div class="mobile-chamber-header">
+                            <img src="assets/images/logo-oscuridad.png" alt="Berserker" class="mobile-chamber-logo">
+                            <span class="mobile-chamber-sub">FUERZA BRUTA • HIERRO FORJADO</span>
+                        </div>
+                        <button class="btn-chamber btn-chamber-dark" onclick="event.stopPropagation(); selectSide('dark');">
+                            <span>BERSERKER</span>
+                        </button>
+                    </div>
+
+                    <!-- Divisor exclusivo para versión móvil vertical -->
+                    <div class="mobile-gateway-divider">
+                        <span>ELEGÍ TU BANDO</span>
+                    </div>
+
+                    <!-- Opción 2: ILUMINADO -->
+                    <div class="gateway-chamber chamber-light" 
+                         onmouseenter="setGatewayHover('light')" 
+                         onmouseleave="clearGatewayHover()" 
+                         ontouchstart="setGatewayHover('light')"
+                         onclick="selectSide('light')">
+                        <div class="mobile-chamber-header">
+                            <img src="assets/images/logo-luz.png" alt="Iluminado" class="mobile-chamber-logo">
+                            <span class="mobile-chamber-sub">DISCIPLINA SAGRADA • MÁRMOL Y ORO</span>
+                        </div>
+                        <button class="btn-chamber btn-chamber-light" onclick="event.stopPropagation(); selectSide('light');">
+                            <span>ILUMINADO</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 2. POP-UP DE DESBLOQUEO DE PODER (EMAIL)   -->
+    <!-- ========================================== -->
+    <div id="unlockModal" class="unlock-modal-overlay">
+        <div class="unlock-modal-content">
+            <button class="close-unlock-btn" onclick="closeUnlockModal()">✕</button>
+            <div class="unlock-lock-wrapper">
+                <div class="unlock-lock-icon" id="lockIconElement">
+                    <svg class="svg-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
+            </div>
+            <h2>Desbloquea tu Poder</h2>
+            <p>Deja tu email para obtener un <strong>10% de descuento</strong> instantáneo en tu primer pedido.</p>
+            
+            <form class="unlock-form" onsubmit="event.preventDefault(); submitUnlockEmail();">
+                <input type="email" id="userUnlockEmail" placeholder="Ingresa tu email de guerrero..." required>
+                <button type="submit" class="submit-btn">Desbloquear 10% OFF</button>
+            </form>
+            
+            <a class="skip-unlock" onclick="closeUnlockModal()">Continuar sin descuento &gt;</a>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4. BOTÓN FLOTANTE SUPERIOR DERECHO         -->
+    <!-- (LOGO TP + CARRITO DE COMPRAS)             -->
+    <!-- ========================================== -->
+    <div id="floatingNavBtn" class="floating-nav-pill" role="region" aria-label="Navegación y Carrito">
+        <button class="floating-btn-section floating-tp-section" onclick="toggleNavDrawer()" aria-label="Abrir Menú de Navegación" title="Menú de Navegación">
+            <img id="headerLogoTp" src="assets/images/logo-tp-oscuridad.png" alt="TP - Tofeprot" class="floating-tp-logo">
+        </button>
+
+        <span class="floating-pill-divider" aria-hidden="true"></span>
+
+        <button class="floating-btn-section floating-cart-section" onclick="toggleCart()" aria-label="Abrir Carrito de Compras" title="Mi Carrito / Arsenal">
+            <svg class="floating-cart-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span class="floating-cart-count" id="floatingCartBadge" style="display: none;">0</span>
+        </button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PANEL / DRAWER DE NAVEGACIÓN LATERAL       -->
+    <!-- ========================================== -->
+    <div id="navDrawerBackdrop" class="nav-drawer-backdrop" onclick="closeNavDrawer()" aria-hidden="true"></div>
+
+    <aside id="navDrawerPanel" class="nav-drawer-panel" aria-label="Menú principal de navegación">
+        <div class="nav-drawer-header">
+            <div class="drawer-brand">
+                <span class="drawer-brand-title">TOFEPROT</span>
+                <span class="drawer-brand-sub">// NAVEGACIÓN</span>
+            </div>
+            <button class="nav-drawer-close" onclick="closeNavDrawer()" aria-label="Cerrar menú">✕</button>
+        </div>
+
+        <div class="nav-drawer-body">
+            <!-- BOTÓN DUALIDAD: CAMBIAR BANDO -->
+            <div class="drawer-duality-box">
+                <button class="duality-bando-btn" id="dualityBandoBtn" onclick="switchSide(); closeNavDrawer();" title="Cambiar entre Berserker e Iluminado">
+                    <span class="duality-content">
+                        <span id="dualityBandoText">CAMBIAR BANDO</span>
+                    </span>
+                </button>
+            </div>
+
+            <!-- BUSCADOR UNIFICADO -->
+            <div class="drawer-search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Buscar suplemento..." oninput="filterProducts()">
+            </div>
+
+            <!-- ENLACES DE NAVEGACIÓN -->
+            <nav class="drawer-nav-menu">
+                <a class="drawer-nav-item" onclick="scrollToProducts(); closeNavDrawer();">
+                    <span class="drawer-item-icon">⚔️</span>
+                    <span class="drawer-item-text">ARMERÍA COMPLETA</span>
+                    <span class="drawer-item-arrow">→</span>
+                </a>
+                <a class="drawer-nav-item" onclick="document.getElementById('calcSection').scrollIntoView({behavior:'smooth'}); closeNavDrawer();">
+                    <span class="drawer-item-icon">⚡</span>
+                    <span class="drawer-item-text">CALCULADORA DE DOSIS</span>
+                    <span class="drawer-item-arrow">→</span>
+                </a>
+                <a class="drawer-nav-item drawer-cart-item" onclick="toggleCart(); closeNavDrawer();">
+                    <span class="drawer-item-icon">🛒</span>
+                    <span class="drawer-item-text">MI ARSENAL / CARRITO</span>
+                    <span class="cart-count drawer-cart-badge-inner" id="cartCount">0</span>
+                </a>
+            </nav>
+
+            <!-- ACCIONES ADICIONALES (SONIDO & CUENTA) -->
+            <div class="drawer-footer-actions">
+                <div class="drawer-sound-row">
+                    <span>Efectos Sonoros</span>
+                    <button id="soundToggleBtn" class="sound-toggle-btn" onclick="toggleSound()" title="Efectos de sonido (Activar/Silenciar)">🔊</button>
+                </div>
+
+                <div class="drawer-auth-row">
+                    <button class="auth-btn drawer-auth-btn" id="authBtn" onclick="toggleAuthModal(); closeNavDrawer();">INGRESAR / REGISTRARSE</button>
+                    <div id="userProfileBtn" class="drawer-profile-btn" style="cursor: pointer; display: none;" onclick="toggleUserProfile(); closeNavDrawer();">
+                        <svg class="svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <span>Mi Perfil Guerrero</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ========================================== -->
+    <!-- 5. PERFIL DE USUARIO                       -->
+    <!-- ========================================== -->
+    <div id="userProfile" class="user-profile">
+        <div class="user-info">
+            <div class="user-email" id="profileEmail">usuario@email.com</div>
+            <div class="user-membership" id="profileMembership">Guerrero Tofeprot</div>
+            <div class="exp-container">
+                <div class="exp-text"><span>EXP GUERRERO</span> <span>650 / 1000 pt</span></div>
+                <div class="exp-bar-bg"><div class="exp-bar-fill"></div></div>
+            </div>
+            <button class="auth-btn" style="width:100%; margin-top: 10px; font-size: 0.8rem; padding: 6px;" onclick="switchSide(); toggleUserProfile();">⚖️ Cambiar Bando (Berserker / Iluminado)</button>
+        </div>
+        <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 6. HERO EDITORIAL BRUTALISTA (OPCIÓN 1)    -->
+    <!-- ========================================== -->
+    <section class="hero hero-editorial">
+        <img id="heroBgImg" class="hero-image-bg" src="assets/images/hero-bg-iluminado.jpg?v=2.7" alt="Santuario Tofeprot">
+        <video class="hero-video-bg" autoplay loop muted playsinline webkit-playsinline poster="assets/images/hero-bg-iluminado.jpg?v=2.7" preload="metadata">
+            <source src="assets/videos/fondo-hero.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video-overlay"></div>
+
+        <div class="hero-editorial-container">
+            <div class="hero-img-wrapper">
+                <img id="heroLogoImg" src="assets/images/logo-wordmark-oscuridad.png?v=3.0" alt="Tofeprot Logotipo Principal" class="hero-main-img">
+            </div>
+
+            <h1 id="heroTitle" class="hero-title-glory">DESATÁ EL <span class="glory-highlight">CAOS</span></h1>
+            <p id="heroDescription">El dolor no se esquiva, se conquista. Suplementación clínica sin piedad para doblegar el hierro.</p>
+
+            <div class="hero-cta-group">
+                <button class="hero-btn-secondary" onclick="document.getElementById('calcSection').scrollIntoView({behavior: 'smooth'})">
+                    <span>CALCULAR MI DOSIS</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 6.1 CINTA EDITORIAL EN MOVIMIENTO (MARQUEE)-->
+    <!-- ========================================== -->
+    <div class="editorial-marquee" aria-hidden="true">
+        <div class="editorial-marquee-track">
+            <span>PUREZA CLÍNICA 200 MESH</span><span class="marquee-dot">✦</span>
+            <span>15% OFF POR TRANSFERENCIA BANCARIA</span><span class="marquee-dot">✦</span>
+            <span>1 DOYPACK DE MUESTRA GRATIS EN CADA COMPRA</span><span class="marquee-dot">✦</span>
+            <span>MATERIA PRIMA IMPORTADA GRADO FARMACÉUTICO</span><span class="marquee-dot">✦</span>
+            <span>3 CUOTAS SIN INTERÉS CON MERCADO PAGO</span><span class="marquee-dot">✦</span>
+            <span>PUREZA CLÍNICA 200 MESH</span><span class="marquee-dot">✦</span>
+            <span>15% OFF POR TRANSFERENCIA BANCARIA</span><span class="marquee-dot">✦</span>
+            <span>1 DOYPACK DE MUESTRA GRATIS EN CADA COMPRA</span><span class="marquee-dot">✦</span>
+            <span>MATERIA PRIMA IMPORTADA GRADO FARMACÉUTICO</span><span class="marquee-dot">✦</span>
+            <span>3 CUOTAS SIN INTERÉS CON MERCADO PAGO</span><span class="marquee-dot">✦</span>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 7. ARMERÍA DE SUPLEMENTOS (TIENDA EN 1° FILA)-->
+    <!-- ========================================== -->
+    <div class="section-wrapper reveal-on-scroll">
+        <section id="productsSection" class="products-section">
+            <div class="editorial-section-header">
+                <span class="editorial-kicker">CATÁLOGO OFICIAL</span>
+                <h2 class="section-title">Armería de Suplementos</h2>
+                <p class="editorial-subtitle">
+                    Fórmulas de alta biodisponibilidad sin rellenos ni azúcares añadidos. Seleccioná tu suplemento, elegí el sabor y recibí 1 Doypack de regalo en tu pedido.
+                </p>
+            </div>
+            <div class="products-grid" id="tiendaGrid"></div>
+        </section>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 7.1 BARRA DE CONFIANZA & BENEFICIOS (TRUST)-->
+    <!-- ========================================== -->
+    <section class="trust-bar-section">
+        <div class="trust-bar-grid">
+            <div class="trust-item">
+                <div class="trust-icon">
+                    <svg class="svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                </div>
+                <div class="trust-text">
+                    <h4>Envíos a Todo el País</h4>
+                    <p>Andreani y Correo Arg con tracking en vivo.</p>
+                </div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">
+                    <svg class="svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line><line x1="6" y1="15" x2="10" y2="15"></line></svg>
+                </div>
+                <div class="trust-text">
+                    <h4>3 Cuotas o 15% OFF</h4>
+                    <p>3 cuotas sin interés o 15% OFF en transferencia.</p>
+                </div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">
+                    <svg class="svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31a2 2 0 0 0 .69 1.51l5.62 4.9A2 2 0 0 1 17 17.24V20a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-2.76a2 2 0 0 1 .69-1.51l5.62-4.9A2 2 0 0 0 14 9.31V2"></path><line x1="8.5" y1="2" x2="15.5" y2="2"></line></svg>
+                </div>
+                <div class="trust-text">
+                    <h4>Pureza Certificada (CoA)</h4>
+                    <p>Materia prima importada de grado clínico.</p>
+                </div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">
+                    <svg class="svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+                </div>
+                <div class="trust-text">
+                    <h4>Muestra de Regalo</h4>
+                    <p>1 Doypack gratis en cada pedido para probar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 8. BANNER EXCLUSIVO: MUESTRA GRATIS        -->
+    <!-- ========================================== -->
+    <div class="section-wrapper reveal-on-scroll" style="padding: 3.5rem 0 2rem 0;">
+        <div class="gift-sample-banner">
+            <div class="gift-banner-card">
+                <div class="gift-badge-tag">🎁 REGALO EXCLUSIVO CON TU COMPRA</div>
+                <h2 class="gift-title">Probá Proteínas y Pre-Entrenos <span>Importados</span></h2>
+                <p class="gift-description">
+                    Queremos que conozcas la calidad superior, el sabor real y la potencia de nuestra materia prima importada. Por eso, <strong>cada compra incluye 1 Doypack de regalo</strong> con proteína o pre-entreno para que lo disfrutes en tu próximo entrenamiento antes de que salga a la venta oficial.
+                </p>
+                <div class="gift-features-grid">
+                    <div class="gift-feature-item">
+                        <div class="gift-feature-icon">
+                            <svg class="svg-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31a2 2 0 0 0 .69 1.51l5.62 4.9A2 2 0 0 1 17 17.24V20a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-2.76a2 2 0 0 1 .69-1.51l5.62-4.9A2 2 0 0 0 14 9.31V2"></path><line x1="8.5" y1="2" x2="15.5" y2="2"></line></svg>
+                        </div>
+                        <div class="gift-feature-text">
+                            <h4>Materia Prima Importada</h4>
+                            <p>Pureza clínica y máxima digestibilidad en cada toma.</p>
+                        </div>
+                    </div>
+                    <div class="gift-feature-item">
+                        <div class="gift-feature-icon">
+                            <svg class="svg-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+                        </div>
+                        <div class="gift-feature-text">
+                            <h4>1 Doypack en Cada Pedido</h4>
+                            <p>Va incluido automáticamente dentro de tu paquete.</p>
+                        </div>
+                    </div>
+                    <div class="gift-feature-item">
+                        <div class="gift-feature-icon">
+                            <svg class="svg-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                        </div>
+                        <div class="gift-feature-text">
+                            <h4>Sabor y Potencia Real</h4>
+                            <p>Probás y sentís el efecto antes del lanzamiento general.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 8.5 MANIFIESTO TOFEPROT (VALUE PROP)       -->
+    <!-- ========================================== -->
+    <div class="section-wrapper reveal-on-scroll">
+        <section class="manifesto-section">
+            <div class="editorial-section-header">
+                <span class="editorial-kicker">FILOSOFÍA DE FORJA</span>
+                <h2 class="section-title">Estándar Tofeprot</h2>
+            </div>
+            <div class="manifesto-grid">
+                <div class="manifesto-card">
+                    <div class="manifesto-icon">🛡️</div>
+                    <h3>Pureza Clínica</h3>
+                    <p>Filtramos nuestros polvos a 200 mesh para garantizar máxima absorción y digestión liviana. Cero fillers.</p>
+                </div>
+                <div class="manifesto-card">
+                    <div class="manifesto-icon">⚖️</div>
+                    <h3>Dosis Reales</h3>
+                    <p>Nuestras etiquetas son transparentes. Lo que dice el envase es exactamente lo que recibe tu músculo. Sin amino-spiking.</p>
+                </div>
+                <div class="manifesto-card">
+                    <div class="manifesto-icon">🌍</div>
+                    <h3>Materias Primas Top</h3>
+                    <p>Insumos de grado farmacéutico importados de Alemania y USA. Saborizado premium sin azúcares.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 9. CALCULADORA BIOMÉTRICA DE MACROS        -->
+    <!-- ========================================== -->
+    <div class="section-wrapper reveal-on-scroll" id="calcSection">
+        <section class="tools-section">
+            <div class="tools-card">
+                <div class="calc-form">
+                    <span class="editorial-kicker" style="display:inline-block; margin-bottom:0.4rem;">HERRAMIENTA DE PRECISIÓN</span>
+                    <h2>Calculadora de <span>Macros</span></h2>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">Calculá tu requerimiento diario exacto de proteína y creatina según tu peso corporal y objetivo físico.</p>
+                    
+                    <label>Peso Corporal (kg)</label>
+                    <input type="number" id="calcWeight" placeholder="Ej: 75">
+                    
+                    <label>Objetivo</label>
+                    <select id="calcGoal">
+                        <option value="volumen">Hipertrofia / Volumen (+ Fuerza)</option>
+                        <option value="definicion">Definición Extrema (- Grasa)</option>
+                    </select>
+                    
+                    <button class="submit-btn btn-shimmer" style="margin-top: 0;" onclick="calculateMacros()">Calcular Mi Dosis</button>
+                </div>
+                <div class="calc-result" id="calcResult">
+                    <div style="text-align: center; color: var(--text-muted);">
+                        Ingresá tu peso y objetivo para calcular tu protocolo diario ideal.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 10. MURO DE LEYENDAS (PR WALL)             -->
+    <!-- ========================================== -->
+    <section class="pr-wall reveal-on-scroll">
+        <div class="pr-container">
+            <h2>🏆 Muro de Leyendas</h2>
+            <p style="text-align: center; margin-bottom: 2.5rem; color: var(--text-muted);">Récords personales superados gracias a la suplementación de Tofeprot.</p>
+            <div class="pr-cards">
+                <div class="pr-card">
+                    <div class="pr-user">Marcos V.</div>
+                    <div class="pr-lift">Press Banca: 140kg</div>
+                    <div class="pr-quote">"La creatina pura me sacó del estancamiento de 6 meses. Energía celular y fuerza sin bajones."</div>
+                </div>
+                <div class="pr-card">
+                    <div class="pr-user">Julieta S.</div>
+                    <div class="pr-lift">Sentadilla: 110kg</div>
+                    <div class="pr-quote">"El Pre-entreno Berserk es un viaje de ida. Concentración absoluta y bombeo en cada repetición."</div>
+                </div>
+                <div class="pr-card">
+                    <div class="pr-user">Tomás R.</div>
+                    <div class="pr-lift">Peso Muerto: 180kg</div>
+                    <div class="pr-quote">"Probé la muestra de proteína y el sabor es increíble. Máxima digestión y cero pesadez."</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 10.1 PREGUNTAS FRECUENTES (FAQ) & GARANTÍA -->
+    <!-- ========================================== -->
+    <div class="section-wrapper reveal-on-scroll" style="padding-bottom: 3rem;">
+        <div class="giant-watermark">FAQ</div>
+        <section class="faq-section">
+            <h2 class="section-title" style="margin-top: 0; margin-bottom: 0.5rem;">Preguntas Frecuentes</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Todo lo que necesitás saber antes de equipar tu arsenal de suplementación.</p>
+            
+            <div class="faq-accordion" id="faqAccordion">
+                <div class="faq-item active">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <div class="faq-title">
+                            <span class="faq-icon-svg">
+                                <svg class="svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line></svg>
+                            </span>
+                            ¿Cómo funciona la muestra gratis de regalo?
+                        </div>
+                        <span class="faq-icon-toggle">+</span>
+                    </div>
+                    <div class="faq-body">
+                        En absolutamente <strong>cada compra que realices</strong>, nuestro equipo incluye automáticamente <strong>1 Doypack de regalo</strong> con proteína o pre-entreno importado sin costo adicional. No necesitás cupones: va dentro de tu paquete listo para probar en tu próximo entrenamiento.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <div class="faq-title">
+                            <span class="faq-icon-svg">
+                                <svg class="svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                            </span>
+                            ¿Qué medios de pago aceptan y cómo obtengo el 15% OFF?
+                        </div>
+                        <span class="faq-icon-toggle">+</span>
+                    </div>
+                    <div class="faq-body">
+                        Aceptamos <strong>Transferencia Bancaria con un 15% de descuento directo</strong> sobre el total de tu orden, y también <strong>Mercado Pago / Tarjetas de Crédito en hasta 3 cuotas sin interés</strong>. Podés elegir la opción en tu carrito y se calcula automáticamente.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <div class="faq-title">
+                            <span class="faq-icon-svg">
+                                <svg class="svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle></svg>
+                            </span>
+                            ¿Cuánto demoran los envíos y cómo los sigo?
+                        </div>
+                        <span class="faq-icon-toggle">+</span>
+                    </div>
+                    <div class="faq-body">
+                        Despachamos por <strong>Andreani y Correo Argentino</strong> a cualquier punto del país. Para CABA y GBA las entregas demoran entre <strong>24 a 48 hs hábiles</strong>, y para el resto del país entre <strong>2 a 4 días hábiles</strong>. Recibís tu código de seguimiento por WhatsApp apenas sale el paquete.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <div class="faq-title">
+                            <span class="faq-icon-svg">
+                                <svg class="svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31a2 2 0 0 0 .69 1.51l5.62 4.9A2 2 0 0 1 17 17.24V20a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-2.76a2 2 0 0 1 .69-1.51l5.62-4.9A2 2 0 0 0 14 9.31V2"></path></svg>
+                            </span>
+                            ¿Qué pureza y certificados tienen los suplementos?
+                        </div>
+                        <span class="faq-icon-toggle">+</span>
+                    </div>
+                    <div class="faq-body">
+                        Trabajamos exclusivamente con <strong>materia prima importada de grado clínico</strong>, sin rellenos ocultos, azúcares añadidos ni componentes de baja absorción. Podés consultar el <strong>Certificado de Análisis (CoA)</strong> en la ficha de cada producto.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <div class="faq-title">
+                            <span class="faq-icon-svg">
+                                <svg class="svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                            </span>
+                            ¿Cómo debo tomar la proteína, creatina y pre-entreno?
+                        </div>
+                        <span class="faq-icon-toggle">+</span>
+                    </div>
+                    <div class="faq-body">
+                        <strong>Proteína Whey:</strong> 1 scoop post-entreno o entre comidas. <strong>Creatina Monohidrato:</strong> 1 toma diaria (3g a 5g) todos los días para saturación celular. <strong>Pre-entreno:</strong> 1 scoop 20-30 min antes de entrenar con agua bien fría.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SELLO DE GARANTÍA BLINDADA -->
+        <div class="guarantee-section">
+            <div class="guarantee-card">
+                <div class="guarantee-icon">
+                    <svg class="svg-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+                </div>
+                <div class="guarantee-content">
+                    <h3>Garantía Blindada <span>30 Días Tofeprot</span></h3>
+                    <p>
+                        Confiamos plenamente en la pureza, disolución y sabor superior de nuestra suplementación. Si no sentís la diferencia en tu primer entrenamiento, te cambiamos el producto o te reintegramos el dinero sin vueltas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 11. FOOTER                                 -->
+    <!-- ========================================== -->
+    <footer>
+        <p>&copy; 2026 Tofeprot - Suplementos Deportivos Premium. Potencia sin límites | Argentina.</p>
+        <div>
+            <a href="admin.html" class="admin-footer-link">⚙️ Panel de Administración (Tomy)</a>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- 12. NOTIFICACIÓN DE VENTAS EN VIVO (TOAST) -->
+    <!-- ========================================== -->
+    <div id="liveSalesToast" class="live-sales-toast" style="display: none;">
+        <div class="toast-icon" id="toastIcon">
+            <svg class="svg-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffe600" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        </div>
+        <div class="toast-body">
+            <div id="toastText"><strong>Lucas de Córdoba</strong> compró Creatina Monohidrato 300g</div>
+            <div class="toast-time" id="toastTime">hace 3 minutos • Compra Verificada ✓</div>
+        </div>
+        <button class="toast-close" onclick="closeSalesToast(event)" title="Cerrar">✕</button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 13. MODAL CARRITO DE COMPRAS               -->
+    <!-- ========================================== -->
+    <div id="cartBackdrop" class="cart-backdrop" onclick="toggleCart()"></div>
+    <div id="cartModal" class="cart-modal">
+        <div class="cart-header">
+            <h2 style="font-family: 'Russo One', sans-serif;">Arsenal de Poder</h2>
+            <span class="close-btn" onclick="toggleCart()">✕</span>
+        </div>
+        
+        <!-- GATILLO DE URGENCIA (FOMO) -->
+        <div id="cartUrgencyTimer" class="cart-urgency-timer" style="display: none;">
+            <span>⏱️ Tu stock está reservado por:</span>
+            <strong id="cartTimerDisplay">15:00</strong>
+        </div>
+        <div class="cart-items" id="cartItems"><div class="empty-cart">Aún no hay suplementos</div></div>
+
+        <!-- SECCIÓN DE BUNDLES DINÁMICOS INTELIGENTES -->
+        <div id="cartBundleContainer" class="cart-bundle-container" style="display: none;"></div>
+
+        <div class="cart-footer">
+            <div class="cart-gift-notice" id="cartGiftNotice" style="display: none;">
+                <div class="cart-gift-icon">
+                    <svg class="svg-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffe600" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line></svg>
+                </div>
+                <div class="cart-gift-text">
+                    <strong>¡BONUS DE REGALO INCLUIDO!</strong><br>
+                    Tu pedido incluye 1 Doypack de muestra (Proteína o Pre-entreno) 100% bonificado.
+                </div>
+            </div>
+
+            <!-- SELECTOR DE MÉTODO DE PAGO -->
+            <div class="payment-selector-container">
+                <div class="payment-selector-title">Forma de Pago:</div>
+                <div class="payment-options-grid">
+                    <button type="button" class="payment-option-btn active" id="payTransferBtn" onclick="setPaymentMethod('transfer')">
+                        <strong>🏦 Transferencia</strong>
+                        <span>15% OFF Directo</span>
+                    </button>
+                    <button type="button" class="payment-option-btn" id="payCardBtn" onclick="setPaymentMethod('card')">
+                        <strong>💳 Tarjeta / MP</strong>
+                        <span>3 Cuotas Sin Interés</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="cart-savings-row" id="cartSavingsRow" style="display: none;">
+                <span>Ahorro Transferencia (15%):</span>
+                <span id="cartSavingsAmount">-$0</span>
+            </div>
+
+            <div class="cart-total"><span>Total Pedido:</span> <span id="cartTotal">$0</span></div>
+            <button class="checkout-btn" onclick="checkout()">Iniciar Transacción WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 14. MODAL AUTENTICACIÓN (LOGIN / REGISTRO) -->
+    <!-- ========================================== -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleAuthModal()">✕</span>
+            <div id="loginForm">
+                <h2 style="color: var(--text-main); margin-bottom: 1.5rem; font-family: 'Russo One', sans-serif;">Ingresar</h2>
+                <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="tu@email.com"></div>
+                <div class="form-group"><label>Contraseña</label><input type="password" id="loginPassword" placeholder="Contraseña"></div>
+                <button class="submit-btn" onclick="login()">Acceder al Sistema</button>
+                <div class="toggle-form">¿Nuevo guerrero? <a onclick="toggleLoginRegister()">Regístrate</a></div>
+            </div>
+            <div id="registerForm" style="display: none;">
+                <h2 style="color: var(--text-main); margin-bottom: 1.5rem; font-family: 'Russo One', sans-serif;">Crear Perfil</h2>
+                <div class="form-group"><label>Nombre</label><input type="text" id="registerName" placeholder="Tu nombre"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="registerEmail" placeholder="tu@email.com"></div>
+                <div class="form-group"><label>Contraseña</label><input type="password" id="registerPassword" placeholder="Contraseña"></div>
+                <button class="submit-btn" onclick="register()">Despertar Poder</button>
+                <div class="toggle-form">¿Ya tienes rango? <a onclick="toggleLoginRegister()">Ingresar</a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 15. MODAL FICHA TÉCNICA Y NUTRICIONAL      -->
+    <!-- ========================================== -->
+    <div id="productBackdrop" class="modal-backdrop" onclick="closeProductModal()"></div>
+    <div id="productModal" class="product-modal-dialog">
+        <div class="product-modal-header">
+            <div class="product-modal-title-wrap">
+                <span class="product-modal-badge" id="pmBadge">FÓRMULA PURA</span>
+                <h2 id="pmTitle" class="product-modal-title">Proteína Whey 1kg</h2>
+            </div>
+            <button class="close-btn" onclick="closeProductModal()" aria-label="Cerrar">✕</button>
+        </div>
+        <div class="product-modal-body" id="pmBody">
+            <!-- Rellenado dinámicamente por JS -->
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 16. MODAL DATOS BANCARIOS / TRANSFERENCIA  -->
+    <!-- ========================================== -->
+    <div id="transferBackdrop" class="modal-backdrop" onclick="closeTransferModal()"></div>
+    <div id="transferModal" class="transfer-modal-dialog">
+        <div class="transfer-modal-header">
+            <h3 style="font-family: 'Russo One', sans-serif;">🏦 Datos de Transferencia (15% OFF)</h3>
+            <button class="close-btn" onclick="closeTransferModal()">✕</button>
+        </div>
+        <div class="transfer-modal-body">
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem;">
+                Realizá tu transferencia con el <strong>15% de descuento directo</strong> y envianos el comprobante por WhatsApp para despacho prioritario.
+            </p>
+            
+            <div class="bank-data-card">
+                <div class="bank-row">
+                    <span class="bank-label">Titular:</span>
+                    <span class="bank-val">TOFEPROT ARGENTINA S.A.S.</span>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">CUIT:</span>
+                    <span class="bank-val">30-71829304-8</span>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">Entidad:</span>
+                    <span class="bank-val">Santander / Mercado Pago</span>
+                </div>
+                <div class="bank-row highlight">
+                    <span class="bank-label">ALIAS:</span>
+                    <span class="bank-val" id="bankAlias">TOFEPROT.ARS</span>
+                    <button class="copy-alias-btn" id="copyAliasBtn" onclick="copyAlias()">📋 Copiar</button>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">CBU:</span>
+                    <span class="bank-val" style="font-family: monospace;">0000003100088291002341</span>
+                </div>
+            </div>
+
+            <div class="transfer-steps">
+                <div class="transfer-step"><strong>1.</strong> Copiá el alias y transferí desde cualquier banco o billetera virtual.</div>
+                <div class="transfer-step"><strong>2.</strong> Tocá el botón de abajo para enviar el pedido con el comprobante por WhatsApp.</div>
+            </div>
+
+            <button class="submit-btn" style="width: 100%; margin-top: 1.2rem;" onclick="closeTransferModal(); checkout();">
+                📲 Continuar a WhatsApp con Pedido
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 17. BOTÓN FLOTANTE WHATSAPP VIP            -->
+    <!-- ========================================== -->
+    <a href="https://wa.me/5491100000000?text=Hola%20Coach,%20necesito%20asesoramiento%20sobre%20suplementaci%C3%B3n." class="floating-wa-btn" target="_blank" rel="noopener noreferrer" title="Consultar a un Coach">
+        <span class="wa-icon">💬</span>
+        <span class="wa-text">Asesoría VIP</span>
+    </a>
+
+    <!-- ARCHIVO JS MODULAR -->
+    <script src="js/app.js?v=3.5" defer></script>
+</body>
+</html>
