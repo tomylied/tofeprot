@@ -756,21 +756,17 @@ function switchSide() {
     playSFX(targetSide === 'light' ? 'sideLight' : 'sideDark');
 
     const overlay = document.getElementById('sideTransitionOverlay');
-    const runeSymbol = document.getElementById('portalRuneSymbol');
     const runeName = document.getElementById('portalRuneName');
 
     if (overlay) {
-        // Configuración de atmósfera y símbolos del portal
         if (targetSide === 'light') {
             overlay.classList.remove('to-dark');
             overlay.classList.add('to-light');
-            if (runeSymbol) runeSymbol.textContent = '☀️';
-            if (runeName) runeName.textContent = 'DESPERTANDO MODO ILUMINADO...';
+            if (runeName) runeName.textContent = 'MODO ILUMINADO';
         } else {
             overlay.classList.remove('to-light');
             overlay.classList.add('to-dark');
-            if (runeSymbol) runeSymbol.textContent = '⚡';
-            if (runeName) runeName.textContent = 'DESPERTANDO MODO BERSERKER...';
+            if (runeName) runeName.textContent = 'MODO BERSERKER';
         }
 
         // 1. Despliegue suave y lento del velo cinematográfico
@@ -936,35 +932,10 @@ function initHeroParticles() {
 }
 
 // ========================================== */
-// FÍSICAS DE INCLINACIÓN 3D & SPOTLIGHT      */
+// FÍSICAS DE TARJETAS (SIN TILT 3D ARTIFICIAL)*/
 // ========================================== */
 function initCard3DTilt() {
-    if (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches) {
-        return;
-    }
-    const cards = document.querySelectorAll('.card-3d-tilt');
-    cards.forEach(card => {
-        if (card.dataset.tiltInitialized) return;
-        card.dataset.tiltInitialized = 'true';
-
-        card.addEventListener('mousemove', function(e) {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -8;
-            const rotateY = ((x - centerX) / centerX) * 8;
-
-            card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`;
-            card.style.setProperty('--mouse-x', `${((x / rect.width) * 100).toFixed(1)}%`);
-            card.style.setProperty('--mouse-y', `${((y / rect.height) * 100).toFixed(1)}%`);
-        });
-
-        card.addEventListener('mouseleave', function() {
-            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-        });
-    });
+    // Desactivado: sin inclinación 3D artificial ni spotlight de cursor
 }
 
 // ========================================== */
@@ -1083,24 +1054,25 @@ function calculateMacros() {
     const goal = document.getElementById('calcGoal').value;
     
     if (!weight || weight <= 0) {
-        document.getElementById('calcResult').innerHTML = '<span style="color:#ff4444; font-weight:bold; text-align:center; width:100%;">[ Error: Ingrese un peso válido ]</span>';
+        document.getElementById('calcResult').innerHTML = '<span style="color:#ff4444; font-weight:bold; text-align:center; width:100%;">Ingresá un peso corporal válido en kilogramos.</span>';
         return;
     }
 
     const protein = goal === 'volumen' ? (weight * 2.2).toFixed(0) : (weight * 2.5).toFixed(0);
     const creatine = (weight * 0.1).toFixed(1);
+    const scoopsWhey = Math.max(1, Math.round((protein * 0.35) / 25));
 
     const proteinPercent = Math.min((protein / 250) * 100, 100);
     const creatinePercent = Math.min((creatine / 20) * 100, 100);
 
     document.getElementById('calcResult').innerHTML = `
         <div class="macro-chart-container">
-            <div class="macro-chart-title">Análisis Gráfico Biométrico</div>
+            <div class="macro-chart-title">Requerimiento Diario Estimado</div>
             
             <div class="chart-row">
                 <div class="chart-label-info">
-                    <span>Proteína Diaria</span>
-                    <span style="color: var(--accent-purple);">${protein}g</span>
+                    <span>Proteína Total Diaria</span>
+                    <span style="color: var(--accent-purple);">${protein} g (${scoopsWhey}–${scoopsWhey + 1} scoops Whey)</span>
                 </div>
                 <div class="chart-bar-bg">
                     <div class="chart-bar-fill" id="barProtein" style="width: 0%;"></div>
@@ -1109,16 +1081,16 @@ function calculateMacros() {
 
             <div class="chart-row" style="margin-top: 15px;">
                 <div class="chart-label-info">
-                    <span>Creatina Diaria</span>
-                    <span style="color: var(--accent-purple);">${creatine}g</span>
+                    <span>Creatina Monohidrato</span>
+                    <span style="color: var(--accent-purple);">${creatine} g / día (1 scoop raso)</span>
                 </div>
                 <div class="chart-bar-bg">
                     <div class="chart-bar-fill" id="barCreatine" style="width: 0%;"></div>
                 </div>
             </div>
 
-            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 15px; text-align: center;">
-                <em>[ Sincronización de nutrientes completada ]</em>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 14px;">
+                Basado en ${goal === 'volumen' ? '2.2 g/kg para superávit e hipertrofia' : '2.5 g/kg para preservar masa magra en déficit'} y 0.1 g/kg de saturación de fosfocreatina.
             </div>
         </div>
     `;
@@ -1151,6 +1123,13 @@ function getProductYieldLabel(product) {
     };
 }
 
+function getProductCoaSummary(product) {
+    const coa = product.coa || {};
+    const batch = coa.batch || '#TF-8829';
+    const purity = coa.purity || '99.8% Pureza';
+    return `<span class="coa-meta-batch">Lote ${batch}</span><span class="coa-meta-dot">·</span><span class="coa-meta-purity">${purity}</span>`;
+}
+
 function renderTienda(items) {
     const grid = document.getElementById('tiendaGrid');
     if (!grid) return;
@@ -1160,7 +1139,7 @@ function renderTienda(items) {
     const displayItems = isSearching ? items : items.filter(p => !p.isVariantOnly);
 
     if (displayItems.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; color: var(--text-muted); padding: 3rem;">[ No se encontraron productos con ese término en la tienda ]</div>';
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; color: var(--text-muted); padding: 3rem;">No se encontraron suplementos con ese término.</div>';
         return;
     }
     grid.innerHTML = displayItems.map(product => {
@@ -1178,13 +1157,11 @@ function renderTienda(items) {
             </div>
         ` : '';
 
-        const ratingHTML = product.rating ? `
+        const coaMetaHTML = `
             <div class="product-rating" id="prodRating_${product.id}">
-                <span class="stars" aria-label="Calificación ${product.rating} de 5">★★★★★</span>
-                <span class="rating-score">${product.rating}</span>
-                <span class="rating-count">(${product.reviews || 100})</span>
+                ${getProductCoaSummary(product)}
             </div>
-        ` : '';
+        `;
 
         const flavors = product.flavors && product.flavors.length > 0 ? product.flavors : null;
         const currentFlavorName = flavors ? flavors[0].name : '';
@@ -1220,11 +1197,11 @@ function renderTienda(items) {
                     <span class="card-qty-val" id="cardQty_${product.id}">1</span>
                     <button type="button" class="card-qty-btn" onclick="changeCardQty(${product.id}, 1, event)" aria-label="Aumentar cantidad">+</button>
                 </div>
-                <button type="button" class="add-to-cart-btn btn-shimmer" id="addBtn_${product.id}" data-current-id="${product.id}" data-base-id="${product.id}" onclick="addIndividualToCart(parseInt(this.dataset.currentId || ${product.id}), this, ${product.id})">EQUIPAR AL ARSENAL</button>
+                <button type="button" class="add-to-cart-btn" id="addBtn_${product.id}" data-current-id="${product.id}" data-base-id="${product.id}" onclick="addIndividualToCart(parseInt(this.dataset.currentId || ${product.id}), this, ${product.id})">EQUIPAR AL ARSENAL</button>
             </div>`;
 
         return `
-            <article class="product-card card-3d-tilt ${isSoldOut ? 'is-sold-out' : ''}" id="prodCard_${product.id}">
+            <article class="product-card ${isSoldOut ? 'is-sold-out' : ''}" id="prodCard_${product.id}">
                 ${soldOutBadge}
                 <div class="product-stage-top">
                     <span class="product-yield-pill" id="prodYield_${product.id}">${yieldInfo.servingsTag}</span>
@@ -1240,7 +1217,7 @@ function renderTienda(items) {
                 </div>
                 <div class="product-info">
                     <div class="product-meta-top">
-                        ${ratingHTML}
+                        ${coaMetaHTML}
                         <button type="button" class="product-modal-trigger" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v7.31a2 2 0 0 0 .69 1.51l5.62 4.9A2 2 0 0 1 17 17.24V20a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-2.76a2 2 0 0 1 .69-1.51l5.62-4.9A2 2 0 0 0 14 9.31V2"></path><line x1="8.5" y1="2" x2="15.5" y2="2"></line></svg>
                             <span>Ficha & CoA →</span>
@@ -1267,7 +1244,6 @@ function renderTienda(items) {
             </article>
         `;
     }).join('');
-    initCard3DTilt();
 }
 
 function changeCardQty(baseProductId, delta, event) {
@@ -1324,7 +1300,7 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
         descEl.textContent = targetProduct.description;
     }
 
-    // 5. Actualizar specs, badge, rating y rendimiento
+    // 5. Actualizar specs, badge, lote CoA y rendimiento
     const specsEl = document.getElementById(`prodSpecs_${baseProductId}`);
     if (specsEl && targetProduct.specs) {
         specsEl.innerHTML = targetProduct.specs.map((s, i) => `<span class="product-spec-pill ${i === 0 ? 'highlight' : ''}">${s}</span>`).join('');
@@ -1337,12 +1313,8 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
     }
 
     const ratingEl = document.getElementById(`prodRating_${baseProductId}`);
-    if (ratingEl && targetProduct.rating) {
-        ratingEl.innerHTML = `
-            <span class="stars" aria-label="Calificación ${targetProduct.rating} de 5">★★★★★</span>
-            <span class="rating-score">${targetProduct.rating}</span>
-            <span class="rating-count">(${targetProduct.reviews || 100})</span>
-        `;
+    if (ratingEl) {
+        ratingEl.innerHTML = getProductCoaSummary(targetProduct);
     }
 
     const yieldInfo = getProductYieldLabel(targetProduct);
@@ -1914,7 +1886,7 @@ function updateCartUI() {
 
     const cartHeaderSub = document.getElementById('cartHeaderCountSub');
     if (cartHeaderSub) {
-        cartHeaderSub.textContent = `// ${count} ${count === 1 ? 'PRODUCTO' : 'PRODUCTOS'}`;
+        cartHeaderSub.textContent = `${count} ${count === 1 ? 'producto' : 'productos'}`;
     }
 
     const floatingCartBadge = document.getElementById('floatingCartBadge');
@@ -2045,8 +2017,7 @@ let socialProofIndex = 0;
 let socialProofInterval = null;
 
 function startSocialProofEngine() {
-    setTimeout(showNextSocialProof, 3500);
-    socialProofInterval = setInterval(showNextSocialProof, 20000);
+    // Desactivado: sin notificaciones falsas de ventas en vivo
 }
 
 function showNextSocialProof() {
@@ -2550,13 +2521,9 @@ function renderProductModalContent(product) {
                     : getProductSVG(product.tubType, product.tubLabel, product.tubSub)}
             </div>
             <div class="pm-quick-info">
-                ${product.rating ? `
                 <div class="product-rating" style="margin-bottom: 0.6rem;">
-                    <span class="stars" style="font-size: 1rem;">★★★★★</span>
-                    <span class="rating-score" style="margin-left: 5px;">${product.rating}</span>
-                    <span class="rating-count" style="margin-left: 5px;">(${product.reviews || 100}+ reseñas verificadas)</span>
+                    ${getProductCoaSummary(product)}
                 </div>
-                ` : ''}
                 <div class="pm-desc">${product.description}</div>
                 <div class="pm-highlights">
                     ${(product.specs || []).map((s, i) => `<span class="pm-highlight-pill ${i === 0 ? 'highlight' : ''}">${s}</span>`).join('')}
@@ -2573,9 +2540,9 @@ function renderProductModalContent(product) {
 
         <!-- TABS DE DETALLE TÉCNICO -->
         <div class="pm-tabs" role="tablist">
-            <button type="button" class="pm-tab-btn ${currentModalTab === 'nutrition' ? 'active' : ''}" id="tabBtn_nutrition" onclick="setModalTab('nutrition')">01 // Nutrición & Aminograma</button>
-            <button type="button" class="pm-tab-btn ${currentModalTab === 'timing' ? 'active' : ''}" id="tabBtn_timing" onclick="setModalTab('timing')">02 // Protocolo de Uso</button>
-            <button type="button" class="pm-tab-btn ${currentModalTab === 'coa' ? 'active' : ''}" id="tabBtn_coa" onclick="setModalTab('coa')">03 // Pureza (CoA)</button>
+            <button type="button" class="pm-tab-btn ${currentModalTab === 'nutrition' ? 'active' : ''}" id="tabBtn_nutrition" onclick="setModalTab('nutrition')">Nutrición y Aminograma</button>
+            <button type="button" class="pm-tab-btn ${currentModalTab === 'timing' ? 'active' : ''}" id="tabBtn_timing" onclick="setModalTab('timing')">Modo de Uso</button>
+            <button type="button" class="pm-tab-btn ${currentModalTab === 'coa' ? 'active' : ''}" id="tabBtn_coa" onclick="setModalTab('coa')">Certificado CoA</button>
         </div>
 
         <!-- TAB 1: TABLA NUTRICIONAL -->
@@ -2613,15 +2580,15 @@ function renderProductModalContent(product) {
         <div class="pm-tab-pane ${currentModalTab === 'timing' ? 'active' : ''}" id="tabPane_timing">
             <div class="timing-cards-grid">
                 <div class="timing-card">
-                    <div class="timing-card-title">01 // Momento Óptimo</div>
+                    <div class="timing-card-title">Momento Óptimo</div>
                     <div class="timing-card-desc">${timing.best || 'Consumir inmediatamente post-entrenamiento o entre comidas principales.'}</div>
                 </div>
                 <div class="timing-card">
-                    <div class="timing-card-title">02 // Preparación</div>
+                    <div class="timing-card-title">Preparación</div>
                     <div class="timing-card-desc">${timing.instructions || 'Disolver 1 scoop en 200-250ml de agua o bebida favorita fría.'}</div>
                 </div>
                 <div class="timing-card">
-                    <div class="timing-card-title">03 // Impacto Fisiológico</div>
+                    <div class="timing-card-title">Impacto Fisiológico</div>
                     <div class="timing-card-desc">${timing.goal || 'Máximo rendimiento, hipertrofia muscular y recuperación sin fatiga residual.'}</div>
                 </div>
             </div>
