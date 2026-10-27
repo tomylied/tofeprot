@@ -49,6 +49,14 @@ body.theme-dark {
     --font-display: 'Black Ops One', 'Russo One', sans-serif;
     --font-heading: 'Russo One', 'Chakra Petch', sans-serif;
     --font-sub: 'Chakra Petch', sans-serif;
+    --tub-cap-fill: #20202c;
+    --tub-cap-stroke: #484858;
+    --tub-cap-rib: #333344;
+    --tub-body-fill: #0c0c14;
+    --tub-body-stroke: #323242;
+    --tub-highlight: rgba(255, 255, 255, 0.16);
+    --tub-label-fill: #06060a;
+    --tub-title-fill: #ffffff;
     background-color: #050507;
 }
 
@@ -80,6 +88,14 @@ body.theme-light {
     --font-display: 'Cinzel', Georgia, serif;
     --font-heading: 'Cinzel', Georgia, serif;
     --font-sub: 'Cormorant Garamond', Georgia, serif;
+    --tub-cap-fill: #e8dfca;
+    --tub-cap-stroke: #c4b595;
+    --tub-cap-rib: #d5c7a8;
+    --tub-body-fill: #fdfbf7;
+    --tub-body-stroke: #dcd1b8;
+    --tub-highlight: rgba(255, 255, 255, 0.85);
+    --tub-label-fill: #ffffff;
+    --tub-title-fill: #181512;
     background-color: #f7f3ea;
 }
 
@@ -2423,17 +2439,22 @@ body.theme-light .product-flavor-section {
 .flavor-pill-btn {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 4px;
-    padding: 5px 10px;
-    font-size: 0.72rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 6px;
+    padding: 7px 13px;
+    min-height: 36px;
+    font-size: 0.78rem;
     color: var(--text-muted);
     cursor: pointer;
     transition: transform 0.2s var(--ease-spring), background-color 0.18s var(--ease-out), border-color 0.18s var(--ease-out), box-shadow 0.2s var(--ease-out), color 0.18s var(--ease-out);
     outline: none;
     user-select: none;
+}
+
+.flavor-pill-btn:active {
+    transform: scale(0.95) !important;
 }
 
 .flavor-pill-btn:hover {
@@ -2491,7 +2512,7 @@ body.theme-light .flavor-pill-btn.active {
 .product-image {
     background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06) 0%, rgba(0, 0, 0, 0.55) 100%);
     border-bottom: 1px solid var(--border-color);
-    height: 200px;
+    height: 215px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4052,10 +4073,14 @@ body.theme-light .cart-savings-row {
 }
 
 .vector-tub-svg {
-    width: 95px;
-    height: 115px;
-    filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.7));
+    width: 118px;
+    height: 142px;
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.7));
     transition: transform 0.24s var(--ease-out), opacity 0.22s var(--ease-out), visibility 0.22s var(--ease-out);
+}
+
+body.theme-light .vector-tub-svg {
+    filter: drop-shadow(0 8px 18px rgba(180, 140, 60, 0.22));
 }
 
 .product-card:hover .vector-tub-svg {
@@ -4684,28 +4709,44 @@ body.theme-light .copy-alias-btn:hover {
     background: linear-gradient(135deg, #d97706, #b45309);
 }
 
+/* Barra superior de tarjeta (Rating + Enlace Ficha Técnica & CoA) */
+.product-meta-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 0.45rem;
+}
+
+.product-meta-top .product-rating {
+    margin-bottom: 0;
+}
+
 /* Enlace a ficha técnica en card */
 .product-modal-trigger {
     background: transparent;
-    border: 1px dashed var(--border-color);
-    color: var(--text-muted);
-    font-size: 0.78rem;
-    font-weight: bold;
-    padding: 6px 10px;
+    border: none;
+    color: var(--accent-purple);
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 4px 6px;
     border-radius: 4px;
     cursor: pointer;
-    margin: 0.5rem 0 0.8rem 0;
-    transition: transform 0.16s var(--ease-out), background-color 0.16s var(--ease-out), color 0.16s var(--ease-out), filter 0.16s var(--ease-out);
+    margin: 0;
+    transition: transform 0.16s var(--ease-out), background-color 0.16s var(--ease-out), color 0.16s var(--ease-out);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    width: 100%;
+    gap: 5px;
+    width: auto;
+    letter-spacing: 0.3px;
 }
 .product-modal-trigger:hover {
-    border-color: var(--accent-purple);
     color: var(--text-main);
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.06);
+}
+body.theme-light .product-modal-trigger:hover {
+    background: rgba(217, 119, 6, 0.1);
 }
 
 /* ========================================== */

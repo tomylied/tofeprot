@@ -131,7 +131,7 @@ const products = [
     { id: 5, name: "Creatina - Citrus Energy (30g)", emoji: "🍋", description: "Muestra de 30g. Con electrolitos y toque cítrico.", badge: "Creatina" }
 ];
 
-// Función generadora de potes vectoriales SVG
+// Función generadora de potes vectoriales SVG (Adaptable a Berserker / Iluminado)
 function getProductSVG(type, label, sublabel) {
     const tubClass = {
         'vanilla': 'tub-vanilla',
@@ -146,23 +146,23 @@ function getProductSVG(type, label, sublabel) {
         <div class="vector-tub-wrapper ${tubClass}">
             <svg class="vector-tub-svg" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- Tapa con texturas de agarre -->
-                <rect x="25" y="10" width="50" height="14" rx="3" fill="#20202c" stroke="#484858" stroke-width="2"/>
-                <line x1="35" y1="12" x2="35" y2="22" stroke="#333344" stroke-width="1.5"/>
-                <line x1="45" y1="12" x2="45" y2="22" stroke="#333344" stroke-width="1.5"/>
-                <line x1="55" y1="12" x2="55" y2="22" stroke="#333344" stroke-width="1.5"/>
-                <line x1="65" y1="12" x2="65" y2="22" stroke="#333344" stroke-width="1.5"/>
+                <rect x="25" y="10" width="50" height="14" rx="3" fill="var(--tub-cap-fill, #20202c)" stroke="var(--tub-cap-stroke, #484858)" stroke-width="2"/>
+                <line x1="35" y1="12" x2="35" y2="22" stroke="var(--tub-cap-rib, #333344)" stroke-width="1.5"/>
+                <line x1="45" y1="12" x2="45" y2="22" stroke="var(--tub-cap-rib, #333344)" stroke-width="1.5"/>
+                <line x1="55" y1="12" x2="55" y2="22" stroke="var(--tub-cap-rib, #333344)" stroke-width="1.5"/>
+                <line x1="65" y1="12" x2="65" y2="22" stroke="var(--tub-cap-rib, #333344)" stroke-width="1.5"/>
                 
                 <!-- Cuerpo del pote -->
-                <path d="M15 28C15 25.5 17 24 19.5 24H80.5C83 24 85 25.5 85 28V106C85 110.5 81.5 114 77 114H23C18.5 114 15 110.5 15 106V28Z" fill="#0c0c14" stroke="#323242" stroke-width="2.5"/>
+                <path d="M15 28C15 25.5 17 24 19.5 24H80.5C83 24 85 25.5 85 28V106C85 110.5 81.5 114 77 114H23C18.5 114 15 110.5 15 106V28Z" fill="var(--tub-body-fill, #0c0c14)" stroke="var(--tub-body-stroke, #323242)" stroke-width="2.5"/>
                 
                 <!-- Reflejo de luz lateral -->
-                <path d="M18 32V104C18 107 19.5 110 22 111" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M18 32V104C18 107 19.5 110 22 111" stroke="var(--tub-highlight, rgba(255,255,255,0.15))" stroke-width="2" stroke-linecap="round"/>
                 
                 <!-- Etiqueta central técnica -->
-                <rect x="18" y="44" width="64" height="48" rx="2" fill="#06060a" stroke="currentColor" stroke-width="1.5"/>
-                <rect x="20" y="46" width="60" height="7" fill="currentColor" opacity="0.25"/>
+                <rect x="18" y="44" width="64" height="48" rx="2" fill="var(--tub-label-fill, #06060a)" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="20" y="46" width="60" height="7" fill="currentColor" opacity="0.22"/>
                 <text x="50" y="52" font-family="'Russo One', sans-serif" font-size="6" fill="currentColor" text-anchor="middle" font-weight="900" letter-spacing="0.5">TOFEPROT</text>
-                <text x="50" y="68" font-family="'Russo One', sans-serif" font-size="7.5" fill="#ffffff" text-anchor="middle" font-weight="bold">${label || 'WHEY'}</text>
+                <text x="50" y="68" font-family="'Russo One', sans-serif" font-size="7.5" fill="var(--tub-title-fill, #ffffff)" text-anchor="middle" font-weight="bold">${label || 'WHEY'}</text>
                 <text x="50" y="78" font-family="'Orbitron', sans-serif" font-size="5" fill="currentColor" text-anchor="middle" font-weight="bold" letter-spacing="0.5">${sublabel || 'CLINICAL'}</text>
                 <circle cx="50" cy="85" r="2" fill="currentColor"/>
             </svg>
@@ -184,7 +184,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         badge: "Fórmula Pura",
         rating: "4.9",
         reviews: 142,
-        specs: ["⚡ 25g Proteína", "💪 5.5g BCAAs", "🚫 0% Azúcar"],
+        specs: ["25g Proteína", "5.5g BCAAs", "0% Azúcar"],
         flavors: [
             { id: 101, name: "Vainilla Oscura", short: "Vainilla", icon: "🥛", color: "#f5d061", tubType: "vanilla", tubSub: "VANILLA" },
             { id: 102, name: "Chocolate Berserk", short: "Chocolate", icon: "🍫", color: "#6b4226", tubType: "chocolate", tubSub: "BERSERK" },
@@ -221,6 +221,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
     },
     { 
         id: 102, 
+        isVariantOnly: true,
         name: "Proteína Whey 1kg - Chocolate Berserk", 
         emoji: "🍫", 
         tubType: "chocolate",
@@ -231,7 +232,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         badge: "Top Sabor",
         rating: "5.0",
         reviews: 198,
-        specs: ["⚡ 25g Proteína", "💪 5.5g BCAAs", "🍫 Cacao Berserk"],
+        specs: ["25g Proteína", "5.5g BCAAs", "Cacao Alcalino"],
         flavors: [
             { id: 102, name: "Chocolate Berserk", short: "Chocolate", icon: "🍫", color: "#6b4226", tubType: "chocolate", tubSub: "BERSERK" },
             { id: 101, name: "Vainilla Oscura", short: "Vainilla", icon: "🥛", color: "#f5d061", tubType: "vanilla", tubSub: "VANILLA" },
@@ -268,6 +269,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
     },
     { 
         id: 103, 
+        isVariantOnly: true,
         name: "Proteína Whey 1kg - Frutilla Sagrada", 
         emoji: "🍓", 
         tubType: "strawberry",
@@ -278,7 +280,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         badge: "Proteína",
         rating: "4.8",
         reviews: 86,
-        specs: ["⚡ 25g Proteína", "🍓 Sabor Natural", "🚫 Sin TACC"],
+        specs: ["25g Proteína", "Sabor Natural", "Sin TACC"],
         flavors: [
             { id: 103, name: "Frutilla Sagrada", short: "Frutilla", icon: "🍓", color: "#e91e63", tubType: "strawberry", tubSub: "BERRY" },
             { id: 102, name: "Chocolate Berserk", short: "Chocolate", icon: "🍫", color: "#6b4226", tubType: "chocolate", tubSub: "BERSERK" },
@@ -325,7 +327,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         badge: "Más Vendido",
         rating: "5.0",
         reviews: 312,
-        specs: ["🧪 100% Pura Micronizada", "⚡ Energía ATP", "🚫 0% Relleno"],
+        specs: ["100% Micronizada", "200 Mesh", "0% Relleno"],
         flavors: [
             { id: 104, name: "Pura Micronizada (200 Mesh)", short: "Neutra", icon: "🧪", color: "#00e5ff", tubType: "creatine", tubSub: "200 MESH" },
             { id: 105, name: "Citrus Energy (Electrolitos)", short: "Citrus", icon: "🍋", color: "#ccff00", tubType: "citrus", tubSub: "ELECTRO" }
@@ -358,6 +360,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
     },
     { 
         id: 105, 
+        isVariantOnly: true,
         name: "Creatina Citrus Energy 300g", 
         emoji: "🍋", 
         tubType: "citrus",
@@ -368,7 +371,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         badge: "Creatina",
         rating: "4.9",
         reviews: 94,
-        specs: ["🧪 Creatina + Sales", "🍋 Sabor Cítrico", "💧 Hidratación"],
+        specs: ["Creatina + Sales", "Electrolitos", "Hidratación"],
         flavors: [
             { id: 105, name: "Citrus Energy (Electrolitos)", short: "Citrus", icon: "🍋", color: "#ccff00", tubType: "citrus", tubSub: "ELECTRO" },
             { id: 104, name: "Pura Micronizada (200 Mesh)", short: "Neutra", icon: "🧪", color: "#00e5ff", tubType: "creatine", tubSub: "200 MESH" }
@@ -412,7 +415,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         badge: "Poder Extremo",
         rating: "4.9",
         reviews: 215,
-        specs: ["🔥 300mg Cafeína", "💥 6g Citrulina", "⚡ 3.2g Beta-Alanina"],
+        specs: ["300mg Cafeína", "6g Citrulina", "3.2g Beta-Alanina"],
         flavors: [
             { id: 106, name: "Wild Blood Berserk", short: "Wild Blood", icon: "🩸", color: "#ff1744", tubType: "preworkout", tubSub: "BERSERK" },
             { id: 106, name: "Electric Blue Punch", short: "Blue Punch", icon: "⚡", color: "#00e5ff", tubType: "preworkout", tubSub: "PUMP" }
@@ -454,12 +457,14 @@ function getIndividualProducts() {
         if (saved) {
             let parsed = JSON.parse(saved);
             if (Array.isArray(parsed) && parsed.length > 0) {
-                // Sincronizar variantes y sabores con los valores por defecto
+                // Sincronizar variantes, specs limpios y sabores con los valores por defecto
                 parsed = parsed.map(p => {
                     const def = DEFAULT_INDIVIDUAL_PRODUCTS.find(d => d.id === p.id);
                     if (def) {
                         if (!p.flavors || p.flavors.length === 0) p.flavors = def.flavors;
                         if (!p.badge) p.badge = def.badge;
+                        p.specs = def.specs;
+                        p.isVariantOnly = def.isVariantOnly || false;
                     }
                     return p;
                 });
@@ -1086,11 +1091,11 @@ function calculateMacros() {
 
     document.getElementById('calcResult').innerHTML = `
         <div class="macro-chart-container">
-            <div class="macro-chart-title">⚡ Análisis Gráfico Biométrico</div>
+            <div class="macro-chart-title">Análisis Gráfico Biométrico</div>
             
             <div class="chart-row">
                 <div class="chart-label-info">
-                    <span>🥛 Proteína Diaria</span>
+                    <span>Proteína Diaria</span>
                     <span style="color: var(--accent-purple);">${protein}g</span>
                 </div>
                 <div class="chart-bar-bg">
@@ -1100,7 +1105,7 @@ function calculateMacros() {
 
             <div class="chart-row" style="margin-top: 15px;">
                 <div class="chart-label-info">
-                    <span>💪 Creatina Diaria</span>
+                    <span>Creatina Diaria</span>
                     <span style="color: var(--accent-purple);">${creatine}g</span>
                 </div>
                 <div class="chart-bar-bg">
@@ -1134,11 +1139,16 @@ function verCertificado(nombre) {
 function renderTienda(items) {
     const grid = document.getElementById('tiendaGrid');
     if (!grid) return;
-    if (items.length === 0) {
+
+    const searchEl = document.getElementById('searchInput');
+    const isSearching = searchEl && searchEl.value.trim().length > 0;
+    const displayItems = isSearching ? items : items.filter(p => !p.isVariantOnly);
+
+    if (displayItems.length === 0) {
         grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; color: var(--text-muted); padding: 3rem;">[ No se encontraron productos con ese término en la tienda ]</div>';
         return;
     }
-    grid.innerHTML = items.map(product => {
+    grid.innerHTML = displayItems.map(product => {
         const stock = getStock(product.id);
         const isSoldOut = stock <= 0;
         const badgeHTML = product.badge ? `<div class="product-badge holographic-badge" data-badge="${product.badge}">${product.badge}</div>` : '';
@@ -1153,7 +1163,7 @@ function renderTienda(items) {
 
         const ratingHTML = product.rating ? `
             <div class="product-rating">
-                <span class="stars">★★★★★</span>
+                <span class="stars" aria-label="Calificación ${product.rating} de 5">★★★★★</span>
                 <span style="font-weight:bold; color:var(--text-main); font-size:0.75rem;">${product.rating}</span>
                 <span class="rating-count">(${product.reviews || 100}+ reseñas)</span>
             </div>
@@ -1176,7 +1186,7 @@ function renderTienda(items) {
                                 onclick="selectQuickFlavor(${product.id}, ${idx}, event)"
                                 title="${flv.name}">
                             <span class="flavor-pill-dot" style="background: ${flv.color};"></span>
-                            <span class="flavor-pill-text">${flv.icon} ${flv.short}</span>
+                            <span class="flavor-pill-text">${flv.short}</span>
                         </button>
                     `).join('')}
                 </div>
@@ -1191,18 +1201,23 @@ function renderTienda(items) {
             <div class="product-card card-3d-tilt ${isSoldOut ? 'is-sold-out' : ''}" id="prodCard_${product.id}">
                 ${soldOutBadge}
                 ${badgeHTML}
-                <div class="product-image" id="prodImg_${product.id}" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))" style="cursor: pointer;" title="Click para ver ficha completa">
+                <div class="product-image" id="prodImg_${product.id}" role="button" tabindex="0" aria-label="Ver ficha técnica de ${product.name}" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer;" title="Click para ver ficha completa">
                     ${product.customImage 
-                        ? `<img src="${product.customImage}" alt="${product.name}" class="product-custom-img" style="max-height: 120px; max-width: 120px; object-fit: contain; margin: 0 auto; filter: drop-shadow(0 6px 15px rgba(0,0,0,0.7)); display:block;">` 
+                        ? `<img src="${product.customImage}" alt="${product.name}" class="product-custom-img" style="max-height: 140px; max-width: 140px; object-fit: contain; margin: 0 auto; filter: drop-shadow(0 6px 15px rgba(0,0,0,0.7)); display:block;">` 
                         : getProductSVG(product.tubType, product.tubLabel, product.tubSub)}
                 </div>
                 <div class="product-info">
-                    ${ratingHTML}
-                    <div class="product-name" id="prodName_${product.id}" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))" style="cursor: pointer;" title="Ver Ficha Técnica">${product.name}</div>
+                    <div class="product-meta-top">
+                        ${ratingHTML}
+                        <button type="button" class="product-modal-trigger" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v7.31a2 2 0 0 0 .69 1.51l5.62 4.9A2 2 0 0 1 17 17.24V20a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-2.76a2 2 0 0 1 .69-1.51l5.62-4.9A2 2 0 0 0 14 9.31V2"></path><line x1="8.5" y1="2" x2="15.5" y2="2"></line></svg>
+                            <span>Ficha & CoA →</span>
+                        </button>
+                    </div>
+                    <div class="product-name" id="prodName_${product.id}" role="button" tabindex="0" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer;" title="Ver Ficha Técnica">${product.name}</div>
                     <div class="product-desc" id="prodDesc_${product.id}">${product.description}</div>
                     ${specsHTML}
                     ${flavorSelectorHTML}
-                    <button class="product-modal-trigger" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))">🔬 Ficha Técnica & Nutrición</button>
                     <div class="product-price" id="prodPrice_${product.id}">
                         <div class="price-container">
                             <span class="price">${formatPrice(product.price)}</span>
