@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Proteínas Whey, Creatina Pura 200 Mesh y Pre-entreno Berserk. Elige tu bando: Luz o Oscuridad.">
     <meta name="twitter:image" content="assets/images/logo-oscuridad.png">
 
-    <link rel="stylesheet" href="css/styles.css?v=4.1">
+    <link rel="stylesheet" href="css/styles.css?v=4.2">
 
     <!-- Pre-detección de bando guardado: ingreso directo sin parpadeo del Gateway -->
     <script>
@@ -408,65 +408,214 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- 8.5 MANIFIESTO TOFEPROT (VALUE PROP)       -->
+    <!-- 8.5 ESTÁNDAR TOFEPROT (INSPECTOR DE PUREZA) -->
     <!-- ========================================== -->
-    <div class="section-wrapper reveal-on-scroll">
+    <div class="section-wrapper manifesto-band-wrapper reveal-on-scroll">
         <section class="manifesto-section">
             <div class="editorial-section-header">
-                <h2 class="section-title">Estándar Tofeprot</h2>
-                <p class="editorial-subtitle">Tres compromisos técnicos verificables en cada lote que sale de planta.</p>
+                <h2 class="section-title">Estándar de Pureza Clínica</h2>
+                <p class="editorial-subtitle">Inspeccioná la composición real dentro de cada scoop de 30g frente a los suplementos comerciales rebajados con rellenos.</p>
             </div>
-            <div class="manifesto-grid">
-                <div class="manifesto-card">
-                    <div class="manifesto-card-top">
-                        <span class="manifesto-index">200 MESH</span>
+
+            <div class="purity-inspector-layout">
+                <!-- COLUMNA IZQUIERDA: IMAGEN EDITORIAL MACRO + SELECTOR DE PILARES -->
+                <div class="purity-left-col">
+                    <div class="purity-visual-frame">
+                        <img src="assets/images/purity-macro-lab.jpg?v=4.2" alt="Textura micronizada 200 Mesh de grado clínico en laboratorio" class="purity-macro-img" loading="lazy">
+                        <div class="purity-visual-overlay">
+                            <span class="purity-overlay-tag" id="purityOverlayTag">MOLIENDA FÍSICA 200 MESH</span>
+                            <p class="purity-overlay-caption" id="purityOverlayCaption">Partícula micronizada 20 veces más fina que el polvo estándar para disolución total en agua fría y absorción celular sin pesadez.</p>
+                        </div>
                     </div>
-                    <h3>Micronizado Ultrafino</h3>
-                    <p>Molienda física a malla 200 para disolución inmediata en agua fría, absorción celular directa y digestión sin pesadez.</p>
+
+                    <div class="purity-pillars-nav" role="tablist" aria-label="Pilares técnicos de pureza Tofeprot">
+                        <button type="button" class="purity-pillar-btn active" onclick="selectPurityPillar('mesh', this)" role="tab" aria-selected="true">
+                            <div class="pillar-btn-top">
+                                <span class="pillar-metric">200 MESH</span>
+                                <span class="pillar-title">Micronizado Ultrafino</span>
+                            </div>
+                            <p class="pillar-desc">Disolución inmediata sin residuos arenosos en el fondo del shaker.</p>
+                        </button>
+
+                        <button type="button" class="purity-pillar-btn" onclick="selectPurityPillar('hplc', this)" role="tab" aria-selected="false">
+                            <div class="pillar-btn-top">
+                                <span class="pillar-metric">99.8% HPLC</span>
+                                <span class="pillar-title">Dosis Auditadas por Lote</span>
+                            </div>
+                            <p class="pillar-desc">Certificado de Análisis (CoA) verificable. Sin glicina ni taurina de relleno.</p>
+                        </button>
+
+                        <button type="button" class="purity-pillar-btn" onclick="selectPurityPillar('zero', this)" role="tab" aria-selected="false">
+                            <div class="pillar-btn-top">
+                                <span class="pillar-metric">0% RELLENOS</span>
+                                <span class="pillar-title">Materia Prima Importada</span>
+                            </div>
+                            <p class="pillar-desc">Cero maltodextrina oculta, cero espesantes artificiales y cero azúcar agregada.</p>
+                        </button>
+                    </div>
                 </div>
-                <div class="manifesto-card">
-                    <div class="manifesto-card-top">
-                        <span class="manifesto-index">99.8% HPLC</span>
+
+                <!-- COLUMNA DERECHA: COMPARADOR INTERACTIVO DE SCOOP (30G) -->
+                <div class="purity-right-col">
+                    <div class="scoop-inspector-card">
+                        <div class="scoop-inspector-header">
+                            <div>
+                                <div class="scoop-inspector-title">Radiografía de 1 Scoop (30 g)</div>
+                                <div class="scoop-inspector-sub">Alterná para comparar qué ingresa realmente a tu organismo</div>
+                            </div>
+                            <span class="scoop-weight-pill" id="scoopAuditBadge">Lote Auditado CoA</span>
+                        </div>
+
+                        <div class="purity-compare-toggle" role="group" aria-label="Comparar fórmula Tofeprot vs Marca Comercial">
+                            <button type="button" class="compare-mode-btn active" id="btnCompareTofeprot" onclick="setPurityComparison('tofeprot')">
+                                Tofeprot Grado Clínico
+                            </button>
+                            <button type="button" class="compare-mode-btn" id="btnCompareGeneric" onclick="setPurityComparison('generic')">
+                                Comercial con Rellenos
+                            </button>
+                        </div>
+
+                        <!-- BARRA ESPECTRAL DEL SCOOP -->
+                        <div class="scoop-spectrum-wrap">
+                            <div class="scoop-spectrum-labels">
+                                <span id="spectrumLabelMain">80% Proteína Pura (24g)</span>
+                                <span id="spectrumLabelSecondary">18% BCAA (5.5g)</span>
+                                <span id="spectrumLabelFiller">0% Maltodextrina</span>
+                            </div>
+                            <div class="scoop-spectrum-bar" id="scoopSpectrumBar">
+                                <div class="spectrum-seg seg-protein" id="segProtein" style="width: 80%;"></div>
+                                <div class="spectrum-seg seg-bcaa" id="segBcaa" style="width: 18%;"></div>
+                                <div class="spectrum-seg seg-filler" id="segFiller" style="width: 2%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- DESGLOSE DE MÉTRICAS CON ANIMACIÓN GPU -->
+                        <div class="scoop-metrics-list">
+                            <div class="scoop-metric-row">
+                                <div class="scoop-metric-head">
+                                    <span class="scoop-metric-name">Proteína Biodisponible Real</span>
+                                    <span class="scoop-metric-val highlight-good" id="valBioProtein">24.0 g / scoop (80%)</span>
+                                </div>
+                                <div class="scoop-meter-track">
+                                    <div class="scoop-meter-fill fill-primary" id="barBioProtein" style="transform: scaleX(0.92);"></div>
+                                </div>
+                            </div>
+
+                            <div class="scoop-metric-row">
+                                <div class="scoop-metric-head">
+                                    <span class="scoop-metric-name">Leucina + BCAAs Naturales de Suero</span>
+                                    <span class="scoop-metric-val" id="valBcaa">5.5 g naturales (Sin Amino-Spiking)</span>
+                                </div>
+                                <div class="scoop-meter-track">
+                                    <div class="scoop-meter-fill fill-secondary" id="barBcaa" style="transform: scaleX(0.88);"></div>
+                                </div>
+                            </div>
+
+                            <div class="scoop-metric-row">
+                                <div class="scoop-metric-head">
+                                    <span class="scoop-metric-name">Maltodextrina, Azúcar y Espesantes</span>
+                                    <span class="scoop-metric-val" id="valFillers">0.0 g (Libre de rellenos)</span>
+                                </div>
+                                <div class="scoop-meter-track">
+                                    <div class="scoop-meter-fill fill-danger" id="barFillers" style="transform: scaleX(0.03);"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="scoop-verdict-box" id="scoopVerdictBox">
+                            <div class="verdict-status-dot status-pure" id="verdictDot"></div>
+                            <div class="verdict-text" id="scoopVerdictText">
+                                <strong>Fórmula 100% transparente:</strong> Cada servicio entrega proteína concentrada e isolada real verificada por cromatografía líquida (HPLC), sin carbohidratos baratos escondidos.
+                            </div>
+                        </div>
+
+                        <div class="scoop-inspector-footer">
+                            <button type="button" class="purity-coa-btn" onclick="verCertificado('Proteína Whey 1kg - Chocolate Berserk')">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                                <span>Inspeccionar Certificado de Análisis (CoA)</span>
+                            </button>
+                        </div>
                     </div>
-                    <h3>Dosis Clínicas Auditadas</h3>
-                    <p>Fórmulas abiertas respaldadas por Certificado de Análisis (CoA). Lo que declara la etiqueta es exactamente lo que recibe tu músculo, sin amino-spiking.</p>
-                </div>
-                <div class="manifesto-card">
-                    <div class="manifesto-card-top">
-                        <span class="manifesto-index">0% RELLENOS</span>
-                    </div>
-                    <h3>Materia Prima Importada</h3>
-                    <p>Suero concentrado, creatina monohidrato y activos puros sin maltodextrina oculta, espesantes artificiales ni azúcares añadidos.</p>
                 </div>
             </div>
         </section>
     </div>
 
     <!-- ========================================== -->
-    <!-- 9. CALCULADORA BIOMÉTRICA DE MACROS        -->
+    <!-- 9. CONFIGURADOR BIOMÉTRICO EN VIVO         -->
     <!-- ========================================== -->
     <div class="section-wrapper reveal-on-scroll" id="calcSection">
         <section class="tools-section">
-            <div class="tools-card">
-                <div class="calc-form">
-                    <h2>Calculadora de <span>Dosis</span></h2>
-                    <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">Calculá tu requerimiento diario exacto de proteína y creatina según tu peso corporal y objetivo físico.</p>
+            <div class="tools-card bio-configurator-card">
+                <!-- PANEL IZQUIERDO: SLIDERS Y CONTROLES TÁCTILES EN TIEMPO REAL -->
+                <div class="calc-form bio-controls-panel">
+                    <h2>Configurador de <span>Dosis</span></h2>
+                    <p class="bio-panel-subtitle">Deslizá tu peso corporal, frecuencia y objetivo. El protocolo se recalcula en tiempo real según parámetros clínicos.</p>
                     
-                    <label for="calcWeight">Peso Corporal (kg)</label>
-                    <input type="number" id="calcWeight" placeholder="Ej: 75">
-                    
-                    <label for="calcGoal">Objetivo</label>
-                    <select id="calcGoal">
-                        <option value="volumen">Hipertrofia y Fuerza (+ Masa Muscular)</option>
-                        <option value="definicion">Definición y Recomposición (- Grasa)</option>
-                    </select>
-                    
-                    <button class="submit-btn" style="margin-top: 0;" onclick="calculateMacros()">Calcular Mi Dosis</button>
-                </div>
-                <div class="calc-result" id="calcResult">
-                    <div style="text-align: center; color: var(--text-muted);">
-                        Ingresá tu peso y objetivo para obtener tu recomendación diaria en gramos y scoops.
+                    <!-- 1. SLIDER DE PESO CORPORAL -->
+                    <div class="bio-control-group">
+                        <div class="bio-control-header">
+                            <label for="calcWeight">Peso Corporal</label>
+                            <div class="bio-weight-stepper">
+                                <button type="button" class="bio-step-btn" onclick="stepBiometricWeight(-1)" aria-label="Restar 1 kg">−</button>
+                                <output id="calcWeightDisplay" for="calcWeight" class="bio-live-readout">78 kg</output>
+                                <button type="button" class="bio-step-btn" onclick="stepBiometricWeight(1)" aria-label="Sumar 1 kg">+</button>
+                            </div>
+                        </div>
+                        <div class="bio-slider-wrap">
+                            <input type="range" id="calcWeight" class="bio-range-slider" min="45" max="130" value="78" step="1" oninput="updateLiveBiometrics()">
+                            <div class="bio-slider-ticks">
+                                <span>45 kg</span>
+                                <span>70 kg</span>
+                                <span>95 kg</span>
+                                <span>130 kg</span>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- 2. FRECUENCIA SEMANAL DE ENTRENO -->
+                    <div class="bio-control-group">
+                        <label>Frecuencia de Entrenamiento</label>
+                        <div class="bio-segmented-control" role="radiogroup" aria-label="Frecuencia semanal de entrenamiento">
+                            <button type="button" class="bio-seg-btn" data-days="3" onclick="setBiometricDays(3, this)">
+                                <span class="seg-main">2–3 Días</span>
+                                <span class="seg-sub">Base</span>
+                            </button>
+                            <button type="button" class="bio-seg-btn active" data-days="5" onclick="setBiometricDays(5, this)">
+                                <span class="seg-main">4–5 Días</span>
+                                <span class="seg-sub">Intenso</span>
+                            </button>
+                            <button type="button" class="bio-seg-btn" data-days="6" onclick="setBiometricDays(6, this)">
+                                <span class="seg-main">6+ Días</span>
+                                <span class="seg-sub">Atleta / PR</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 3. OBJETIVO FÍSICO -->
+                    <div class="bio-control-group">
+                        <label for="calcGoal">Objetivo Fisiológico</label>
+                        <div class="bio-goal-pills" role="radiogroup" aria-label="Objetivo fisiológico">
+                            <button type="button" class="bio-goal-btn active" data-goal="volumen" onclick="setBiometricGoal('volumen', this)">
+                                <span class="goal-btn-title">Hipertrofia y Fuerza</span>
+                                <span class="goal-btn-meta">+ Masa muscular · 2.2 g/kg</span>
+                            </button>
+                            <button type="button" class="bio-goal-btn" data-goal="definicion" onclick="setBiometricGoal('definicion', this)">
+                                <span class="goal-btn-title">Definición y Recomposición</span>
+                                <span class="goal-btn-meta">Preservar músculo en déficit · 2.5 g/kg</span>
+                            </button>
+                            <button type="button" class="bio-goal-btn" data-goal="rendimiento" onclick="setBiometricGoal('rendimiento', this)">
+                                <span class="goal-btn-title">Potencia Explosiva y PRs</span>
+                                <span class="goal-btn-meta">Máximo ATP y foco neural · 2.3 g/kg</span>
+                            </button>
+                        </div>
+                        <input type="hidden" id="calcGoal" value="volumen">
+                    </div>
+                </div>
+
+                <!-- PANEL DERECHO: MEDIDOR VIVO + PROTOCOLO RECOMENDADO 1-CLICK -->
+                <div class="calc-result bio-live-dashboard" id="calcResult">
+                    <!-- Se hidrata automáticamente en vivo al cargar y al mover controles -->
                 </div>
             </div>
         </section>
@@ -761,6 +910,6 @@
     </a>
 
     <!-- ARCHIVO JS MODULAR -->
-    <script src="js/app.js?v=4.1" defer></script>
+    <script src="js/app.js?v=4.2" defer></script>
 </body>
 </html>

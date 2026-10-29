@@ -629,6 +629,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initCard3DTilt();
     initScrollReveal();
     initSmartHeader();
+    updateLiveBiometrics();
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeNavDrawer();
@@ -709,6 +710,9 @@ function applySideTheme(side) {
     try {
         localStorage.setItem('tofeprot_side', side);
     } catch (e) {}
+    if (typeof updateLiveBiometrics === 'function') {
+        updateLiveBiometrics();
+    }
 }
 
 function selectSide(side) {
@@ -1047,60 +1051,376 @@ function filterProducts() {
 }
 
 // ========================================== */
-// CALCULADORA DE MACROS BIOMÉTRICA           */
+// INSPECTOR INTERACTIVO DE PUREZA CLÍNICA    */
 // ========================================== */
-function calculateMacros() {
-    const weight = parseFloat(document.getElementById('calcWeight').value);
-    const goal = document.getElementById('calcGoal').value;
-    
-    if (!weight || weight <= 0) {
-        document.getElementById('calcResult').innerHTML = '<span style="color:#ff4444; font-weight:bold; text-align:center; width:100%;">Ingresá un peso corporal válido en kilogramos.</span>';
-        return;
+const PURITY_PILLAR_DATA = {
+    mesh: {
+        tag: 'MOLIENDA FÍSICA 200 MESH',
+        caption: 'Partícula micronizada 20 veces más fina que el polvo estándar para disolución total en agua fría y absorción celular sin pesadez.'
+    },
+    hplc: {
+        tag: 'AUDITORÍA CROMATOGRÁFICA HPLC 99.8%',
+        caption: 'Cada lote se analiza en laboratorio independiente para certificar su aminograma real. Cero glicina ni taurina barata para inflar nitrógeno.'
+    },
+    zero: {
+        tag: 'FÓRMULA ABIERTA · 0% MALTODEXTRINA',
+        caption: 'Materia prima importada pura sin maltodextrina oculta, espesantes gomosos ni azúcares añadidos que rebajen la concentración por servicio.'
+    }
+};
+
+function selectPurityPillar(pillarKey, btnEl) {
+    const data = PURITY_PILLAR_DATA[pillarKey];
+    if (!data) return;
+
+    document.querySelectorAll('.purity-pillar-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+    });
+    if (btnEl) {
+        btnEl.classList.add('active');
+        btnEl.setAttribute('aria-selected', 'true');
     }
 
-    const protein = goal === 'volumen' ? (weight * 2.2).toFixed(0) : (weight * 2.5).toFixed(0);
-    const creatine = (weight * 0.1).toFixed(1);
-    const scoopsWhey = Math.max(1, Math.round((protein * 0.35) / 25));
+    const tagEl = document.getElementById('purityOverlayTag');
+    const capEl = document.getElementById('purityOverlayCaption');
+    const overlayBox = document.querySelector('.purity-visual-overlay');
+    if (overlayBox) {
+        overlayBox.classList.remove('pillar-fade');
+        void overlayBox.offsetWidth;
+        overlayBox.classList.add('pillar-fade');
+    }
+    if (tagEl) tagEl.textContent = data.tag;
+    if (capEl) capEl.textContent = data.caption;
 
-    const proteinPercent = Math.min((protein / 250) * 100, 100);
-    const creatinePercent = Math.min((creatine / 20) * 100, 100);
+    playSFX('click');
+}
 
-    document.getElementById('calcResult').innerHTML = `
-        <div class="macro-chart-container">
-            <div class="macro-chart-title">Requerimiento Diario Estimado</div>
-            
-            <div class="chart-row">
-                <div class="chart-label-info">
-                    <span>Proteína Total Diaria</span>
-                    <span style="color: var(--accent-purple);">${protein} g (${scoopsWhey}–${scoopsWhey + 1} scoops Whey)</span>
+function setPurityComparison(mode) {
+    const isTofeprot = mode === 'tofeprot';
+    const btnTofe = document.getElementById('btnCompareTofeprot');
+    const btnGen = document.getElementById('btnCompareGeneric');
+    if (btnTofe && btnGen) {
+        btnTofe.classList.toggle('active', isTofeprot);
+        btnGen.classList.toggle('active', !isTofeprot);
+    }
+
+    const auditBadge = document.getElementById('scoopAuditBadge');
+    const specMain = document.getElementById('spectrumLabelMain');
+    const specSec = document.getElementById('spectrumLabelSecondary');
+    const specFill = document.getElementById('spectrumLabelFiller');
+    const segProt = document.getElementById('segProtein');
+    const segBcaa = document.getElementById('segBcaa');
+    const segFill = document.getElementById('segFiller');
+
+    const valProt = document.getElementById('valBioProtein');
+    const valBcaa = document.getElementById('valBcaa');
+    const valFill = document.getElementById('valFillers');
+
+    const barProt = document.getElementById('barBioProtein');
+    const barBcaa = document.getElementById('barBcaa');
+    const barFill = document.getElementById('barFillers');
+
+    const verdictBox = document.getElementById('scoopVerdictBox');
+    const verdictDot = document.getElementById('verdictDot');
+    const verdictText = document.getElementById('scoopVerdictText');
+
+    if (isTofeprot) {
+        if (auditBadge) {
+            auditBadge.textContent = 'Lote Auditado CoA';
+            auditBadge.classList.remove('is-warning');
+        }
+        if (specMain) specMain.textContent = '80% Proteína Pura (24g)';
+        if (specSec) specSec.textContent = '18% BCAA (5.5g)';
+        if (specFill) specFill.textContent = '0% Maltodextrina';
+        if (segProt) segProt.style.width = '80%';
+        if (segBcaa) segBcaa.style.width = '18%';
+        if (segFill) segFill.style.width = '2%';
+
+        if (valProt) {
+            valProt.textContent = '24.0 g / scoop (80%)';
+            valProt.className = 'scoop-metric-val highlight-good';
+        }
+        if (valBcaa) {
+            valBcaa.textContent = '5.5 g naturales (Sin Amino-Spiking)';
+            valBcaa.className = 'scoop-metric-val';
+        }
+        if (valFill) {
+            valFill.textContent = '0.0 g (Libre de rellenos)';
+            valFill.className = 'scoop-metric-val';
+        }
+
+        if (barProt) barProt.style.transform = 'scaleX(0.92)';
+        if (barBcaa) barBcaa.style.transform = 'scaleX(0.88)';
+        if (barFill) barFill.style.transform = 'scaleX(0.03)';
+
+        if (verdictBox) verdictBox.classList.remove('is-generic');
+        if (verdictDot) {
+            verdictDot.classList.add('status-pure');
+            verdictDot.classList.remove('status-diluted');
+        }
+        if (verdictText) {
+            verdictText.innerHTML = '<strong>Fórmula 100% transparente:</strong> Cada servicio entrega proteína concentrada e isolada real verificada por cromatografía líquida (HPLC), sin carbohidratos baratos escondidos.';
+        }
+    } else {
+        if (auditBadge) {
+            auditBadge.textContent = 'Rebajado Comercial';
+            auditBadge.classList.add('is-warning');
+        }
+        if (specMain) specMain.textContent = '46% Proteína (14g)';
+        if (specSec) specSec.textContent = '10% Relleno Nitrógeno';
+        if (specFill) specFill.textContent = '44% Maltodextrina (13g)';
+        if (segProt) segProt.style.width = '46%';
+        if (segBcaa) segBcaa.style.width = '10%';
+        if (segFill) segFill.style.width = '44%';
+
+        if (valProt) {
+            valProt.textContent = '14.0 g reales / scoop (46%)';
+            valProt.className = 'scoop-metric-val highlight-warn';
+        }
+        if (valBcaa) {
+            valBcaa.textContent = '2.8 g (Inflado con glicina barata)';
+            valBcaa.className = 'scoop-metric-val highlight-warn';
+        }
+        if (valFill) {
+            valFill.textContent = '13.2 g Maltodextrina + Espesantes';
+            valFill.className = 'scoop-metric-val highlight-danger';
+        }
+
+        if (barProt) barProt.style.transform = 'scaleX(0.46)';
+        if (barBcaa) barBcaa.style.transform = 'scaleX(0.32)';
+        if (barFill) barFill.style.transform = 'scaleX(0.85)';
+
+        if (verdictBox) verdictBox.classList.add('is-generic');
+        if (verdictDot) {
+            verdictDot.classList.remove('status-pure');
+            verdictDot.classList.add('status-diluted');
+        }
+        if (verdictText) {
+            verdictText.innerHTML = '<strong>Alerta de dilución:</strong> Muchas marcas económicas declaran proteína en etiqueta pero rellenan casi la mitad del envase con maltodextrina (azúcar rápida) y aminoácidos de bajo costo.';
+        }
+    }
+
+    playSFX('click');
+}
+
+// ========================================== */
+// CONFIGURADOR BIOMÉTRICO EN VIVO            */
+// ========================================== */
+let biometricTrainingDays = 5;
+let biometricGoal = 'volumen';
+
+function stepBiometricWeight(delta) {
+    const slider = document.getElementById('calcWeight');
+    if (!slider) return;
+    const current = parseInt(slider.value, 10) || 78;
+    const min = parseInt(slider.min, 10) || 45;
+    const max = parseInt(slider.max, 10) || 130;
+    slider.value = Math.max(min, Math.min(max, current + delta));
+    updateLiveBiometrics();
+    playSFX('click');
+}
+
+function setBiometricDays(days, btnEl) {
+    biometricTrainingDays = Number(days) || 5;
+    document.querySelectorAll('.bio-seg-btn').forEach(btn => btn.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+    updateLiveBiometrics();
+    playSFX('click');
+}
+
+function setBiometricGoal(goal, btnEl) {
+    biometricGoal = goal || 'volumen';
+    const hiddenInput = document.getElementById('calcGoal');
+    if (hiddenInput) hiddenInput.value = biometricGoal;
+    document.querySelectorAll('.bio-goal-btn').forEach(btn => btn.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+    updateLiveBiometrics();
+    playSFX('click');
+}
+
+function calculateMacros() {
+    updateLiveBiometrics();
+}
+
+function updateLiveBiometrics() {
+    const slider = document.getElementById('calcWeight');
+    const resultContainer = document.getElementById('calcResult');
+    if (!slider || !resultContainer) return;
+
+    const weight = Math.max(45, Math.min(130, parseFloat(slider.value) || 78));
+    const min = parseFloat(slider.min) || 45;
+    const max = parseFloat(slider.max) || 130;
+    const sliderPct = Math.round(((weight - min) / (max - min)) * 100);
+    slider.style.setProperty('--slider-pct', `${sliderPct}%`);
+
+    const readout = document.getElementById('calcWeightDisplay');
+    if (readout) readout.textContent = `${weight} kg`;
+
+    // Factor proteico según objetivo + ajuste por frecuencia semanal
+    let baseFactor = 2.2;
+    if (biometricGoal === 'definicion') baseFactor = 2.5;
+    if (biometricGoal === 'rendimiento') baseFactor = 2.3;
+
+    const freqBonus = biometricTrainingDays >= 6 ? 0.15 : (biometricTrainingDays >= 5 ? 0.05 : -0.1);
+    const proteinFactor = +(baseFactor + freqBonus).toFixed(2);
+
+    const totalProtein = Math.round(weight * proteinFactor);
+    const totalCreatine = +(weight * 0.08).toFixed(1); // ~0.08g/kg clínico (ej. 6.2g para 78kg)
+    const recommendedScoopsWhey = (totalProtein >= 145 || biometricTrainingDays >= 5) ? 2 : 1;
+    const wheyGramsProvided = recommendedScoopsWhey * 24; // 24g proteína pura por scoop
+    const wheyCoveragePct = Math.min(60, Math.round((wheyGramsProvided / totalProtein) * 100));
+
+    // Escalas para medidor circular SVG (radio 44 -> circunferencia ~276.46)
+    const circumference = 276.46;
+    const ringProgress = Math.min(1, totalProtein / 260);
+    const dashOffset = (circumference * (1 - ringProgress)).toFixed(1);
+
+    const proteinScale = Math.min(1, +(totalProtein / 260).toFixed(2));
+    const creatineScale = Math.min(1, +(totalCreatine / 10).toFixed(2));
+
+    // Selección inteligente del Stack Tofeprot según perfil
+    const isLight = document.body.classList.contains('theme-light');
+    const preferredWheyId = isLight ? 101 : 102; // Vainilla (Luz) o Chocolate Berserk (Oscuridad)
+    const wheyProd = individualProducts.find(p => p.id === preferredWheyId) || individualProducts[0];
+    const creaProd = individualProducts.find(p => p.id === 104) || individualProducts[1];
+    const preProd = individualProducts.find(p => p.id === 106);
+
+    const includePreworkout = (biometricGoal === 'rendimiento' || biometricTrainingDays >= 6) && preProd;
+    const stackItems = includePreworkout ? [wheyProd, creaProd, preProd] : [wheyProd, creaProd];
+    const stackIds = stackItems.filter(Boolean).map(p => p.id);
+
+    const rawStackTotal = stackItems.reduce((sum, p) => sum + (p ? p.price : 0), 0);
+    const transferStackTotal = Math.round(rawStackTotal * 0.85);
+
+    const stackBadgeLabel = includePreworkout
+        ? 'TRÍADA DE ALTO RENDIMIENTO'
+        : (biometricGoal === 'definicion' ? 'PROTOCOLO DEFINICIÓN MAGRA' : 'PROTOCOLO HIPERTROFIA CLÍNICA');
+
+    resultContainer.innerHTML = `
+        <div class="bio-dashboard-inner">
+            <!-- CABECERA: ANILLO BIOMÉTRICO + LECTURAS CLAVE -->
+            <div class="bio-metrics-hero">
+                <div class="bio-ring-box">
+                    <svg class="bio-ring-svg" viewBox="0 0 104 104" aria-hidden="true">
+                        <circle class="bio-ring-track" cx="52" cy="52" r="44"></circle>
+                        <circle class="bio-ring-fill" cx="52" cy="52" r="44" style="stroke-dasharray: ${circumference}; stroke-dashoffset: ${dashOffset};"></circle>
+                    </svg>
+                    <div class="bio-ring-center">
+                        <span class="bio-ring-val">${totalProtein}<small>g</small></span>
+                        <span class="bio-ring-sub">PROT / DÍA</span>
+                    </div>
                 </div>
-                <div class="chart-bar-bg">
-                    <div class="chart-bar-fill" id="barProtein" style="width: 0%;"></div>
+
+                <div class="bio-kpis-col">
+                    <div class="bio-kpi-item">
+                        <span class="bio-kpi-label">Suplementación Whey Tofeprot</span>
+                        <span class="bio-kpi-value">${recommendedScoopsWhey} ${recommendedScoopsWhey === 1 ? 'scoop' : 'scoops'} / día (${wheyGramsProvided}g puros)</span>
+                        <span class="bio-kpi-note">Cubrís el ${wheyCoveragePct}% de tu meta diaria sin grasas ni azúcar</span>
+                    </div>
+                    <div class="bio-kpi-item">
+                        <span class="bio-kpi-label">Saturación Creatina 200 Mesh</span>
+                        <span class="bio-kpi-value">${totalCreatine} g / día (1 scoop)</span>
+                        <span class="bio-kpi-note">Reposición de ATP para ${biometricTrainingDays} días/sem de exigencia</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="chart-row" style="margin-top: 15px;">
-                <div class="chart-label-info">
-                    <span>Creatina Monohidrato</span>
-                    <span style="color: var(--accent-purple);">${creatine} g / día (1 scoop raso)</span>
+            <!-- BARRAS GPU DE REQUERIMIENTO -->
+            <div class="bio-bars-section">
+                <div class="bio-bar-row">
+                    <div class="bio-bar-labels">
+                        <span>Síntesis Proteica (${proteinFactor} g/kg)</span>
+                        <strong>${wheyGramsProvided}g Tofeprot + ${totalProtein - wheyGramsProvided}g dieta</strong>
+                    </div>
+                    <div class="bio-bar-track">
+                        <div class="bio-bar-fill" style="transform: scaleX(${proteinScale});"></div>
+                    </div>
                 </div>
-                <div class="chart-bar-bg">
-                    <div class="chart-bar-fill" id="barCreatine" style="width: 0%;"></div>
+
+                <div class="bio-bar-row">
+                    <div class="bio-bar-labels">
+                        <span>Reserva Muscular de Fosfocreatina</span>
+                        <strong>${totalCreatine} g / día · Malla 200</strong>
+                    </div>
+                    <div class="bio-bar-track">
+                        <div class="bio-bar-fill" style="transform: scaleX(${creatineScale});"></div>
+                    </div>
                 </div>
             </div>
 
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 14px;">
-                Basado en ${goal === 'volumen' ? '2.2 g/kg para superávit e hipertrofia' : '2.5 g/kg para preservar masa magra en déficit'} y 0.1 g/kg de saturación de fosfocreatina.
+            <!-- PROTOCOLO / STACK RECOMENDADO CON 1-CLICK -->
+            <div class="bio-stack-card">
+                <div class="bio-stack-top">
+                    <span class="bio-stack-tag">${stackBadgeLabel}</span>
+                    <span class="bio-stack-Gift">+1 Doypack Gratis Incluido</span>
+                </div>
+
+                <div class="bio-stack-items">
+                    ${stackItems.map(item => `
+                        <div class="bio-stack-pill">
+                            <span class="bio-stack-dot"></span>
+                            <span class="bio-stack-name">${item.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="bio-stack-footer">
+                    <div class="bio-stack-pricing">
+                        <span class="bio-stack-transfer">${formatPrice(transferStackTotal)} <small>Transferencia (15% OFF)</small></span>
+                        <span class="bio-stack-list-price">Precio de lista: ${formatPrice(rawStackTotal)} · Envío Gratis Incluido</span>
+                    </div>
+                    <button type="button" class="bio-equip-stack-btn" onclick="equipRecommendedStack([${stackIds.join(',')}], this)">
+                        EQUIPAR PROTOCOLO
+                    </button>
+                </div>
             </div>
         </div>
     `;
+}
+
+function equipRecommendedStack(productIds, btnEl) {
+    if (!Array.isArray(productIds) || productIds.length === 0) return;
+    playSFX('equip');
+
+    productIds.forEach(prodId => {
+        const product = individualProducts.find(p => p.id === prodId);
+        if (!product || getStock(prodId) <= 0) return;
+
+        const existing = cart.find(i => i.type === 'product' && i.productId === prodId);
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({
+                type: 'product',
+                id: Date.now() + Math.floor(Math.random() * 1000),
+                productId: product.id,
+                name: product.name,
+                emoji: product.emoji,
+                price: product.price,
+                qty: 1
+            });
+        }
+    });
+
+    updateCartUI();
+    saveState();
+
+    if (btnEl) {
+        const origText = btnEl.textContent;
+        btnEl.textContent = '✓ PROTOCOLO EQUIPADO';
+        btnEl.classList.add('ki-charge');
+        setTimeout(() => {
+            btnEl.classList.remove('ki-charge');
+            btnEl.textContent = origText;
+        }, 900);
+    }
 
     setTimeout(() => {
-        const bProtein = document.getElementById('barProtein');
-        const bCreatine = document.getElementById('barCreatine');
-        if (bProtein) bProtein.style.width = proteinPercent + '%';
-        if (bCreatine) bCreatine.style.width = creatinePercent + '%';
-    }, 100);
+        const cartModal = document.getElementById('cartModal');
+        if (cartModal && !cartModal.classList.contains('active')) {
+            toggleCart();
+        }
+    }, 240);
 }
 
 function verCertificado(nombre) {
