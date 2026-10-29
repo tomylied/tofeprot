@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Proteínas Whey, Creatina Pura 200 Mesh y Pre-entreno Berserk. Elige tu bando: Luz o Oscuridad.">
     <meta name="twitter:image" content="assets/images/logo-oscuridad.png">
 
-    <link rel="stylesheet" href="css/styles.css?v=4.2">
+    <link rel="stylesheet" href="css/styles.css?v=4.3">
 
     <!-- Pre-detección de bando guardado: ingreso directo sin parpadeo del Gateway -->
     <script>
@@ -259,9 +259,61 @@
         <div class="hero-video-overlay"></div>
 
         <div class="hero-editorial-container">
-            <div class="hero-img-wrapper">
-                <img id="heroLogoImg" src="assets/images/logo-wordmark-oscuridad.png?v=3.0" alt="Tofeprot Logotipo Principal" class="hero-main-img">
-            </div>
+            <button type="button" class="hero-img-wrapper hero-logo-interactive-stage" id="heroLogoStage" onclick="triggerLogoSideSwitch(event)" aria-label="Cambiar de bando entre Berserker e Iluminado" title="Tocá para cambiar de bando (Berserker / Iluminado)">
+                <!-- Capa 1: Aura radial de resonancia (GPU transform + opacity) -->
+                <span class="hero-logo-aura-back" aria-hidden="true"></span>
+
+                <!-- Capa 2: Núcleo con latido doble + fantasma del bando opuesto -->
+                <span class="hero-logo-heartbeat-core">
+                    <img id="heroLogoImg" src="assets/images/logo-wordmark-oscuridad.png?v=3.0" alt="Tofeprot Logotipo Principal" class="hero-main-img">
+                    <img id="heroLogoGhost" src="assets/images/logo-wordmark-luz.png?v=3.0" alt="" aria-hidden="true" class="hero-main-img hero-logo-ghost">
+
+                    <!-- Capa 3: Filamentos de electricidad de alto voltaje alrededor del logo -->
+                    <svg class="hero-logo-electricity-svg" viewBox="0 0 600 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="elecGradBerserk" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff2a5f" />
+                                <stop offset="50%" stop-color="#c084fc" />
+                                <stop offset="100%" stop-color="#ffffff" />
+                            </linearGradient>
+                            <linearGradient id="elecGradLight" x1="0%" y1="100%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#f59e0b" />
+                                <stop offset="50%" stop-color="#fde047" />
+                                <stop offset="100%" stop-color="#ffffff" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Arco Superior Izquierdo -> Centro -->
+                        <path class="elec-bolt bolt-1-glow" d="M38 68 L74 44 L66 56 L118 32 L112 46 L176 26 L218 42" />
+                        <path class="elec-bolt bolt-1-core" d="M38 68 L74 44 L66 56 L118 32 L112 46 L176 26 L218 42" />
+
+                        <!-- Arco Superior Derecho -> Coronación -->
+                        <path class="elec-bolt bolt-2-glow" d="M562 64 L518 38 L526 52 L468 28 L474 44 L402 30 L364 46" />
+                        <path class="elec-bolt bolt-2-core" d="M562 64 L518 38 L526 52 L468 28 L474 44 L402 30 L364 46" />
+
+                        <!-- Arco Inferior Izquierdo -> Base de letras -->
+                        <path class="elec-bolt bolt-3-glow" d="M54 152 L102 178 L96 164 L162 186 L156 172 L238 182" />
+                        <path class="elec-bolt bolt-3-core" d="M54 152 L102 178 L96 164 L162 186 L156 172 L238 182" />
+
+                        <!-- Arco Inferior Derecho -> Descarga lateral -->
+                        <path class="elec-bolt bolt-4-glow" d="M548 148 L496 176 L504 162 L438 188 L446 172 L372 180" />
+                        <path class="elec-bolt bolt-4-core" d="M548 148 L496 176 L504 162 L438 188 L446 172 L372 180" />
+
+                        <!-- Filamento Central de Ruptura (cruza el núcleo en el pico del latido) -->
+                        <path class="elec-bolt bolt-5-glow" d="M188 112 L242 88 L234 106 L306 78 L296 102 L368 84 L412 108" />
+                        <path class="elec-bolt bolt-5-core" d="M188 112 L242 88 L234 106 L306 78 L296 102 L368 84 L412 108" />
+
+                        <!-- Chispas periféricas -->
+                        <path class="elec-bolt bolt-6-core" d="M18 108 L44 96 L36 112 L62 104" />
+                        <path class="elec-bolt bolt-6-core" d="M582 106 L554 94 L562 110 L536 102" />
+                    </svg>
+                </span>
+
+                <!-- Indicador interactivo sutil de cambio de bando -->
+                <span class="hero-logo-polarity-hint" id="heroLogoPolarityHint">
+                    <span class="polarity-spark-dot" aria-hidden="true"></span>
+                    <span id="heroLogoHintText">TOCÁ EL LOGO · CAMBIAR BANDO</span>
+                </span>
+            </button>
 
             <h1 id="heroTitle" class="hero-title-glory">DESATÁ EL <span class="glory-highlight">CAOS</span></h1>
             <p id="heroDescription">El dolor no se esquiva, se conquista. Suplementación clínica sin piedad para doblegar el hierro.</p>
@@ -910,6 +962,6 @@
     </a>
 
     <!-- ARCHIVO JS MODULAR -->
-    <script src="js/app.js?v=4.2" defer></script>
+    <script src="js/app.js?v=4.3" defer></script>
 </body>
 </html>

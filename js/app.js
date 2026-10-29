@@ -670,6 +670,8 @@ window.addEventListener('storage', function(e) {
 function applySideTheme(side) {
     const body = document.body;
     const logoImg = document.getElementById('heroLogoImg');
+    const logoGhost = document.getElementById('heroLogoGhost');
+    const logoHintText = document.getElementById('heroLogoHintText');
     const headerLogoTp = document.getElementById('headerLogoTp');
     const heroTitle = document.getElementById('heroTitle');
     const heroDesc = document.getElementById('heroDescription');
@@ -680,6 +682,8 @@ function applySideTheme(side) {
     
     if (side === 'light') {
         if (logoImg) logoImg.src = 'assets/images/logo-wordmark-luz.png';
+        if (logoGhost) logoGhost.src = 'assets/images/logo-wordmark-oscuridad.png?v=3.0';
+        if (logoHintText) logoHintText.textContent = 'TOCÁ EL LOGO · DESATAR MODO BERSERKER';
         if (headerLogoTp) headerLogoTp.src = 'assets/images/logo-tp-luz.png';
         if (heroTitle) heroTitle.innerHTML = 'ASCENDÉ A LA <span class="glory-highlight">GLORIA</span>';
         if (heroDesc) heroDesc.textContent = "Disciplina, devoción y pureza absoluta. Hacé de cada gota de sudor tu ofrenda más sagrada.";
@@ -692,6 +696,8 @@ function applySideTheme(side) {
         }
     } else {
         if (logoImg) logoImg.src = 'assets/images/logo-wordmark-oscuridad.png?v=3.0';
+        if (logoGhost) logoGhost.src = 'assets/images/logo-wordmark-luz.png';
+        if (logoHintText) logoHintText.textContent = 'TOCÁ EL LOGO · TRANSMUTAR A ILUMINADO';
         if (headerLogoTp) headerLogoTp.src = 'assets/images/logo-tp-oscuridad.png';
         if (heroTitle) heroTitle.innerHTML = 'DESATÁ EL <span class="glory-highlight">CAOS</span>';
         if (heroDesc) heroDesc.textContent = "El dolor no se esquiva, se conquista. Suplementación clínica sin piedad para doblegar el hierro.";
@@ -748,6 +754,23 @@ function selectSide(side) {
 }
 
 let isSwitchingSide = false;
+
+function triggerLogoSideSwitch(event) {
+    if (event) event.stopPropagation();
+    if (isSwitchingSide) return;
+
+    const stage = document.getElementById('heroLogoStage');
+    if (stage) {
+        stage.classList.remove('is-discharging');
+        void stage.offsetWidth;
+        stage.classList.add('is-discharging');
+        setTimeout(() => {
+            stage.classList.remove('is-discharging');
+        }, 700);
+    }
+
+    switchSide();
+}
 
 function switchSide() {
     if (isSwitchingSide) return;
