@@ -1555,85 +1555,14 @@ body.theme-light .hero-logo-ghost {
     filter: drop-shadow(0 0 18px rgba(255, 42, 95, 0.75)) drop-shadow(0 0 28px rgba(168, 85, 247, 0.65));
 }
 
-/* CAPA 3: Electricidad SVG de alta tensión alrededor del logo */
-.hero-logo-electricity-svg {
+/* CAPA 3: Canvas Retina de Rayos Fractales de Alta Tensión (Midpoint Displacement + Dendritas) */
+.hero-logo-lightning-canvas {
     position: absolute;
-    inset: -12% -6%;
-    width: 112%;
-    height: 124%;
+    inset: -18% -10%;
+    width: 120%;
+    height: 136%;
     pointer-events: none;
     z-index: 3;
-    overflow: visible;
-}
-
-.elec-bolt {
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    opacity: 0;
-    will-change: opacity, transform;
-}
-
-/* Resplandor exterior de cada rayo */
-.bolt-1-glow,
-.bolt-2-glow,
-.bolt-3-glow,
-.bolt-4-glow,
-.bolt-5-glow {
-    stroke: url(#elecGradBerserk);
-    stroke-width: 5.5;
-    filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.9));
-}
-
-/* Filamento blanco/eléctrico central de cada rayo */
-.bolt-1-core,
-.bolt-2-core,
-.bolt-3-core,
-.bolt-4-core,
-.bolt-5-core,
-.bolt-6-core {
-    stroke: #ffffff;
-    stroke-width: 2;
-    stroke-dasharray: 220;
-    stroke-dashoffset: 0;
-}
-
-/* En modo Berserker alterna arcos púrpura/carmesí y destellos dorados de dualidad */
-.bolt-2-glow,
-.bolt-4-glow {
-    stroke: url(#elecGradLight);
-    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.85));
-}
-
-/* En modo Iluminado, los rayos arden con energía Berserker (Carmesí y Púrpura) */
-body.theme-light .bolt-1-glow,
-body.theme-light .bolt-2-glow,
-body.theme-light .bolt-3-glow,
-body.theme-light .bolt-4-glow,
-body.theme-light .bolt-5-glow {
-    stroke: url(#elecGradBerserk);
-    filter: drop-shadow(0 0 10px rgba(255, 42, 95, 0.95));
-}
-
-/* Sincronización de arcos eléctricos con los dos pulsos del latido */
-.bolt-1-glow,
-.bolt-1-core,
-.bolt-4-glow,
-.bolt-4-core {
-    animation: electricArcFlashA 3.6s linear infinite;
-}
-
-.bolt-2-glow,
-.bolt-2-core,
-.bolt-3-glow,
-.bolt-3-core {
-    animation: electricArcFlashB 3.6s linear infinite;
-}
-
-.bolt-5-glow,
-.bolt-5-core,
-.bolt-6-core {
-    animation: electricArcCenterSurge 3.6s linear infinite;
 }
 
 /* CAPA 4: Indicador táctil inferior de transmutación */
@@ -1863,19 +1792,6 @@ body.theme-light .polarity-spark-dot {
         animation-duration: 1.9s;
     }
     .hero-logo-interactive-stage:hover .hero-logo-ghost {
-        animation-duration: 1.9s;
-    }
-    .hero-logo-interactive-stage:hover .bolt-1-glow,
-    .hero-logo-interactive-stage:hover .bolt-1-core,
-    .hero-logo-interactive-stage:hover .bolt-2-glow,
-    .hero-logo-interactive-stage:hover .bolt-2-core,
-    .hero-logo-interactive-stage:hover .bolt-3-glow,
-    .hero-logo-interactive-stage:hover .bolt-3-core,
-    .hero-logo-interactive-stage:hover .bolt-4-glow,
-    .hero-logo-interactive-stage:hover .bolt-4-core,
-    .hero-logo-interactive-stage:hover .bolt-5-glow,
-    .hero-logo-interactive-stage:hover .bolt-5-core,
-    .hero-logo-interactive-stage:hover .bolt-6-core {
         animation-duration: 1.9s;
     }
     .hero-logo-interactive-stage:hover .hero-logo-polarity-hint {

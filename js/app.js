@@ -626,6 +626,7 @@ document.addEventListener('DOMContentLoaded', function() {
     startSocialProofEngine();
     initGatewayParticles();
     initHeroParticles();
+    initHeroLogoLightning();
     initCard3DTilt();
     initScrollReveal();
     initSmartHeader();
@@ -769,7 +770,354 @@ function triggerLogoSideSwitch(event) {
         }, 700);
     }
 
+    if (typeof pulseLogoLightningDischarge === 'function') {
+        pulseLogoLightningDischarge();
+    }
+
     switchSide();
+}
+
+// ========================================== */
+// MOTOR PROCEDURAL DE RAYOS FRACTALES (VFX)  */
+// ========================================== */
+let logoLightningBurstUntil = 0;
+
+function pulseLogoLightningDischarge() {
+    logoLightningBurstUntil = performance.now() + 680;
+}
+
+function initHeroLogoLightning() {
+    const canvas = document.getElementById('heroLogoLightningCanvas');
+    const stage = document.getElementById('heroLogoStage');
+    if (!canvas || !stage) return;
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let cssW = 0;
+    let cssH = 0;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let isHovered = false;
+    let isVisible = true;
+    let activeBolts = [];
+    let lastGenTime = 0;
+    const cycleStart = performance.now();
+
+    function resizeLightningCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+            cssW = rect.width;
+            cssH = rect.height;
+            canvas.width = Math.round(cssW * dpr);
+            canvas.height = Math.round(cssH * dpr);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+    }
+
+    resizeLightningCanvas();
+    window.addEventListener('resize', resizeLightningCanvas);
+    const logoImg = document.getElementById('heroLogoImg');
+    if (logoImg) {
+        logoImg.addEventListener('load', resizeLightningCanvas);
+    }
+
+    stage.addEventListener('pointerenter', () => {
+        isHovered = true;
+        lastGenTime = 0;
+    });
+    stage.addEventListener('pointerleave', () => {
+        isHovered = false;
+    });
+
+    if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                isVisible = entry.isIntersecting;
+            });
+        }, { threshold: 0.05 });
+        obs.observe(stage);
+    }
+
+    // Subdivisión recursiva por desplazamiento de punto medio (Midpoint Displacement Fractal)
+    function buildFractalPoints(x1, y1, x2, y2, displace, depth) {
+        if (depth <= 0 || displace < 1.2) {
+            return [{ x: x1, y: y1 }, { x: x2, y: y2 }];
+        }
+        const midX = (x1 + x2) * 0.5;
+        const midY = (y1 + y2) * 0.5;
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const len = Math.hypot(dx, dy) || 1;
+        const nx = -dy / len;
+        const ny = dx / len;
+        const jitter = (Math.random() - 0.5) * displace;
+        const mx = midX + nx * jitter + (Math.random() - 0.5) * (displace * 0.18);
+        const my = midY + ny * jitter + (Math.random() - 0.5) * (displace * 0.18);
+
+        const left = buildFractalPoints(x1, y1, mx, my, displace * 0.54, depth - 1);
+        const right = buildFractalPoints(mx, my, x2, y2, displace * 0.54, depth - 1);
+        return left.slice(0, -1).concat(right);
+    }
+
+    // Genera un rayo principal con dendritas/ramificaciones secundarias y terciarias
+    function createHighVoltageBolt(x1, y1, x2, y2, palette, intensityScale) {
+        const dist = Math.hypot(x2 - x1, y2 - y1);
+        const initialDisplace = Math.min(48, Math.max(16, dist * 0.24)) * intensityScale;
+        const trunk = buildFractalPoints(x1, y1, x2, y2, initialDisplace, 5);
+        const branches = [];
+
+        const mainAngle = Math.atan2(y2 - y1, x2 - x1);
+        const numBranches = 2 + Math.floor(Math.random() * 3);
+
+        for (let b = 0; b < numBranches; b++) {
+            const idx = Math.floor(trunk.length * (0.2 + Math.random() * 0.6));
+            const origin = trunk[idx];
+            if (!origin) continue;
+
+            const sideSign = Math.random() < 0.5 ? -1 : 1;
+            const branchAngle = mainAngle + sideSign * (0.35 + Math.random() * 0.52);
+            const branchLen = dist * (0.22 + Math.random() * 0.26);
+            const bx2 = origin.x + Math.cos(branchAngle) * branchLen;
+            const by2 = origin.y + Math.sin(branchAngle) * branchLen;
+
+            const branchPts = buildFractalPoints(origin.x, origin.y, bx2, by2, initialDisplace * 0.45, 4);
+            branches.push({ points: branchPts, weight: 0.65 });
+
+            // Sub-rama fina (dendrita terciaria)
+            if (Math.random() < 0.65 && branchPts.length > 4) {
+                const subOrigin = branchPts[Math.floor(branchPts.length * 0.45)];
+                const subAngle = branchAngle + (Math.random() < 0.5 ? -0.4 : 0.4);
+                const subLen = branchLen * 0.52;
+                const sx2 = subOrigin.x + Math.cos(subAngle) * subLen;
+                const sy2 = subOrigin.y + Math.sin(subAngle) * subLen;
+                const subPts = buildFractalPoints(subOrigin.x, subOrigin.y, sx2, sy2, initialDisplace * 0.25, 3);
+                branches.push({ points: subPts, weight: 0.38 });
+            }
+        }
+
+        return {
+            trunk,
+            branches,
+            palette,
+            alpha: 0.88 + Math.random() * 0.12
+        };
+    }
+
+    // Rutas anatómicas alrededor y a través del logotipo
+    function spawnBoltSet(count, intensityScale) {
+        if (cssW === 0 || cssH === 0) resizeLightningCanvas();
+        if (cssW === 0 || cssH === 0) return [];
+
+        const isLightMode = document.body.classList.contains('theme-light');
+
+        // Paletas de plasma: en modo Iluminado domina la electricidad Berserker (Carmesí/Violeta) queriendo irrumpir;
+        // en modo Berserker alterna Púrpura/Carmesí con arcos de Oro eléctrico del modo Iluminado
+        const berserkCrimson = {
+            outer: 'rgba(255, 24, 76, 0.28)',
+            mid: '#ff2a5f',
+            core: '#ffffff',
+            flare: '#ff4d79'
+        };
+        const berserkViolet = {
+            outer: 'rgba(168, 85, 247, 0.30)',
+            mid: '#c084fc',
+            core: '#ffffff',
+            flare: '#e879f9'
+        };
+        const iluminadoGold = {
+            outer: 'rgba(245, 158, 11, 0.28)',
+            mid: '#fbbf24',
+            core: '#ffffff',
+            flare: '#fef08a'
+        };
+
+        const anchors = [
+            // 1. Arco superior izquierdo hacia corona central
+            {
+                x1: cssW * (0.06 + Math.random() * 0.06),
+                y1: cssH * (0.36 + Math.random() * 0.12),
+                x2: cssW * (0.42 + Math.random() * 0.12),
+                y2: cssH * (0.16 + Math.random() * 0.12),
+                pal: isLightMode ? berserkCrimson : berserkViolet
+            },
+            // 2. Arco superior derecho hacia el centro
+            {
+                x1: cssW * (0.94 - Math.random() * 0.06),
+                y1: cssH * (0.34 + Math.random() * 0.14),
+                x2: cssW * (0.52 + Math.random() * 0.12),
+                y2: cssH * (0.18 + Math.random() * 0.12),
+                pal: isLightMode ? berserkViolet : iluminadoGold
+            },
+            // 3. Filamento de alta tensión cruzando el núcleo de las letras
+            {
+                x1: cssW * (0.18 + Math.random() * 0.08),
+                y1: cssH * (0.54 + (Math.random() - 0.5) * 0.14),
+                x2: cssW * (0.82 - Math.random() * 0.08),
+                y2: cssH * (0.48 + (Math.random() - 0.5) * 0.14),
+                pal: berserkCrimson
+            },
+            // 4. Descarga inferior izquierda -> base central
+            {
+                x1: cssW * (0.10 + Math.random() * 0.08),
+                y1: cssH * (0.68 + Math.random() * 0.10),
+                x2: cssW * (0.46 + Math.random() * 0.10),
+                y2: cssH * (0.82 - Math.random() * 0.08),
+                pal: isLightMode ? berserkCrimson : iluminadoGold
+            },
+            // 5. Descarga inferior derecha -> flanco derecho
+            {
+                x1: cssW * (0.90 - Math.random() * 0.08),
+                y1: cssH * (0.66 + Math.random() * 0.10),
+                x2: cssW * (0.54 + Math.random() * 0.10),
+                y2: cssH * (0.80 - Math.random() * 0.08),
+                pal: berserkViolet
+            }
+        ];
+
+        // Mezclar y elegir `count` rutas
+        const shuffled = anchors.sort(() => Math.random() - 0.5).slice(0, count);
+        return shuffled.map(a => createHighVoltageBolt(a.x1, a.y1, a.x2, a.y2, a.pal, intensityScale));
+    }
+
+    function strokePolylineTapering(points, baseWidth, color, shadowColor, shadowBlur, alpha) {
+        if (!points || points.length < 2) return;
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.strokeStyle = color;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        if (shadowBlur > 0 && shadowColor) {
+            ctx.shadowColor = shadowColor;
+            ctx.shadowBlur = shadowBlur;
+        }
+
+        // Trazado segmentado en 3 tramos (inicio ahusado -> cuerpo central potente -> punta afilada)
+        const n = points.length;
+        const p1 = Math.max(1, Math.floor(n * 0.18));
+        const p2 = Math.max(p1 + 1, Math.floor(n * 0.82));
+
+        const sections = [
+            { start: 0, end: p1, w: baseWidth * 0.68 },
+            { start: p1, end: p2, w: baseWidth },
+            { start: p2, end: n - 1, w: baseWidth * 0.55 }
+        ];
+
+        for (const sec of sections) {
+            if (sec.end <= sec.start) continue;
+            ctx.beginPath();
+            ctx.lineWidth = sec.w;
+            ctx.moveTo(points[sec.start].x, points[sec.start].y);
+            for (let i = sec.start + 1; i <= sec.end; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    function drawContactFlare(pt, color, radius, alpha) {
+        if (!pt) return;
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        const grad = ctx.createRadialGradient(pt.x, pt.y, 0.5, pt.x, pt.y, radius);
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.35, color);
+        grad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    }
+
+    function renderBolt(bolt, masterAlpha) {
+        const a = bolt.alpha * masterAlpha;
+        if (a <= 0.02) return;
+        const pal = bolt.palette;
+
+        // 1. Corona exterior de plasma ionizado
+        strokePolylineTapering(bolt.trunk, 9.5, pal.outer, pal.mid, 18, a * 0.9);
+        // 2. Canal medio de color saturado
+        strokePolylineTapering(bolt.trunk, 3.4, pal.mid, pal.mid, 12, a * 0.95);
+        // 3. Núcleo incandescente blanco puro
+        strokePolylineTapering(bolt.trunk, 1.35, pal.core, '#ffffff', 5, a);
+
+        // Ramificaciones / Dendritas secundarias y terciarias
+        for (const br of bolt.branches) {
+            const w = br.weight;
+            strokePolylineTapering(br.points, 5.2 * w, pal.outer, pal.mid, 10, a * 0.75);
+            strokePolylineTapering(br.points, 2.1 * w, pal.mid, pal.mid, 6, a * 0.85);
+            strokePolylineTapering(br.points, 0.85 * w, pal.core, null, 0, a * 0.95);
+        }
+
+        // Destellos de contacto en los puntos donde el arco muerde el metal
+        drawContactFlare(bolt.trunk[0], pal.flare, 11, a * 0.85);
+        drawContactFlare(bolt.trunk[bolt.trunk.length - 1], pal.flare, 9, a * 0.75);
+    }
+
+    function animateLightningLoop(now) {
+        requestAnimationFrame(animateLightningLoop);
+        if (!isVisible) return;
+
+        ctx.clearRect(0, 0, cssW, cssH);
+
+        const isBursting = now < logoLightningBurstUntil;
+        const cycleDuration = isHovered ? 1900 : 3600;
+        const phase = ((now - cycleStart) % cycleDuration) / cycleDuration;
+
+        // Ventanas de descarga sincronizadas con el doble latido (Sístole/Diástole: 8%-25% y 58%-71%)
+        let dischargeIntensity = 0;
+        let desiredBolts = 0;
+
+        if (isBursting) {
+            dischargeIntensity = 1.0;
+            desiredBolts = 5;
+        } else if (phase >= 0.08 && phase <= 0.25) {
+            // Pulso principal donde el bando opuesto intenta irrumpir
+            const localT = (phase - 0.08) / 0.17;
+            dischargeIntensity = Math.sin(localT * Math.PI);
+            desiredBolts = isHovered ? 4 : 3;
+        } else if (phase >= 0.58 && phase <= 0.71) {
+            // Segundo pulso del latido
+            const localT = (phase - 0.58) / 0.13;
+            dischargeIntensity = Math.sin(localT * Math.PI) * 0.88;
+            desiredBolts = isHovered ? 3 : 2;
+        } else if (isHovered) {
+            // Tensión continua al apoyar el cursor
+            dischargeIntensity = 0.62;
+            desiredBolts = 2;
+        } else if ((phase >= 0.41 && phase <= 0.445) || (phase >= 0.84 && phase <= 0.87)) {
+            // Chispa residual de inestabilidad entre latidos
+            dischargeIntensity = 0.48;
+            desiredBolts = 1;
+        }
+
+        if (dischargeIntensity <= 0.02 || desiredBolts === 0) {
+            activeBolts = [];
+            return;
+        }
+
+        // Regenerar geometría fractal cada ~52ms para que los arcos serpenteen en vivo
+        const refreshInterval = isBursting ? 36 : (isHovered ? 46 : 55);
+        if (now - lastGenTime > refreshInterval || activeBolts.length !== desiredBolts) {
+            activeBolts = spawnBoltSet(desiredBolts, isBursting ? 1.25 : 1.0);
+            lastGenTime = now;
+        }
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        for (const bolt of activeBolts) {
+            renderBolt(bolt, dischargeIntensity);
+        }
+        ctx.restore();
+    }
+
+    requestAnimationFrame(animateLightningLoop);
 }
 
 function switchSide() {
