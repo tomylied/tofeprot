@@ -864,122 +864,100 @@ function initHeroLogoLightning() {
         return left.slice(0, -1).concat(right);
     }
 
-    // Genera un rayo principal con dendritas/ramificaciones secundarias y terciarias
+    // Genera un filamento eléctrico fino y localizado con a lo sumo 1 dendrita sutil
     function createHighVoltageBolt(x1, y1, x2, y2, palette, intensityScale) {
         const dist = Math.hypot(x2 - x1, y2 - y1);
-        const initialDisplace = Math.min(48, Math.max(16, dist * 0.24)) * intensityScale;
-        const trunk = buildFractalPoints(x1, y1, x2, y2, initialDisplace, 5);
+        const initialDisplace = Math.min(14, Math.max(5, dist * 0.14)) * intensityScale;
+        const trunk = buildFractalPoints(x1, y1, x2, y2, initialDisplace, 4);
         const branches = [];
 
         const mainAngle = Math.atan2(y2 - y1, x2 - x1);
-        const numBranches = 2 + Math.floor(Math.random() * 3);
+        const numBranches = Math.random() < 0.7 ? 1 : 0;
 
         for (let b = 0; b < numBranches; b++) {
-            const idx = Math.floor(trunk.length * (0.2 + Math.random() * 0.6));
+            const idx = Math.floor(trunk.length * (0.3 + Math.random() * 0.4));
             const origin = trunk[idx];
             if (!origin) continue;
 
             const sideSign = Math.random() < 0.5 ? -1 : 1;
-            const branchAngle = mainAngle + sideSign * (0.35 + Math.random() * 0.52);
-            const branchLen = dist * (0.22 + Math.random() * 0.26);
+            const branchAngle = mainAngle + sideSign * (0.32 + Math.random() * 0.35);
+            const branchLen = dist * (0.24 + Math.random() * 0.18);
             const bx2 = origin.x + Math.cos(branchAngle) * branchLen;
             const by2 = origin.y + Math.sin(branchAngle) * branchLen;
 
-            const branchPts = buildFractalPoints(origin.x, origin.y, bx2, by2, initialDisplace * 0.45, 4);
-            branches.push({ points: branchPts, weight: 0.65 });
-
-            // Sub-rama fina (dendrita terciaria)
-            if (Math.random() < 0.65 && branchPts.length > 4) {
-                const subOrigin = branchPts[Math.floor(branchPts.length * 0.45)];
-                const subAngle = branchAngle + (Math.random() < 0.5 ? -0.4 : 0.4);
-                const subLen = branchLen * 0.52;
-                const sx2 = subOrigin.x + Math.cos(subAngle) * subLen;
-                const sy2 = subOrigin.y + Math.sin(subAngle) * subLen;
-                const subPts = buildFractalPoints(subOrigin.x, subOrigin.y, sx2, sy2, initialDisplace * 0.25, 3);
-                branches.push({ points: subPts, weight: 0.38 });
-            }
+            const branchPts = buildFractalPoints(origin.x, origin.y, bx2, by2, initialDisplace * 0.4, 3);
+            branches.push({ points: branchPts, weight: 0.48 });
         }
 
         return {
             trunk,
             branches,
             palette,
-            alpha: 0.88 + Math.random() * 0.12
+            alpha: 0.55 + Math.random() * 0.15
         };
     }
 
-    // Rutas anatómicas alrededor y a través del logotipo
+    // Rutas cortas y periféricas que bordean el contorno del logotipo sin saturarlo
     function spawnBoltSet(count, intensityScale) {
         if (cssW === 0 || cssH === 0) resizeLightningCanvas();
         if (cssW === 0 || cssH === 0) return [];
 
         const isLightMode = document.body.classList.contains('theme-light');
 
-        // Paletas de plasma: en modo Iluminado domina la electricidad Berserker (Carmesí/Violeta) queriendo irrumpir;
-        // en modo Berserker alterna Púrpura/Carmesí con arcos de Oro eléctrico del modo Iluminado
         const berserkCrimson = {
-            outer: 'rgba(255, 24, 76, 0.28)',
-            mid: '#ff2a5f',
-            core: '#ffffff',
+            outer: 'rgba(255, 24, 76, 0.14)',
+            mid: 'rgba(255, 42, 95, 0.65)',
+            core: 'rgba(255, 255, 255, 0.82)',
             flare: '#ff4d79'
         };
         const berserkViolet = {
-            outer: 'rgba(168, 85, 247, 0.30)',
-            mid: '#c084fc',
-            core: '#ffffff',
+            outer: 'rgba(168, 85, 247, 0.15)',
+            mid: 'rgba(192, 132, 252, 0.65)',
+            core: 'rgba(255, 255, 255, 0.82)',
             flare: '#e879f9'
         };
         const iluminadoGold = {
-            outer: 'rgba(245, 158, 11, 0.28)',
-            mid: '#fbbf24',
-            core: '#ffffff',
+            outer: 'rgba(245, 158, 11, 0.14)',
+            mid: 'rgba(251, 191, 36, 0.62)',
+            core: 'rgba(255, 255, 255, 0.80)',
             flare: '#fef08a'
         };
 
         const anchors = [
-            // 1. Arco superior izquierdo hacia corona central
+            // 1. Filamento corto en el borde superior izquierdo
             {
-                x1: cssW * (0.06 + Math.random() * 0.06),
-                y1: cssH * (0.36 + Math.random() * 0.12),
-                x2: cssW * (0.42 + Math.random() * 0.12),
-                y2: cssH * (0.16 + Math.random() * 0.12),
+                x1: cssW * (0.14 + Math.random() * 0.04),
+                y1: cssH * (0.36 + Math.random() * 0.06),
+                x2: cssW * (0.31 + Math.random() * 0.05),
+                y2: cssH * (0.26 + Math.random() * 0.06),
                 pal: isLightMode ? berserkCrimson : berserkViolet
             },
-            // 2. Arco superior derecho hacia el centro
+            // 2. Filamento corto en la corona superior derecha
             {
-                x1: cssW * (0.94 - Math.random() * 0.06),
-                y1: cssH * (0.34 + Math.random() * 0.14),
-                x2: cssW * (0.52 + Math.random() * 0.12),
-                y2: cssH * (0.18 + Math.random() * 0.12),
+                x1: cssW * (0.84 - Math.random() * 0.04),
+                y1: cssH * (0.35 + Math.random() * 0.06),
+                x2: cssW * (0.67 - Math.random() * 0.05),
+                y2: cssH * (0.26 + Math.random() * 0.06),
                 pal: isLightMode ? berserkViolet : iluminadoGold
             },
-            // 3. Filamento de alta tensión cruzando el núcleo de las letras
+            // 3. Micro-arco en el flanco inferior izquierdo
             {
-                x1: cssW * (0.18 + Math.random() * 0.08),
-                y1: cssH * (0.54 + (Math.random() - 0.5) * 0.14),
-                x2: cssW * (0.82 - Math.random() * 0.08),
-                y2: cssH * (0.48 + (Math.random() - 0.5) * 0.14),
-                pal: berserkCrimson
-            },
-            // 4. Descarga inferior izquierda -> base central
-            {
-                x1: cssW * (0.10 + Math.random() * 0.08),
-                y1: cssH * (0.68 + Math.random() * 0.10),
-                x2: cssW * (0.46 + Math.random() * 0.10),
-                y2: cssH * (0.82 - Math.random() * 0.08),
+                x1: cssW * (0.18 + Math.random() * 0.05),
+                y1: cssH * (0.64 + Math.random() * 0.05),
+                x2: cssW * (0.36 + Math.random() * 0.05),
+                y2: cssH * (0.71 + Math.random() * 0.05),
                 pal: isLightMode ? berserkCrimson : iluminadoGold
             },
-            // 5. Descarga inferior derecha -> flanco derecho
+            // 4. Micro-arco en el flanco inferior derecho
             {
-                x1: cssW * (0.90 - Math.random() * 0.08),
-                y1: cssH * (0.66 + Math.random() * 0.10),
-                x2: cssW * (0.54 + Math.random() * 0.10),
-                y2: cssH * (0.80 - Math.random() * 0.08),
+                x1: cssW * (0.82 - Math.random() * 0.05),
+                y1: cssH * (0.63 + Math.random() * 0.05),
+                x2: cssW * (0.64 - Math.random() * 0.05),
+                y2: cssH * (0.70 + Math.random() * 0.05),
                 pal: berserkViolet
             }
         ];
 
-        // Mezclar y elegir `count` rutas
         const shuffled = anchors.sort(() => Math.random() - 0.5).slice(0, count);
         return shuffled.map(a => createHighVoltageBolt(a.x1, a.y1, a.x2, a.y2, a.pal, intensityScale));
     }
@@ -1040,24 +1018,23 @@ function initHeroLogoLightning() {
         if (a <= 0.02) return;
         const pal = bolt.palette;
 
-        // 1. Corona exterior de plasma ionizado
-        strokePolylineTapering(bolt.trunk, 9.5, pal.outer, pal.mid, 18, a * 0.9);
-        // 2. Canal medio de color saturado
-        strokePolylineTapering(bolt.trunk, 3.4, pal.mid, pal.mid, 12, a * 0.95);
-        // 3. Núcleo incandescente blanco puro
-        strokePolylineTapering(bolt.trunk, 1.35, pal.core, '#ffffff', 5, a);
+        // 1. Halo exterior muy tenue y fino
+        strokePolylineTapering(bolt.trunk, 4.2, pal.outer, pal.mid, 8, a * 0.55);
+        // 2. Canal medio delicado
+        strokePolylineTapering(bolt.trunk, 1.45, pal.mid, pal.mid, 5, a * 0.72);
+        // 3. Hilo central ultrafino
+        strokePolylineTapering(bolt.trunk, 0.65, pal.core, '#ffffff', 2, a * 0.85);
 
-        // Ramificaciones / Dendritas secundarias y terciarias
+        // Ramificación sutil
         for (const br of bolt.branches) {
             const w = br.weight;
-            strokePolylineTapering(br.points, 5.2 * w, pal.outer, pal.mid, 10, a * 0.75);
-            strokePolylineTapering(br.points, 2.1 * w, pal.mid, pal.mid, 6, a * 0.85);
-            strokePolylineTapering(br.points, 0.85 * w, pal.core, null, 0, a * 0.95);
+            strokePolylineTapering(br.points, 2.4 * w, pal.outer, pal.mid, 4, a * 0.45);
+            strokePolylineTapering(br.points, 0.95 * w, pal.mid, null, 0, a * 0.6);
+            strokePolylineTapering(br.points, 0.45 * w, pal.core, null, 0, a * 0.7);
         }
 
-        // Destellos de contacto en los puntos donde el arco muerde el metal
-        drawContactFlare(bolt.trunk[0], pal.flare, 11, a * 0.85);
-        drawContactFlare(bolt.trunk[bolt.trunk.length - 1], pal.flare, 9, a * 0.75);
+        // Micro-destello discreto en el punto de contacto
+        drawContactFlare(bolt.trunk[0], pal.flare, 4.5, a * 0.42);
     }
 
     function animateLightningLoop(now) {
@@ -1067,33 +1044,27 @@ function initHeroLogoLightning() {
         ctx.clearRect(0, 0, cssW, cssH);
 
         const isBursting = now < logoLightningBurstUntil;
-        const cycleDuration = isHovered ? 1900 : 3600;
+        const cycleDuration = isHovered ? 2400 : 4200;
         const phase = ((now - cycleStart) % cycleDuration) / cycleDuration;
 
-        // Ventanas de descarga sincronizadas con el doble latido (Sístole/Diástole: 8%-25% y 58%-71%)
+        // Descargas sutiles únicamente en el pico del latido (10%-20% y un susurro en 60%-66%)
         let dischargeIntensity = 0;
         let desiredBolts = 0;
 
         if (isBursting) {
-            dischargeIntensity = 1.0;
-            desiredBolts = 5;
-        } else if (phase >= 0.08 && phase <= 0.25) {
-            // Pulso principal donde el bando opuesto intenta irrumpir
-            const localT = (phase - 0.08) / 0.17;
-            dischargeIntensity = Math.sin(localT * Math.PI);
-            desiredBolts = isHovered ? 4 : 3;
-        } else if (phase >= 0.58 && phase <= 0.71) {
-            // Segundo pulso del latido
-            const localT = (phase - 0.58) / 0.13;
-            dischargeIntensity = Math.sin(localT * Math.PI) * 0.88;
-            desiredBolts = isHovered ? 3 : 2;
-        } else if (isHovered) {
-            // Tensión continua al apoyar el cursor
-            dischargeIntensity = 0.62;
-            desiredBolts = 2;
-        } else if ((phase >= 0.41 && phase <= 0.445) || (phase >= 0.84 && phase <= 0.87)) {
-            // Chispa residual de inestabilidad entre latidos
-            dischargeIntensity = 0.48;
+            dischargeIntensity = 0.85;
+            desiredBolts = 3;
+        } else if (phase >= 0.10 && phase <= 0.21) {
+            const localT = (phase - 0.10) / 0.11;
+            dischargeIntensity = Math.sin(localT * Math.PI) * (isHovered ? 0.72 : 0.52);
+            desiredBolts = isHovered ? 2 : 1;
+        } else if (phase >= 0.60 && phase <= 0.67) {
+            const localT = (phase - 0.60) / 0.07;
+            dischargeIntensity = Math.sin(localT * Math.PI) * (isHovered ? 0.55 : 0.36);
+            desiredBolts = 1;
+        } else if (isHovered && phase >= 0.36 && phase <= 0.42) {
+            const localT = (phase - 0.36) / 0.06;
+            dischargeIntensity = Math.sin(localT * Math.PI) * 0.4;
             desiredBolts = 1;
         }
 
@@ -1102,10 +1073,9 @@ function initHeroLogoLightning() {
             return;
         }
 
-        // Regenerar geometría fractal cada ~52ms para que los arcos serpenteen en vivo
-        const refreshInterval = isBursting ? 36 : (isHovered ? 46 : 55);
+        const refreshInterval = isBursting ? 45 : 70;
         if (now - lastGenTime > refreshInterval || activeBolts.length !== desiredBolts) {
-            activeBolts = spawnBoltSet(desiredBolts, isBursting ? 1.25 : 1.0);
+            activeBolts = spawnBoltSet(desiredBolts, isBursting ? 1.1 : 0.9);
             lastGenTime = now;
         }
 

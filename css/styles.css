@@ -1495,19 +1495,19 @@ body.theme-light .hero-kicker-pill {
         rgba(245, 158, 11, 0.18) 62%,
         transparent 76%
     );
-    opacity: 0.45;
-    transform: scale3d(0.94, 0.94, 1);
+    opacity: 0.32;
+    transform: scale3d(0.95, 0.95, 1);
     will-change: transform, opacity;
-    animation: logoAuraResonance 3.6s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+    animation: logoAuraResonance 4.2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
 }
 
 /* En modo Iluminado (Luz): el aura late con energía Berserker (Carmesí/Púrpura) queriendo romper hacia afuera */
 body.theme-light .hero-logo-aura-back {
     background: radial-gradient(
         ellipse at 50% 50%,
-        rgba(255, 42, 95, 0.46) 0%,
-        rgba(168, 85, 247, 0.36) 42%,
-        rgba(245, 158, 11, 0.22) 65%,
+        rgba(255, 42, 95, 0.34) 0%,
+        rgba(168, 85, 247, 0.24) 42%,
+        rgba(245, 158, 11, 0.16) 65%,
         transparent 78%
     );
 }
@@ -1520,7 +1520,7 @@ body.theme-light .hero-logo-aura-back {
     justify-content: center;
     z-index: 2;
     will-change: transform;
-    animation: logoDualityHeartbeat 3.6s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+    animation: logoDualityHeartbeat 4.2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
 }
 
 .hero-main-img {
@@ -1536,7 +1536,7 @@ body.theme-light .hero-main-img {
     filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.82)) drop-shadow(0 0 22px rgba(245, 158, 11, 0.4));
 }
 
-/* Imagen Fantasma del Bando Opuesto (aparece en los picos eléctricos del latido queriendo cambiar de bando) */
+/* Imagen Fantasma del Bando Opuesto (aparece sutilmente en el pico del latido queriendo cambiar de bando) */
 .hero-logo-ghost {
     position: absolute;
     inset: 0;
@@ -1547,12 +1547,12 @@ body.theme-light .hero-main-img {
     opacity: 0;
     mix-blend-mode: screen;
     will-change: transform, opacity;
-    animation: logoOppositeBandoSurge 3.6s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+    animation: logoOppositeBandoSurge 4.2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
 }
 
 body.theme-light .hero-logo-ghost {
     mix-blend-mode: normal;
-    filter: drop-shadow(0 0 18px rgba(255, 42, 95, 0.75)) drop-shadow(0 0 28px rgba(168, 85, 247, 0.65));
+    filter: drop-shadow(0 0 12px rgba(255, 42, 95, 0.5)) drop-shadow(0 0 18px rgba(168, 85, 247, 0.42));
 }
 
 /* CAPA 3: Canvas Retina de Rayos Fractales de Alta Tensión (Midpoint Displacement + Dendritas) */
@@ -1615,184 +1615,99 @@ body.theme-light .polarity-spark-dot {
 /* KEYFRAMES DE LATIDO DUAL Y ARCOS ELÉCTRICOS (GPU-ONLY)     */
 /* ========================================================= */
 
-/* 1. Latido doble orgánico (Sístole 10% -> Diástole/Tensión eléctrica 18% -> Calma -> Segundo intento 60%) */
+/* 1. Latido doble contenido y orgánico (Sístole 11% -> Diástole 17% -> Calma -> Segundo pulso 62%) */
 @keyframes logoDualityHeartbeat {
-    0%, 6%, 100% {
+    0%, 7%, 100% {
         transform: scale3d(1, 1, 1);
     }
-    10% {
-        transform: scale3d(1.038, 1.038, 1);
+    11% {
+        transform: scale3d(1.018, 1.018, 1);
     }
     14% {
-        transform: scale3d(0.99, 0.99, 1);
-    }
-    19% {
-        transform: scale3d(1.062, 1.062, 1) translate3d(1.5px, -1px, 0);
-    }
-    21% {
-        transform: scale3d(1.045, 1.045, 1) translate3d(-1.5px, 1px, 0);
-    }
-    28%, 54% {
-        transform: scale3d(1, 1, 1);
-    }
-    59% {
-        transform: scale3d(1.028, 1.028, 1);
-    }
-    63% {
-        transform: scale3d(0.995, 0.995, 1);
-    }
-    67% {
-        transform: scale3d(1.044, 1.044, 1) translate3d(-1px, 0.5px, 0);
-    }
-    74% {
-        transform: scale3d(1, 1, 1);
-    }
-}
-
-/* 2. Pulso del Aura Radial sincronizado con el latido */
-@keyframes logoAuraResonance {
-    0%, 6%, 100% {
-        opacity: 0.34;
-        transform: scale3d(0.93, 0.93, 1);
-    }
-    10% {
-        opacity: 0.72;
-        transform: scale3d(1.04, 1.04, 1);
-    }
-    14% {
-        opacity: 0.45;
-        transform: scale3d(0.98, 0.98, 1);
-    }
-    19% {
-        opacity: 0.96;
-        transform: scale3d(1.12, 1.12, 1);
-    }
-    30%, 54% {
-        opacity: 0.36;
-        transform: scale3d(0.94, 0.94, 1);
-    }
-    67% {
-        opacity: 0.82;
-        transform: scale3d(1.07, 1.07, 1);
-    }
-    76% {
-        opacity: 0.34;
-        transform: scale3d(0.93, 0.93, 1);
-    }
-}
-
-/* 3. Aparición del Bando Opuesto intentando irrumpir durante el pico del latido */
-@keyframes logoOppositeBandoSurge {
-    0%, 8%, 26%, 56%, 72%, 100% {
-        opacity: 0;
-        transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
-    }
-    10% {
-        opacity: 0.38;
-        transform: translate3d(-2px, 0, 0) scale3d(1.01, 1.01, 1);
+        transform: scale3d(0.996, 0.996, 1);
     }
     18% {
-        opacity: 0.78;
-        transform: translate3d(3px, -1.5px, 0) scale3d(1.022, 1.022, 1);
+        transform: scale3d(1.03, 1.03, 1);
     }
-    20% {
-        opacity: 0.25;
-        transform: translate3d(-3px, 1px, 0) scale3d(0.995, 0.995, 1);
-    }
-    22% {
-        opacity: 0.64;
-        transform: translate3d(1.5px, 0, 0) scale3d(1.01, 1.01, 1);
+    25%, 56% {
+        transform: scale3d(1, 1, 1);
     }
     60% {
-        opacity: 0.28;
-        transform: translate3d(2px, -1px, 0) scale3d(1.008, 1.008, 1);
+        transform: scale3d(1.012, 1.012, 1);
     }
-    66% {
-        opacity: 0.58;
-        transform: translate3d(-2.5px, 1px, 0) scale3d(1.015, 1.015, 1);
+    64% {
+        transform: scale3d(1.022, 1.022, 1);
     }
-    69% {
+    71% {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+/* 2. Pulso del Aura Radial sutil sincronizado con el latido */
+@keyframes logoAuraResonance {
+    0%, 7%, 100% {
+        opacity: 0.24;
+        transform: scale3d(0.95, 0.95, 1);
+    }
+    11% {
+        opacity: 0.46;
+        transform: scale3d(1.01, 1.01, 1);
+    }
+    18% {
+        opacity: 0.64;
+        transform: scale3d(1.05, 1.05, 1);
+    }
+    27%, 56% {
+        opacity: 0.24;
+        transform: scale3d(0.95, 0.95, 1);
+    }
+    64% {
+        opacity: 0.48;
+        transform: scale3d(1.03, 1.03, 1);
+    }
+    72% {
+        opacity: 0.24;
+        transform: scale3d(0.95, 0.95, 1);
+    }
+}
+
+/* 3. Destello sutil del Bando Opuesto durante el pico del latido */
+@keyframes logoOppositeBandoSurge {
+    0%, 9%, 24%, 58%, 70%, 100% {
         opacity: 0;
         transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
     }
-}
-
-/* 4. Descargas de los rayos periféricos y centrales */
-@keyframes electricArcFlashA {
-    0%, 8%, 24%, 57%, 70%, 100% {
-        opacity: 0;
-        transform: scale3d(0.98, 0.98, 1);
+    12% {
+        opacity: 0.16;
+        transform: translate3d(-0.8px, 0, 0) scale3d(1.004, 1.004, 1);
     }
-    10%, 18% {
-        opacity: 0.95;
-        transform: scale3d(1.02, 1.02, 1);
+    17.5% {
+        opacity: 0.34;
+        transform: translate3d(1px, -0.5px, 0) scale3d(1.01, 1.01, 1);
     }
-    14% {
-        opacity: 0.2;
-    }
-    21% {
-        opacity: 0.8;
-        transform: scale3d(1, 1, 1);
-    }
-    60%, 66% {
-        opacity: 0.85;
-        transform: scale3d(1.01, 1.01, 1);
-    }
-    63% {
-        opacity: 0.15;
-    }
-}
-
-@keyframes electricArcFlashB {
-    0%, 11%, 26%, 59%, 72%, 100% {
-        opacity: 0;
-        transform: scale3d(0.98, 0.98, 1);
-    }
-    13%, 20% {
-        opacity: 0.92;
-        transform: scale3d(1.015, 1.015, 1);
-    }
-    16% {
+    20% {
         opacity: 0.18;
+        transform: translate3d(-0.5px, 0.5px, 0) scale3d(1.004, 1.004, 1);
     }
-    62%, 68% {
-        opacity: 0.88;
-        transform: scale3d(1.01, 1.01, 1);
-    }
-}
-
-@keyframes electricArcCenterSurge {
-    0%, 16%, 24%, 64%, 71%, 100% {
-        opacity: 0;
-        transform: translate3d(0, 0, 0);
-    }
-    18%, 21% {
-        opacity: 1;
-        transform: translate3d(2px, -1px, 0);
-    }
-    19.5% {
-        opacity: 0.3;
-        transform: translate3d(-2px, 1px, 0);
-    }
-    66%, 68.5% {
-        opacity: 0.9;
-        transform: translate3d(-1.5px, 0, 0);
+    63.5% {
+        opacity: 0.22;
+        transform: translate3d(-0.8px, 0.4px, 0) scale3d(1.006, 1.006, 1);
     }
 }
 
-/* Hover Gate para dispositivos con puntero preciso: intensifica la inestabilidad entre bandos */
+/* Hover Gate para dispositivos con puntero preciso */
 @media (hover: hover) and (pointer: fine) {
     .hero-logo-interactive-stage:hover .hero-main-img {
-        transform: scale3d(1.03, 1.03, 1);
+        transform: scale3d(1.022, 1.022, 1);
     }
     .hero-logo-interactive-stage:hover .hero-logo-heartbeat-core {
-        animation-duration: 1.9s;
+        animation-duration: 2.4s;
     }
     .hero-logo-interactive-stage:hover .hero-logo-aura-back {
-        animation-duration: 1.9s;
+        animation-duration: 2.4s;
     }
     .hero-logo-interactive-stage:hover .hero-logo-ghost {
-        animation-duration: 1.9s;
+        animation-duration: 2.4s;
     }
     .hero-logo-interactive-stage:hover .hero-logo-polarity-hint {
         transform: translateY(-2px);
