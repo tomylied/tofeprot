@@ -1733,7 +1733,6 @@ function renderTienda(items) {
                                 <span class="price">${formatPrice(product.price)}</span>
                             </div>
                             <div class="price-sub-row">
-                                <span class="transfer-discount-badge">${formatPrice(transferPrice)} Transferencia (15% OFF)</span>
                                 <span class="installments-caption">3 cuotas sin interés de ${formatPrice(installmentPrice)}</span>
                             </div>
                         </div>
@@ -1846,7 +1845,6 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
                     <span class="price">${formatPrice(targetProduct.price)}</span>
                 </div>
                 <div class="price-sub-row">
-                    <span class="transfer-discount-badge">${formatPrice(transferPrice)} Transferencia (15% OFF)</span>
                     <span class="installments-caption">3 cuotas sin interés de ${formatPrice(installmentPrice)}</span>
                 </div>
             </div>
