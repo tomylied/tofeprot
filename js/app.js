@@ -3426,25 +3426,25 @@ function startCartTimer() {
 // 4. SORTEO PSYCHOTIC & RULETA INTERACTIVA   */
 // ========================================== */
 // Distribución de probabilidades ponderadas (Suma = 1.00 = 100%):
-// - Pre-Entreno Psychotic Directo: 3% (0.03 -> menor al 5%)
-// - 15% OFF Directo: 12% (0.12)
+// - Pre-Entreno Psychotic Directo: 1% (0.01)
+// - 15% OFF Directo: 13% (0.13)
 // - 10% OFF Directo: 30% total (2 gajos de 15% = 0.15 c/u)
-// - 5% OFF Directo: 55% total (2 gajos de 27.5% = 0.275 c/u)
+// - 5% OFF Directo: 56% total (2 gajos de 28% = 0.28 c/u)
 const RAFFLE_WHEEL_SEGMENTS = [
     {
         index: 0,
         angle: 0,
-        weight: 0.03, // 3% de probabilidad (< 5%)
+        weight: 0.01, // 1% de probabilidad interna
         type: 'preworkout',
         shortTitle: 'PRE-ENTRENO PSYCHOTIC',
-        label: '¡GANASTE 1 PRE-ENTRENO PSYCHOTIC!',
+        label: '¡GANASTE 1 PRE-ENTRENO PSYCHOTIC ($0)!',
         discountPct: 0,
-        desc: '¡Premio Mayor desbloqueado! Ganaste directamente 1 pote de Pre-Entreno Insane Labz Psychotic (35 servicios). Incluiremos tu código ganador en tu pedido por WhatsApp.'
+        desc: '¡Ganaste directamente 1 pote de Pre-Entreno Insane Labz Psychotic (de $89.000 a $0)! Incluiremos tu código ganador en tu pedido por WhatsApp.'
     },
     {
         index: 1,
         angle: 60,
-        weight: 0.275, // 27.5% (55% total para 5% OFF)
+        weight: 0.28, // 28% (56% total para 5% OFF)
         type: 'discount_5',
         shortTitle: '5% OFF',
         label: '5% DE DESCUENTO EN TU COMPRA',
@@ -3464,7 +3464,7 @@ const RAFFLE_WHEEL_SEGMENTS = [
     {
         index: 3,
         angle: 180,
-        weight: 0.12, // 12% de probabilidad para 15% OFF
+        weight: 0.13, // 13% de probabilidad para 15% OFF
         type: 'discount_15',
         shortTitle: '15% OFF',
         label: '15% DE DESCUENTO EN TU COMPRA',
@@ -3474,7 +3474,7 @@ const RAFFLE_WHEEL_SEGMENTS = [
     {
         index: 4,
         angle: 240,
-        weight: 0.275, // 27.5% (55% total para 5% OFF)
+        weight: 0.28, // 28% (56% total para 5% OFF)
         type: 'discount_5',
         shortTitle: '5% OFF',
         label: '5% DE DESCUENTO EN TU COMPRA',
