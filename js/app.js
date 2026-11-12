@@ -1716,16 +1716,15 @@ function renderTienda(items) {
                     <span class="product-yield-pill" id="prodYield_${product.id}">${yieldInfo.servingsTag}</span>
                     ${badgeHTML}
                 </div>
-                <div class="product-image" id="prodImg_${product.id}" role="button" tabindex="0" aria-label="Ver ficha técnica de ${product.name}" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer;" title="Click para inspeccionar ficha técnica y certificado CoA">
+                <div class="product-image" id="prodImg_${product.id}">
                     <div class="product-tub-stage" id="prodTubStage_${product.id}">
                         ${product.customImage 
                             ? `<img src="${product.customImage}" alt="${product.name}" class="product-custom-img" style="max-height: 140px; max-width: 140px; object-fit: contain; margin: 0 auto; filter: drop-shadow(0 6px 15px rgba(0,0,0,0.7)); display:block;">` 
                             : getProductSVG(product.tubType, product.tubLabel, product.tubSub)}
                     </div>
-                    <span class="product-stage-hint" aria-hidden="true">INSPECCIONAR FICHA & CoA ↗</span>
                 </div>
                 <div class="product-info">
-                    <h3 class="product-name" id="prodName_${product.id}" role="button" tabindex="0" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer;" title="Ver Ficha Técnica">${product.name}</h3>
+                    <h3 class="product-name" id="prodName_${product.id}">${product.name}</h3>
                     <div class="product-price" id="prodPrice_${product.id}">
                         <div class="price-container">
                             <div class="price-main-row">
