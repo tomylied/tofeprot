@@ -2656,15 +2656,15 @@ function updateCartUI() {
     const raffleLabelEl = document.getElementById('cartRaffleLabel');
     const raffleAmountEl = document.getElementById('cartRaffleAmount');
     if (raffleRowEl) {
-        if (activeRaffle && activeRaffle.ticketId) {
+        if (activeRaffle && activeRaffle.hasSpun) {
             raffleRowEl.style.display = 'flex';
             if (raffleLabelEl) {
-                raffleLabelEl.textContent = `Sorteo Psychotic (${activeRaffle.ticketId}):`;
+                raffleLabelEl.textContent = `Ruleta (${activeRaffle.ticketId}):`;
             }
             if (raffleAmountEl) {
-                raffleAmountEl.textContent = activeRaffle.hasSpun
-                    ? (activeRaffle.type === 'preworkout' ? `Chance Pre-Entreno (${activeRaffle.extraChances}x)` : `Premio ${activeRaffle.discountPct}% OFF + Chance`)
-                    : 'Participando ✓';
+                raffleAmountEl.textContent = activeRaffle.type === 'preworkout'
+                    ? '🏆 1x Pre-Entreno Psychotic GRATIS'
+                    : `Descuento ${activeRaffle.discountPct}% OFF Activo`;
             }
         } else {
             raffleRowEl.style.display = 'none';
@@ -2911,8 +2911,8 @@ function checkout() {
     if (buyerEmail) msg += `📧 *Email:* ${buyerEmail}\n`;
     msg += `💳 *Método de Pago:* ${selectedPaymentMethod === 'transfer' ? '🏦 Transferencia Bancaria (15% OFF Extra)' : '💳 Tarjeta / Mercado Pago (3 Cuotas)'}\n`;
     msg += `⚖️ *Bando:* ${document.body.classList.contains('theme-light') ? 'Iluminado (Luz/Oro)' : 'Berserker (Oscuridad)'}\n`;
-    if (activeRaffle && activeRaffle.ticketId) {
-        msg += `🎟️ *Sorteo Psychotic:* Ticket ${activeRaffle.ticketId} (${activeRaffle.hasSpun ? activeRaffle.label : 'Inscripto'})\n`;
+    if (activeRaffle && activeRaffle.hasSpun) {
+        msg += `🎰 *Premio Ruleta (${activeRaffle.ticketId}):* ${activeRaffle.label}\n`;
     }
     msg += `━━━━━━━━━━━━━━━━━━━━━\n`;
 
@@ -3425,88 +3425,85 @@ function startCartTimer() {
 // ========================================== */
 // 4. SORTEO PSYCHOTIC & RULETA INTERACTIVA   */
 // ========================================== */
+// Distribución de probabilidades ponderadas (Suma = 1.00 = 100%):
+// - Pre-Entreno Psychotic Directo: 3% (0.03 -> menor al 5%)
+// - 15% OFF Directo: 12% (0.12)
+// - 10% OFF Directo: 30% total (2 gajos de 15% = 0.15 c/u)
+// - 5% OFF Directo: 55% total (2 gajos de 27.5% = 0.275 c/u)
 const RAFFLE_WHEEL_SEGMENTS = [
     {
         index: 0,
         angle: 0,
+        weight: 0.03, // 3% de probabilidad (< 5%)
         type: 'preworkout',
         shortTitle: 'PRE-ENTRENO PSYCHOTIC',
-        label: 'CHANCE POR EL PRE-ENTRENO PSYCHOTIC',
-        discountPct: 5,
-        extraChances: 3,
-        desc: '¡Obtuviste Triple Chance directa en el sorteo por el Pre-Entreno Insane Labz Psychotic + un 5% OFF adicional para tu compra!'
+        label: '¡GANASTE 1 PRE-ENTRENO PSYCHOTIC!',
+        discountPct: 0,
+        desc: '¡Premio Mayor desbloqueado! Ganaste directamente 1 pote de Pre-Entreno Insane Labz Psychotic (35 servicios). Incluiremos tu código ganador en tu pedido por WhatsApp.'
     },
     {
         index: 1,
-        angle: 45,
+        angle: 60,
+        weight: 0.275, // 27.5% (55% total para 5% OFF)
         type: 'discount_5',
         shortTitle: '5% OFF',
-        label: '5% DE DESCUENTO + CHANCE SORTEO',
+        label: '5% DE DESCUENTO EN TU COMPRA',
         discountPct: 5,
-        extraChances: 1,
-        desc: 'Ganaste un 5% OFF directo para usar en tu compra y quedaste participando con tu Ticket oficial por el Pre-Entreno Psychotic.'
+        desc: 'Ganaste un 5% OFF directo para usar ahora mismo en tu compra de suplementos.'
     },
     {
         index: 2,
-        angle: 90,
+        angle: 120,
+        weight: 0.15, // 15% (30% total para 10% OFF)
         type: 'discount_10',
         shortTitle: '10% OFF',
-        label: '10% DE DESCUENTO + CHANCE SORTEO',
+        label: '10% DE DESCUENTO EN TU COMPRA',
         discountPct: 10,
-        extraChances: 1,
-        desc: 'Ganaste un 10% OFF directo para usar en tu compra y quedaste participando con tu Ticket oficial por el Pre-Entreno Psychotic.'
+        desc: 'Ganaste un 10% OFF directo para usar ahora mismo en tu compra de suplementos.'
     },
     {
         index: 3,
-        angle: 135,
+        angle: 180,
+        weight: 0.12, // 12% de probabilidad para 15% OFF
         type: 'discount_15',
-        shortTitle: '15% OFF MAX',
-        label: '15% DE DESCUENTO MÁXIMO + CHANCE SORTEO',
+        shortTitle: '15% OFF',
+        label: '15% DE DESCUENTO EN TU COMPRA',
         discountPct: 15,
-        extraChances: 1,
-        desc: '¡Descuento máximo desbloqueado! Tenés 15% OFF directo en tu compra + tu Ticket oficial activo por el Pre-Entreno Psychotic.'
+        desc: '¡Descuento máximo! Ganaste un 15% OFF directo para usar ahora mismo en tu compra.'
     },
     {
         index: 4,
-        angle: 180,
-        type: 'preworkout',
-        shortTitle: 'PRE-ENTRENO PSYCHOTIC',
-        label: 'DOBLE CHANCE POR EL PRE-ENTRENO PSYCHOTIC',
+        angle: 240,
+        weight: 0.275, // 27.5% (55% total para 5% OFF)
+        type: 'discount_5',
+        shortTitle: '5% OFF',
+        label: '5% DE DESCUENTO EN TU COMPRA',
         discountPct: 5,
-        extraChances: 2,
-        desc: '¡Obtuviste Doble Chance directa en el sorteo por el Pre-Entreno Insane Labz Psychotic + un 5% OFF adicional para tu compra!'
+        desc: 'Ganaste un 5% OFF directo para usar ahora mismo en tu compra de suplementos.'
     },
     {
         index: 5,
-        angle: 225,
-        type: 'discount_5',
-        shortTitle: '5% OFF',
-        label: '5% DE DESCUENTO + CHANCE SORTEO',
-        discountPct: 5,
-        extraChances: 1,
-        desc: 'Ganaste un 5% OFF directo para usar en tu compra y quedaste participando con tu Ticket oficial por el Pre-Entreno Psychotic.'
-    },
-    {
-        index: 6,
-        angle: 270,
+        angle: 300,
+        weight: 0.15, // 15% (30% total para 10% OFF)
         type: 'discount_10',
         shortTitle: '10% OFF',
-        label: '10% DE DESCUENTO + CHANCE SORTEO',
+        label: '10% DE DESCUENTO EN TU COMPRA',
         discountPct: 10,
-        extraChances: 1,
-        desc: 'Ganaste un 10% OFF directo para usar en tu compra y quedaste participando con tu Ticket oficial por el Pre-Entreno Psychotic.'
-    },
-    {
-        index: 7,
-        angle: 315,
-        type: 'discount_15',
-        shortTitle: '15% OFF MAX',
-        label: '15% DE DESCUENTO MÁXIMO + CHANCE SORTEO',
-        discountPct: 15,
-        extraChances: 1,
-        desc: '¡Descuento máximo desbloqueado! Tenés 15% OFF directo en tu compra + tu Ticket oficial activo por el Pre-Entreno Psychotic.'
+        desc: 'Ganaste un 10% OFF directo para usar ahora mismo en tu compra de suplementos.'
     }
 ];
+
+function pickWeightedRaffleSegment() {
+    const totalWeight = RAFFLE_WHEEL_SEGMENTS.reduce((sum, seg) => sum + seg.weight, 0);
+    let r = Math.random() * totalWeight;
+    for (let i = 0; i < RAFFLE_WHEEL_SEGMENTS.length; i++) {
+        r -= RAFFLE_WHEEL_SEGMENTS[i].weight;
+        if (r <= 0) {
+            return RAFFLE_WHEEL_SEGMENTS[i];
+        }
+    }
+    return RAFFLE_WHEEL_SEGMENTS[1]; // Fallback seguro: 5% OFF
+}
 
 let isSpinningRaffleWheel = false;
 let currentWheelRotationDeg = 0;
@@ -3799,14 +3796,13 @@ function spinRaffleWheel() {
         wheelStatus.textContent = '⚡ Girando por tu descuento o Chance Psychotic...';
     }
 
-    // Selección ponderada equilibrada entre 5% OFF, 10% OFF, 15% OFF y CHANCE PRE-ENTRENO PSYCHOTIC
-    const chosenIndex = Math.floor(Math.random() * RAFFLE_WHEEL_SEGMENTS.length);
-    const chosenPrize = RAFFLE_WHEEL_SEGMENTS[chosenIndex];
+    // Selección por probabilidad ponderada (5% OFF: 55%, 10% OFF: 30%, 15% OFF: 12%, Pre-Entreno Psychotic: 3%)
+    const chosenPrize = pickWeightedRaffleSegment();
 
-    // Cada segmento i está centrado en (i * 45°). Para quedar en las 12 en punto (0°):
+    // Cada uno de los 6 segmentos está centrado en (i * 60°). Para quedar en las 12 en punto (0°):
     // rotación final ≡ (360 - chosenPrize.angle) mod 360
     const desiredModAngle = (360 - chosenPrize.angle) % 360;
-    const jitterDeg = (Math.random() - 0.5) * 16; // ±8° dentro del segmento de 45°
+    const jitterDeg = (Math.random() - 0.5) * 22; // ±11° dentro del gajo amplio de 60°
     const extraFullSpins = (5 + Math.floor(Math.random() * 2)) * 360; // 5 a 6 giros completos
     const baseAligned = currentWheelRotationDeg - (currentWheelRotationDeg % 360);
     const targetRotation = baseAligned + extraFullSpins + desiredModAngle + jitterDeg;

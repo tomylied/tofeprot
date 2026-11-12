@@ -7114,40 +7114,102 @@ body.theme-light .drawer-raffle-item {
     background: rgba(180, 134, 45, 0.08) !important;
 }
 
-.raffle-main-grid {
+/* TARJETA ÚNICA INTEGRAL (SORTEO + FORMULARIO + RULETA) */
+.raffle-unified-card {
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 2rem;
-    align-items: stretch;
-    margin-top: 2rem;
+    grid-template-columns: 1.08fr 0.92fr;
+    background: radial-gradient(circle at 78% 42%, rgba(126, 34, 206, 0.16), rgba(12, 9, 20, 0.96) 68%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 20px;
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.58);
+    overflow: hidden;
+    position: relative;
 }
 
-.raffle-left-col,
-.raffle-right-col {
+body.theme-light .raffle-unified-card {
+    background: radial-gradient(circle at 78% 42%, rgba(212, 175, 55, 0.15), #ffffff 70%);
+    border-color: rgba(180, 134, 45, 0.32);
+    box-shadow: 0 18px 44px rgba(24, 20, 14, 0.09);
+}
+
+.raffle-unified-left {
+    padding: 2rem 2.1rem;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 1.25rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.09);
 }
 
-/* TARJETA FOTOGRÁFICA DEL SORTEO PSYCHOTIC */
-.raffle-showcase-card {
-    background: rgba(14, 11, 22, 0.92);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.5);
+body.theme-light .raffle-unified-left {
+    border-right-color: rgba(180, 134, 45, 0.22);
 }
 
-body.theme-light .raffle-showcase-card {
-    background: #ffffff;
-    border-color: rgba(180, 134, 45, 0.25);
-    box-shadow: 0 16px 36px rgba(24, 20, 14, 0.08);
+.raffle-unified-right {
+    padding: 1.75rem 1.85rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
 }
 
-.raffle-photo-frame {
+.raffle-unified-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.raffle-unified-title {
+    font-family: var(--font-display, 'Russo One', sans-serif);
+    font-size: clamp(1.45rem, 2.4vw, 1.95rem);
+    line-height: 1.18;
+    color: var(--text-main);
+    margin: 0 0 0.55rem 0;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.raffle-unified-title span {
+    color: #ff2a5f;
+}
+
+body.theme-light .raffle-unified-title span {
+    color: #b4862d;
+}
+
+.raffle-unified-subtitle {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.raffle-unified-subtitle strong {
+    color: var(--text-main);
+}
+
+/* BANNER FOTOGRÁFICO INTEGRADO DENTRO DE LA MISMA TARJETA */
+.raffle-inline-showcase {
+    display: grid;
+    grid-template-columns: 185px 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+body.theme-light .raffle-inline-showcase {
+    background: #faf7f0;
+    border-color: rgba(180, 134, 45, 0.24);
+}
+
+.raffle-inline-photo {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 11;
+    aspect-ratio: 4 / 3;
+    border-radius: 10px;
     overflow: hidden;
     background: #09060e;
 }
@@ -7162,87 +7224,77 @@ body.theme-light .raffle-showcase-card {
     transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.raffle-showcase-card:hover .raffle-showcase-img {
-    transform: scale(1.04);
+.raffle-inline-showcase:hover .raffle-showcase-img {
+    transform: scale(1.05);
 }
 
-.raffle-photo-badges {
+.raffle-inline-badge {
     position: absolute;
-    left: 14px;
-    right: 14px;
-    bottom: 12px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 8px;
-    pointer-events: none;
-}
-
-.raffle-badge-primary,
-.raffle-badge-secondary {
-    padding: 5px 11px;
-    border-radius: 6px;
-    font-family: var(--font-heading, 'Orbitron', sans-serif);
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.9px;
-    text-transform: uppercase;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-.raffle-badge-primary {
-    background: rgba(225, 29, 72, 0.9);
+    left: 6px;
+    bottom: 6px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    background: rgba(225, 29, 72, 0.92);
     color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-.raffle-badge-secondary {
-    background: rgba(10, 8, 16, 0.85);
-    color: #fde047;
-    border: 1px solid rgba(253, 224, 71, 0.35);
-}
-
-.raffle-showcase-caption {
-    padding: 1.15rem 1.35rem 1.25rem;
-}
-
-.raffle-caption-title {
-    font-family: var(--font-display, 'Russo One', sans-serif);
-    font-size: 1.05rem;
-    color: var(--text-main);
+    font-family: var(--font-heading, 'Orbitron', sans-serif);
+    font-size: 0.58rem;
+    font-weight: 800;
     letter-spacing: 0.6px;
-    margin-bottom: 0.35rem;
 }
 
-.raffle-caption-sub {
+.raffle-inline-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.raffle-inline-specs-title {
+    font-family: var(--font-display, 'Russo One', sans-serif);
     font-size: 0.88rem;
-    line-height: 1.5;
-    color: var(--text-muted);
-    margin: 0;
+    color: var(--text-main);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
-.raffle-caption-sub strong {
+.raffle-prizes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.raffle-prizes-list li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.raffle-prizes-list strong {
     color: var(--text-main);
 }
 
-/* TARJETA DE FORMULARIO DE ACCESO */
-.raffle-access-card {
-    background: rgba(14, 11, 22, 0.92);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 16px;
-    padding: 1.35rem 1.4rem;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
-    flex: 1;
+.prize-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.prize-dot.dot-jackpot { background: #ff2a5f; box-shadow: 0 0 6px rgba(255, 42, 95, 0.7); }
+.prize-dot.dot-15 { background: #fde047; }
+.prize-dot.dot-10 { background: #38bdf8; }
+.prize-dot.dot-5 { background: #a855f7; }
+
+/* ZONA DE FORMULARIO INTEGRADA EN LA MISMA TARJETA */
+.raffle-unified-form-zone {
+    padding-top: 0.25rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-
-body.theme-light .raffle-access-card {
-    background: #ffffff;
-    border-color: rgba(180, 134, 45, 0.28);
-    box-shadow: 0 14px 32px rgba(24, 20, 14, 0.07);
 }
 
 .raffle-step-header {
@@ -7503,13 +7555,13 @@ body.theme-light .wheel-status-pill {
     border-color: rgba(180, 134, 45, 0.28);
 }
 
-.raffle-wheel-card.is-unlocked .wheel-status-pill {
+.raffle-unified-card.is-unlocked .wheel-status-pill {
     background: rgba(74, 222, 128, 0.14);
     border-color: rgba(74, 222, 128, 0.42);
     color: #4ade80;
 }
 
-body.theme-light .raffle-wheel-card.is-unlocked .wheel-status-pill {
+body.theme-light .raffle-unified-card.is-unlocked .wheel-status-pill {
     background: rgba(22, 163, 74, 0.12);
     border-color: rgba(22, 163, 74, 0.35);
     color: #15803d;
@@ -7624,7 +7676,7 @@ body.theme-light .raffle-wheel-hub-btn {
     transition: opacity 0.26s cubic-bezier(0.16, 1, 0.3, 1), transform 0.26s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.raffle-wheel-card.is-unlocked .raffle-wheel-lock-veil {
+.raffle-unified-card.is-unlocked .raffle-wheel-lock-veil {
     opacity: 0;
     transform: scale(0.96);
     pointer-events: none;
@@ -7825,27 +7877,41 @@ body.theme-light .cart-raffle-row {
 }
 
 @media (max-width: 960px) {
-    .raffle-main-grid {
+    .raffle-unified-card {
         grid-template-columns: 1fr;
     }
+    .raffle-unified-left {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+        padding: 1.5rem;
+    }
+    body.theme-light .raffle-unified-left {
+        border-bottom-color: rgba(180, 134, 45, 0.22);
+    }
+    .raffle-unified-right {
+        padding: 1.5rem;
+    }
     .raffle-wheel-viewport {
-        width: min(100%, 320px);
+        width: min(100%, 315px);
     }
 }
 
 @media (max-width: 640px) {
     .raffle-band-wrapper {
-        padding: 3rem 0 1.5rem 0;
+        padding: 2.5rem 0 1.5rem 0;
+    }
+    .raffle-inline-showcase {
+        grid-template-columns: 1fr;
     }
     .raffle-form-row {
         grid-template-columns: 1fr;
     }
-    .raffle-wheel-card,
-    .raffle-access-card {
-        padding: 1.15rem;
+    .raffle-unified-left,
+    .raffle-unified-right {
+        padding: 1.2rem;
     }
     .raffle-wheel-viewport {
-        width: min(100%, 290px);
+        width: min(100%, 285px);
     }
 }
 
