@@ -2908,15 +2908,14 @@ body.theme-light .product-stage-hint {
 }
 
 .product-name {
-    font-size: 1.16rem;
+    font-size: 1.18rem;
     font-weight: 800;
     color: var(--text-main);
-    margin: 0 0 0.4rem 0;
+    margin: 0 0 0.9rem 0;
     letter-spacing: 0.4px;
     line-height: 1.28;
-    min-height: 2.55em;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     transition: color 0.18s var(--ease-out);
 }
 

@@ -170,26 +170,21 @@ function getProductSVG(type, label, sublabel) {
     `;
 }
 
-// Productos para la Tienda Individual (en Pesos Argentinos - ARS)
+// Productos únicos para la Tienda Individual (en Pesos Argentinos - ARS)
 const DEFAULT_INDIVIDUAL_PRODUCTS = [
     { 
         id: 101, 
-        name: "Proteína Whey 1kg - Vainilla Oscura", 
+        name: "Proteína Whey 1kg", 
         emoji: "🥛", 
         tubType: "vanilla",
         tubLabel: "WHEY 1KG",
-        tubSub: "VANILLA",
+        tubSub: "PURE WHEY",
         description: "Proteína de suero concentrada de disolución instantánea y pureza clínica.", 
         price: 45000, 
         badge: "Fórmula Pura",
         rating: "4.9",
         reviews: 142,
         specs: ["25g Proteína", "5.5g BCAAs", "0% Azúcar"],
-        flavors: [
-            { id: 101, name: "Vainilla Oscura", short: "Vainilla", icon: "🥛", color: "#f5d061", tubType: "vanilla", tubSub: "VANILLA" },
-            { id: 102, name: "Chocolate Berserk", short: "Chocolate", icon: "🍫", color: "#6b4226", tubType: "chocolate", tubSub: "BERSERK" },
-            { id: 103, name: "Frutilla Sagrada", short: "Frutilla", icon: "🍓", color: "#e91e63", tubType: "strawberry", tubSub: "BERRY" }
-        ],
         nutrition: {
             serving: "30g (1 scoop colmado)",
             servingsPerTub: "33 tomas",
@@ -220,102 +215,6 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         }
     },
     { 
-        id: 102, 
-        isVariantOnly: true,
-        name: "Proteína Whey 1kg - Chocolate Berserk", 
-        emoji: "🍫", 
-        tubType: "chocolate",
-        tubLabel: "WHEY 1KG",
-        tubSub: "BERSERK",
-        description: "Sabor cacao belga intenso y perfil aminoacídico completo para hipertrofia.", 
-        price: 45000, 
-        badge: "Top Sabor",
-        rating: "5.0",
-        reviews: 198,
-        specs: ["25g Proteína", "5.5g BCAAs", "Cacao Alcalino"],
-        flavors: [
-            { id: 102, name: "Chocolate Berserk", short: "Chocolate", icon: "🍫", color: "#6b4226", tubType: "chocolate", tubSub: "BERSERK" },
-            { id: 101, name: "Vainilla Oscura", short: "Vainilla", icon: "🥛", color: "#f5d061", tubType: "vanilla", tubSub: "VANILLA" },
-            { id: 103, name: "Frutilla Sagrada", short: "Frutilla", icon: "🍓", color: "#e91e63", tubType: "strawberry", tubSub: "BERRY" }
-        ],
-        nutrition: {
-            serving: "30g (1 scoop colmado)",
-            servingsPerTub: "33 tomas",
-            cals: "120 kcal",
-            protein: "25g (83.3%)",
-            carbs: "2.0g (Cacao alcalino puro)",
-            fats: "1.4g",
-            sodium: "60mg"
-        },
-        aminos: [
-            { name: "L-Leucina (BCAA)", amount: "2.8g", pct: 95 },
-            { name: "L-Isoleucina (BCAA)", amount: "1.4g", pct: 75 },
-            { name: "L-Valina (BCAA)", amount: "1.3g", pct: 70 },
-            { name: "L-Glutamina", amount: "4.1g", pct: 90 },
-            { name: "L-Lisina", amount: "2.1g", pct: 80 }
-        ],
-        timing: {
-            best: "Post-Entreno o Desayuno",
-            instructions: "Batir enérgicamente durante 15 segundos con agua bien fría para textura cremosa.",
-            goal: "Aporte de nitrógeno constante a los músculos durante la fase de reparación."
-        },
-        coa: {
-            batch: "#TF-8830",
-            purity: "99.7% WPC Ultrafiltrada",
-            lab: "Laboratorio Eurofins Bioanalytics",
-            date: "Agosto 2026",
-            status: "APROBADO - Grado Farmacéutico"
-        }
-    },
-    { 
-        id: 103, 
-        isVariantOnly: true,
-        name: "Proteína Whey 1kg - Frutilla Sagrada", 
-        emoji: "🍓", 
-        tubType: "strawberry",
-        tubLabel: "WHEY 1KG",
-        tubSub: "BERRY",
-        description: "Frescura frutal, digestión ultra liviana y síntesis muscular limpia.", 
-        price: 45000, 
-        badge: "Proteína",
-        rating: "4.8",
-        reviews: 86,
-        specs: ["25g Proteína", "Sabor Natural", "Sin TACC"],
-        flavors: [
-            { id: 103, name: "Frutilla Sagrada", short: "Frutilla", icon: "🍓", color: "#e91e63", tubType: "strawberry", tubSub: "BERRY" },
-            { id: 102, name: "Chocolate Berserk", short: "Chocolate", icon: "🍫", color: "#6b4226", tubType: "chocolate", tubSub: "BERSERK" },
-            { id: 101, name: "Vainilla Oscura", short: "Vainilla", icon: "🥛", color: "#f5d061", tubType: "vanilla", tubSub: "VANILLA" }
-        ],
-        nutrition: {
-            serving: "30g (1 scoop colmado)",
-            servingsPerTub: "33 tomas",
-            cals: "117 kcal",
-            protein: "25g (83.3%)",
-            carbs: "1.7g",
-            fats: "1.1g",
-            sodium: "50mg"
-        },
-        aminos: [
-            { name: "L-Leucina (BCAA)", amount: "2.8g", pct: 95 },
-            { name: "L-Isoleucina (BCAA)", amount: "1.4g", pct: 75 },
-            { name: "L-Valina (BCAA)", amount: "1.3g", pct: 70 },
-            { name: "L-Glutamina", amount: "4.2g", pct: 90 },
-            { name: "Treonina", amount: "1.8g", pct: 65 }
-        ],
-        timing: {
-            best: "Post-Entreno o Merienda",
-            instructions: "Mezclar 1 scoop en 250ml de agua helada para una bebida hiper refrescante.",
-            goal: "Digestión ultra liviana sin pesadez estomacal ni inflamación."
-        },
-        coa: {
-            batch: "#TF-8831",
-            purity: "99.8% WPC Instant",
-            lab: "Laboratorio Eurofins Bioanalytics",
-            date: "Agosto 2026",
-            status: "APROBADO - Sin TACC"
-        }
-    },
-    { 
         id: 104, 
         name: "Creatina Monohidrato 300g", 
         emoji: "💪", 
@@ -328,10 +227,6 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         rating: "5.0",
         reviews: 312,
         specs: ["100% Micronizada", "200 Mesh", "0% Relleno"],
-        flavors: [
-            { id: 104, name: "Pura Micronizada (200 Mesh)", short: "Neutra", icon: "🧪", color: "#00e5ff", tubType: "creatine", tubSub: "200 MESH" },
-            { id: 105, name: "Citrus Energy (Electrolitos)", short: "Citrus", icon: "🍋", color: "#ccff00", tubType: "citrus", tubSub: "ELECTRO" }
-        ],
         nutrition: {
             serving: "5g (1 scoop raso)",
             servingsPerTub: "60 tomas (2 meses)",
@@ -359,51 +254,6 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         }
     },
     { 
-        id: 105, 
-        isVariantOnly: true,
-        name: "Creatina Citrus Energy 300g", 
-        emoji: "🍋", 
-        tubType: "citrus",
-        tubLabel: "CREATINE",
-        tubSub: "ELECTRO",
-        description: "Con electrolitos y sales minerales para hidratación intra-entreno.", 
-        price: 30000, 
-        badge: "Creatina",
-        rating: "4.9",
-        reviews: 94,
-        specs: ["Creatina + Sales", "Electrolitos", "Hidratación"],
-        flavors: [
-            { id: 105, name: "Citrus Energy (Electrolitos)", short: "Citrus", icon: "🍋", color: "#ccff00", tubType: "citrus", tubSub: "ELECTRO" },
-            { id: 104, name: "Pura Micronizada (200 Mesh)", short: "Neutra", icon: "🧪", color: "#00e5ff", tubType: "creatine", tubSub: "200 MESH" }
-        ],
-        nutrition: {
-            serving: "6g (1 scoop)",
-            servingsPerTub: "50 tomas",
-            cals: "5 kcal",
-            protein: "0g",
-            carbs: "1g (Sales minerales)",
-            fats: "0g",
-            sodium: "120mg (Electrolitos)"
-        },
-        aminos: [
-            { name: "Creatina Micronizada", amount: "5.0g", pct: 100 },
-            { name: "Magnesio + Potasio", amount: "350mg", pct: 85 },
-            { name: "Sodio Cloruro", amount: "120mg", pct: 60 }
-        ],
-        timing: {
-            best: "Intra o Post-Entreno",
-            instructions: "Disolver en 400ml de agua bien fría durante sesiones de alta sudoración.",
-            goal: "Fuerza sostenida, prevención de calambres musculares y osmolaridad perfecta."
-        },
-        coa: {
-            batch: "#TF-CR441",
-            purity: "99.6% Grado Deportivo",
-            lab: "HPLC Certified Analysis",
-            date: "Septiembre 2026",
-            status: "APROBADO - Libre de dopaje"
-        }
-    },
-    { 
         id: 106, 
         name: "Pre-entreno Berserk 300g", 
         emoji: "🚀", 
@@ -416,10 +266,6 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         rating: "4.9",
         reviews: 215,
         specs: ["300mg Cafeína", "6g Citrulina", "3.2g Beta-Alanina"],
-        flavors: [
-            { id: 106, name: "Wild Blood Berserk", short: "Wild Blood", icon: "🩸", color: "#ff1744", tubType: "preworkout", tubSub: "BERSERK" },
-            { id: 106, name: "Electric Blue Punch", short: "Blue Punch", icon: "⚡", color: "#00e5ff", tubType: "preworkout", tubSub: "PUMP" }
-        ],
         nutrition: {
             serving: "10g (1 scoop)",
             servingsPerTub: "30 servicios brutales",
@@ -457,18 +303,25 @@ function getIndividualProducts() {
         if (saved) {
             let parsed = JSON.parse(saved);
             if (Array.isArray(parsed) && parsed.length > 0) {
-                // Sincronizar variantes, specs limpios y sabores con los valores por defecto
-                parsed = parsed.map(p => {
-                    const def = DEFAULT_INDIVIDUAL_PRODUCTS.find(d => d.id === p.id);
-                    if (def) {
-                        if (!p.flavors || p.flavors.length === 0) p.flavors = def.flavors;
-                        if (!p.badge) p.badge = def.badge;
-                        p.specs = def.specs;
-                        p.isVariantOnly = def.isVariantOnly || false;
-                    }
-                    return p;
-                });
-                return parsed;
+                const validIds = DEFAULT_INDIVIDUAL_PRODUCTS.map(d => d.id);
+                parsed = parsed
+                    .filter(p => validIds.includes(p.id))
+                    .map(p => {
+                        const def = DEFAULT_INDIVIDUAL_PRODUCTS.find(d => d.id === p.id);
+                        if (def) {
+                            p.name = def.name;
+                            p.tubLabel = def.tubLabel;
+                            p.tubSub = def.tubSub;
+                            p.flavors = [];
+                            if (!p.badge) p.badge = def.badge;
+                            p.specs = def.specs;
+                            p.isVariantOnly = false;
+                        }
+                        return p;
+                    });
+                if (parsed.length > 0) {
+                    return parsed;
+                }
             }
         }
     } catch (e) {}
@@ -1616,9 +1469,7 @@ function updateLiveBiometrics() {
     const creatineScale = Math.min(1, +(totalCreatine / 10).toFixed(2));
 
     // Selección inteligente del Stack Tofeprot según perfil
-    const isLight = document.body.classList.contains('theme-light');
-    const preferredWheyId = isLight ? 101 : 102; // Vainilla (Luz) o Chocolate Berserk (Oscuridad)
-    const wheyProd = individualProducts.find(p => p.id === preferredWheyId) || individualProducts[0];
+    const wheyProd = individualProducts.find(p => p.id === 101) || individualProducts[0];
     const creaProd = individualProducts.find(p => p.id === 104) || individualProducts[1];
     const preProd = individualProducts.find(p => p.id === 106);
 
@@ -1873,17 +1724,7 @@ function renderTienda(items) {
                     <span class="product-stage-hint" aria-hidden="true">INSPECCIONAR FICHA & CoA ↗</span>
                 </div>
                 <div class="product-info">
-                    <div class="product-meta-top">
-                        ${coaMetaHTML}
-                        <button type="button" class="product-modal-trigger" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v7.31a2 2 0 0 0 .69 1.51l5.62 4.9A2 2 0 0 1 17 17.24V20a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-2.76a2 2 0 0 1 .69-1.51l5.62-4.9A2 2 0 0 0 14 9.31V2"></path><line x1="8.5" y1="2" x2="15.5" y2="2"></line></svg>
-                            <span>Ficha & CoA →</span>
-                        </button>
-                    </div>
                     <h3 class="product-name" id="prodName_${product.id}" role="button" tabindex="0" onclick="openProductModal(parseInt(document.getElementById('addBtn_${product.id}')?.dataset?.currentId || ${product.id}))" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer;" title="Ver Ficha Técnica">${product.name}</h3>
-                    <p class="product-desc" id="prodDesc_${product.id}">${product.description}</p>
-                    ${specsHTML}
-                    ${flavorSelectorHTML}
                     <div class="product-price" id="prodPrice_${product.id}">
                         <div class="price-container">
                             <div class="price-main-row">
@@ -2334,9 +2175,7 @@ function evaluateCartBundle() {
 
     // Regla 2: Tiene Creatina pero NO Proteína -> Sinergia Recuperación Total (15% OFF)
     if (hasCreatine && !hasProtein) {
-        const isLight = document.body.classList.contains('theme-light');
-        const targetId = isLight ? 101 : 102; // Vainilla (Luz) o Chocolate (Berserk)
-        const target = individualProducts.find(p => p.id === targetId) || individualProducts.find(p => (p.name || '').toLowerCase().includes('proteína') && !isProductInCart(p.id));
+        const target = individualProducts.find(p => p.id === 101) || individualProducts.find(p => (p.name || '').toLowerCase().includes('proteína') && !isProductInCart(p.id));
         if (target && getStock(target.id) > 0) {
             return {
                 type: 'offer',
@@ -2380,7 +2219,7 @@ function evaluateCartBundle() {
             }
         }
         if (!hasProtein) {
-            const target = individualProducts.find(p => [101, 102].includes(p.id) && !isProductInCart(p.id));
+            const target = individualProducts.find(p => p.id === 101 && !isProductInCart(p.id));
             if (target && getStock(target.id) > 0) {
                 return {
                     type: 'offer',
