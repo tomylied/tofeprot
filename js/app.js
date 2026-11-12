@@ -176,7 +176,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         id: 101, 
         name: "Creatina Star Nutrition 300g", 
         emoji: "⚡", 
-        customImage: "assets/images/prod-star-creatina.png?v=5.4",
+        customImage: "assets/images/prod-star-creatina.png?v=5.6",
         tubType: "creatine",
         tubLabel: "STAR",
         tubSub: "300G",
@@ -215,7 +215,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         id: 104, 
         name: "Creatina Gold Nutrition 300g", 
         emoji: "💪", 
-        customImage: "assets/images/prod-gold-creatina.png?v=5.4",
+        customImage: "assets/images/prod-gold-creatina.png?v=5.6",
         tubType: "creatine",
         tubLabel: "GOLD",
         tubSub: "BLACK LINE",
@@ -254,7 +254,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         id: 106, 
         name: "Pre-Entreno Insane Labz Psychotic", 
         emoji: "🔥", 
-        customImage: "assets/images/prod-psychotic.png?v=5.4",
+        customImage: "assets/images/prod-psychotic.png?v=5.6",
         tubType: "preworkout",
         tubLabel: "PSYCHOTIC",
         tubSub: "INSANE LABZ",
@@ -1721,7 +1721,7 @@ function renderTienda(items) {
                 <div class="product-image" id="prodImg_${product.id}">
                     <div class="product-tub-stage" id="prodTubStage_${product.id}">
                         ${product.customImage 
-                            ? `<img src="${product.customImage}" alt="${product.name}" class="product-custom-img" style="max-height: 175px; max-width: 175px; border-radius: 10px; object-fit: contain; margin: 0 auto; box-shadow: 0 8px 22px rgba(0,0,0,0.28); display:block;">` 
+                            ? `<img src="${product.customImage}" alt="${product.name}" class="product-custom-img">` 
                             : getProductSVG(product.tubType, product.tubLabel, product.tubSub)}
                     </div>
                 </div>

@@ -2836,9 +2836,9 @@ body.theme-light .flavor-pill-btn.active {
 }
 
 .product-image {
-    background: radial-gradient(circle at 50% 55%, rgba(255, 255, 255, 0.07) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background: radial-gradient(circle at 50% 55%, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0.6) 100%);
     border-bottom: 1px solid var(--border-color);
-    height: 225px;
+    height: 240px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2846,11 +2846,11 @@ body.theme-light .flavor-pill-btn.active {
     font-size: 3.5rem;
     position: relative;
     overflow: hidden;
-    padding-top: 18px;
+    padding: 24px 12px 10px;
 }
 
 body.theme-light .product-image {
-    background: radial-gradient(circle at 50% 55%, #ffffff 0%, #f1ece1 100%);
+    background: radial-gradient(circle at 50% 55%, #ffffff 0%, #f3efe6 100%);
 }
 
 .product-tub-stage {
@@ -2859,6 +2859,23 @@ body.theme-light .product-image {
     justify-content: center;
     width: 100%;
     height: 100%;
+}
+
+.product-custom-img {
+    width: 100%;
+    height: 196px;
+    max-width: 215px;
+    max-height: 196px;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+    background: transparent;
+    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.22));
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-card:hover .product-custom-img {
+    transform: scale(1.04) translateY(-2px);
 }
 
 .product-stage-hint {
