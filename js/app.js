@@ -631,6 +631,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollReveal();
     initSmartHeader();
     updateLiveBiometrics();
+    initRaffleSection();
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeNavDrawer();
@@ -745,11 +746,6 @@ function selectSide(side) {
             style.id = 'gatewayPreHide';
             style.textContent = '#gatewayScreen { display: none !important; visibility: hidden !important; opacity: 0 !important; }';
             document.head.appendChild(style);
-        }
-
-        const isUnlocked = localStorage.getItem('tofeprot_unlocked') === 'true';
-        if (!isUnlocked) {
-            document.getElementById('unlockModal').classList.add('active');
         }
     }, 650);
 }
@@ -2629,19 +2625,49 @@ function updateCartUI() {
     // Actualizar oferta interactiva de Bundle Dinámico
     renderCartBundleOffer();
 
-    const discountAmount = selectedPaymentMethod === 'transfer' ? Math.round(rawSubtotal * 0.15) : 0;
+    const activeRaffle = getActiveRaffleBenefit();
+    const raffleDiscountPct = (activeRaffle && activeRaffle.hasSpun && activeRaffle.discountPct) ? Number(activeRaffle.discountPct) : 0;
+
+    // Transferencia otorga 15% OFF; con Tarjeta/MP se aplica el descuento ganado en la Ruleta (5%, 10% o 15%)
+    const effectiveDiscountPct = selectedPaymentMethod === 'transfer' ? Math.max(15, raffleDiscountPct) : raffleDiscountPct;
+    const discountAmount = effectiveDiscountPct > 0 ? Math.round(rawSubtotal * (effectiveDiscountPct / 100)) : 0;
     const subtotalAfterDiscount = rawSubtotal - discountAmount;
 
     const isFreeShipping = rawSubtotal >= FREE_SHIPPING_THRESHOLD;
     const shipping = (rawSubtotal > 0 && !isFreeShipping) ? 5000 : 0;
     const finalTotal = subtotalAfterDiscount + shipping;
 
+    const savingsLabelEl = document.getElementById('cartSavingsLabel');
     if (savingsRowEl && savingsAmountEl) {
-        if (selectedPaymentMethod === 'transfer' && discountAmount > 0) {
+        if (discountAmount > 0) {
             savingsRowEl.style.display = 'flex';
+            if (savingsLabelEl) {
+                savingsLabelEl.textContent = selectedPaymentMethod === 'transfer'
+                    ? `Ahorro Transferencia (${effectiveDiscountPct}%):`
+                    : `Descuento Ruleta Psychotic (${effectiveDiscountPct}%):`;
+            }
             savingsAmountEl.textContent = `-${formatPrice(discountAmount)}`;
         } else {
             savingsRowEl.style.display = 'none';
+        }
+    }
+
+    const raffleRowEl = document.getElementById('cartRaffleRow');
+    const raffleLabelEl = document.getElementById('cartRaffleLabel');
+    const raffleAmountEl = document.getElementById('cartRaffleAmount');
+    if (raffleRowEl) {
+        if (activeRaffle && activeRaffle.ticketId) {
+            raffleRowEl.style.display = 'flex';
+            if (raffleLabelEl) {
+                raffleLabelEl.textContent = `Sorteo Psychotic (${activeRaffle.ticketId}):`;
+            }
+            if (raffleAmountEl) {
+                raffleAmountEl.textContent = activeRaffle.hasSpun
+                    ? (activeRaffle.type === 'preworkout' ? `Chance Pre-Entreno (${activeRaffle.extraChances}x)` : `Premio ${activeRaffle.discountPct}% OFF + Chance`)
+                    : 'Participando ✓';
+            }
+        } else {
+            raffleRowEl.style.display = 'none';
         }
     }
 
@@ -2862,8 +2888,16 @@ function checkout() {
         return;
     }
 
+    const activeRaffle = getActiveRaffleBenefit();
     let buyerName = currentUser ? (currentUser.name || currentUser.email) : "";
     let buyerEmail = currentUser ? currentUser.email : "";
+
+    if (!buyerName && activeRaffle && activeRaffle.firstName) {
+        buyerName = `${activeRaffle.firstName} ${activeRaffle.lastName || ''}`.trim();
+    }
+    if (!buyerEmail && activeRaffle && activeRaffle.email) {
+        buyerEmail = activeRaffle.email;
+    }
 
     if (!buyerName) {
         const guestName = prompt("⚡ Ingresa tu nombre o apodo de guerrero para preparar tu orden:");
@@ -2877,6 +2911,9 @@ function checkout() {
     if (buyerEmail) msg += `📧 *Email:* ${buyerEmail}\n`;
     msg += `💳 *Método de Pago:* ${selectedPaymentMethod === 'transfer' ? '🏦 Transferencia Bancaria (15% OFF Extra)' : '💳 Tarjeta / Mercado Pago (3 Cuotas)'}\n`;
     msg += `⚖️ *Bando:* ${document.body.classList.contains('theme-light') ? 'Iluminado (Luz/Oro)' : 'Berserker (Oscuridad)'}\n`;
+    if (activeRaffle && activeRaffle.ticketId) {
+        msg += `🎟️ *Sorteo Psychotic:* Ticket ${activeRaffle.ticketId} (${activeRaffle.hasSpun ? activeRaffle.label : 'Inscripto'})\n`;
+    }
     msg += `━━━━━━━━━━━━━━━━━━━━━\n`;
 
     msg += `🛒 *PRODUCTOS SOLICITADOS:*\n`;
@@ -2893,7 +2930,9 @@ function checkout() {
     msg += `\n🎁 *REGALO EXCLUSIVO INCLUIDO:*\n`;
     msg += `• 1x Doypack de Muestra (Proteína / Pre-entreno Importado) BONIFICADO $0\n`;
 
-    const discountAmount = selectedPaymentMethod === 'transfer' ? Math.round(rawSubtotal * 0.15) : 0;
+    const raffleDiscountPct = (activeRaffle && activeRaffle.hasSpun && activeRaffle.discountPct) ? Number(activeRaffle.discountPct) : 0;
+    const effectiveDiscountPct = selectedPaymentMethod === 'transfer' ? Math.max(15, raffleDiscountPct) : raffleDiscountPct;
+    const discountAmount = effectiveDiscountPct > 0 ? Math.round(rawSubtotal * (effectiveDiscountPct / 100)) : 0;
     const subtotalAfterDiscount = rawSubtotal - discountAmount;
     const isFreeShipping = rawSubtotal >= 65000;
     const shipping = (rawSubtotal > 0 && !isFreeShipping) ? 5000 : 0;
@@ -2905,7 +2944,8 @@ function checkout() {
         msg += `🔥 *Ahorro Combo Bundle:* -${formatPrice(totalBundleSavings)}\n`;
     }
     if (discountAmount > 0) {
-        msg += `🏷️ *Descuento Transferencia (15% OFF):* -${formatPrice(discountAmount)}\n`;
+        const discTag = selectedPaymentMethod === 'transfer' ? `Descuento Transferencia (${effectiveDiscountPct}% OFF)` : `Beneficio Ruleta Psychotic (${effectiveDiscountPct}% OFF)`;
+        msg += `🏷️ *${discTag}:* -${formatPrice(discountAmount)}\n`;
     }
     msg += `🚚 *Envío:* ${shipping === 0 ? 'GRATIS (Supera $65.000)' : formatPrice(shipping)}\n`;
     msg += `🔥 *TOTAL A PAGAR:* ${formatPrice(finalTotal)}\n`;
@@ -3380,4 +3420,469 @@ function startCartTimer() {
         display.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
         timeLeft--;
     }, 1000);
+}
+
+// ========================================== */
+// 4. SORTEO PSYCHOTIC & RULETA INTERACTIVA   */
+// ========================================== */
+const RAFFLE_WHEEL_SEGMENTS = [
+    {
+        index: 0,
+        angle: 0,
+        type: 'preworkout',
+        shortTitle: 'PRE-ENTRENO PSYCHOTIC',
+        label: 'CHANCE POR EL PRE-ENTRENO PSYCHOTIC',
+        discountPct: 5,
+        extraChances: 3,
+        desc: '¡Obtuviste Triple Chance directa en el sorteo por el Pre-Entreno Insane Labz Psychotic + un 5% OFF adicional para tu compra!'
+    },
+    {
+        index: 1,
+        angle: 45,
+        type: 'discount_5',
+        shortTitle: '5% OFF',
+        label: '5% DE DESCUENTO + CHANCE SORTEO',
+        discountPct: 5,
+        extraChances: 1,
+        desc: 'Ganaste un 5% OFF directo para usar en tu compra y quedaste participando con tu Ticket oficial por el Pre-Entreno Psychotic.'
+    },
+    {
+        index: 2,
+        angle: 90,
+        type: 'discount_10',
+        shortTitle: '10% OFF',
+        label: '10% DE DESCUENTO + CHANCE SORTEO',
+        discountPct: 10,
+        extraChances: 1,
+        desc: 'Ganaste un 10% OFF directo para usar en tu compra y quedaste participando con tu Ticket oficial por el Pre-Entreno Psychotic.'
+    },
+    {
+        index: 3,
+        angle: 135,
+        type: 'discount_15',
+        shortTitle: '15% OFF MAX',
+        label: '15% DE DESCUENTO MÁXIMO + CHANCE SORTEO',
+        discountPct: 15,
+        extraChances: 1,
+        desc: '¡Descuento máximo desbloqueado! Tenés 15% OFF directo en tu compra + tu Ticket oficial activo por el Pre-Entreno Psychotic.'
+    },
+    {
+        index: 4,
+        angle: 180,
+        type: 'preworkout',
+        shortTitle: 'PRE-ENTRENO PSYCHOTIC',
+        label: 'DOBLE CHANCE POR EL PRE-ENTRENO PSYCHOTIC',
+        discountPct: 5,
+        extraChances: 2,
+        desc: '¡Obtuviste Doble Chance directa en el sorteo por el Pre-Entreno Insane Labz Psychotic + un 5% OFF adicional para tu compra!'
+    },
+    {
+        index: 5,
+        angle: 225,
+        type: 'discount_5',
+        shortTitle: '5% OFF',
+        label: '5% DE DESCUENTO + CHANCE SORTEO',
+        discountPct: 5,
+        extraChances: 1,
+        desc: 'Ganaste un 5% OFF directo para usar en tu compra y quedaste participando con tu Ticket oficial por el Pre-Entreno Psychotic.'
+    },
+    {
+        index: 6,
+        angle: 270,
+        type: 'discount_10',
+        shortTitle: '10% OFF',
+        label: '10% DE DESCUENTO + CHANCE SORTEO',
+        discountPct: 10,
+        extraChances: 1,
+        desc: 'Ganaste un 10% OFF directo para usar en tu compra y quedaste participando con tu Ticket oficial por el Pre-Entreno Psychotic.'
+    },
+    {
+        index: 7,
+        angle: 315,
+        type: 'discount_15',
+        shortTitle: '15% OFF MAX',
+        label: '15% DE DESCUENTO MÁXIMO + CHANCE SORTEO',
+        discountPct: 15,
+        extraChances: 1,
+        desc: '¡Descuento máximo desbloqueado! Tenés 15% OFF directo en tu compra + tu Ticket oficial activo por el Pre-Entreno Psychotic.'
+    }
+];
+
+let isSpinningRaffleWheel = false;
+let currentWheelRotationDeg = 0;
+
+function getActiveRaffleBenefit() {
+    try {
+        const raw = localStorage.getItem('tofeprot_raffle_state');
+        if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return null;
+}
+
+function saveActiveRaffleBenefit(stateObj) {
+    try {
+        localStorage.setItem('tofeprot_raffle_state', JSON.stringify(stateObj));
+    } catch (e) {}
+}
+
+function recordRaffleLead(leadEntry) {
+    try {
+        const existingRaw = localStorage.getItem('tofeprot_raffle_leads');
+        const list = existingRaw ? JSON.parse(existingRaw) : [];
+        const idx = list.findIndex(item => (item.email || '').toLowerCase() === (leadEntry.email || '').toLowerCase());
+        if (idx >= 0) {
+            list[idx] = { ...list[idx], ...leadEntry, updatedAt: new Date().toISOString() };
+        } else {
+            list.unshift({ ...leadEntry, createdAt: new Date().toISOString() });
+        }
+        localStorage.setItem('tofeprot_raffle_leads', JSON.stringify(list));
+    } catch (e) {}
+}
+
+function initRaffleSection() {
+    const state = getActiveRaffleBenefit();
+    if (!state || !state.email) return;
+
+    const firstInput = document.getElementById('raffleFirstName');
+    const lastInput = document.getElementById('raffleLastName');
+    const emailInput = document.getElementById('raffleEmail');
+    if (firstInput) firstInput.value = state.firstName || '';
+    if (lastInput) lastInput.value = state.lastName || '';
+    if (emailInput) emailInput.value = state.email || '';
+
+    if (typeof state.rotationDeg === 'number' && state.rotationDeg > 0) {
+        currentWheelRotationDeg = state.rotationDeg;
+        const rotor = document.getElementById('raffleWheelRotor');
+        if (rotor) {
+            rotor.style.transition = 'none';
+            rotor.style.transform = `rotate(${currentWheelRotationDeg}deg)`;
+            setTimeout(() => {
+                rotor.style.transition = '';
+            }, 60);
+        }
+    }
+
+    hydrateRaffleUIFromState(state);
+}
+
+function hydrateRaffleUIFromState(state) {
+    const formEl = document.getElementById('raffleRegistrationForm');
+    const summaryEl = document.getElementById('raffleParticipantSummary');
+    const summaryName = document.getElementById('raffleSummaryName');
+    const summaryEmail = document.getElementById('raffleSummaryEmail');
+    const stepTag = document.getElementById('raffleStepTag');
+    const ticketBadge = document.getElementById('raffleTicketBadge');
+
+    const wheelStage = document.getElementById('raffleWheelStage');
+    const wheelStatus = document.getElementById('raffleWheelStatus');
+    const hubBtn = document.getElementById('raffleSpinHubBtn');
+    const hubText = document.getElementById('raffleHubText');
+    const mainSpinBtn = document.getElementById('raffleSpinMainBtn');
+    const resultCard = document.getElementById('raffleResultCard');
+    const resultTicket = document.getElementById('raffleResultTicket');
+    const resultHeadline = document.getElementById('raffleResultHeadline');
+    const resultDesc = document.getElementById('raffleResultDesc');
+
+    if (!state || !state.email) {
+        if (formEl) formEl.style.display = 'flex';
+        if (summaryEl) summaryEl.style.display = 'none';
+        if (stepTag) stepTag.textContent = 'PASO 1 · TUS DATOS DE PARTICIPANTE';
+        if (ticketBadge) ticketBadge.style.display = 'none';
+        if (wheelStage) wheelStage.classList.remove('is-unlocked');
+        if (wheelStatus) wheelStatus.textContent = '🔒 Completá tus datos para habilitar la ruleta';
+        if (hubBtn) hubBtn.disabled = true;
+        if (hubText) hubText.textContent = 'BLOQUEADA';
+        if (mainSpinBtn) {
+            mainSpinBtn.disabled = true;
+            mainSpinBtn.style.display = 'block';
+            mainSpinBtn.innerHTML = '<span>COMPLETÁ TUS DATOS PARA GIRAR</span>';
+        }
+        if (resultCard) resultCard.style.display = 'none';
+        return;
+    }
+
+    // El usuario ya registró Nombre, Apellido y Email
+    if (formEl) formEl.style.display = 'none';
+    if (summaryEl) summaryEl.style.display = 'block';
+    if (summaryName) summaryName.textContent = `${state.firstName} ${state.lastName}`;
+    if (summaryEmail) summaryEmail.textContent = state.email;
+    if (stepTag) stepTag.textContent = '✓ DATOS REGISTRADOS EN EL SORTEO';
+    if (ticketBadge && state.ticketId) {
+        ticketBadge.textContent = `TICKET ${state.ticketId}`;
+        ticketBadge.style.display = 'inline-flex';
+    }
+    if (wheelStage) wheelStage.classList.add('is-unlocked');
+
+    if (state.hasSpun) {
+        if (wheelStatus) wheelStatus.textContent = `🏆 Giro completado · Ticket ${state.ticketId}`;
+        if (hubBtn) hubBtn.disabled = true;
+        if (hubText) hubText.textContent = 'LISTO ✓';
+        if (mainSpinBtn) mainSpinBtn.style.display = 'none';
+        if (resultCard) {
+            resultCard.style.display = 'block';
+            if (resultTicket) resultTicket.textContent = `TICKET ${state.ticketId}`;
+            if (resultHeadline) resultHeadline.textContent = state.label || 'BENEFICIO ACTIVADO';
+            if (resultDesc) resultDesc.textContent = state.desc || '';
+        }
+    } else {
+        if (wheelStatus) wheelStatus.textContent = `⚡ ¡Ruleta habilitada para ${state.firstName}! Tocá GIRAR`;
+        if (hubBtn) hubBtn.disabled = false;
+        if (hubText) hubText.textContent = 'GIRAR';
+        if (mainSpinBtn) {
+            mainSpinBtn.disabled = false;
+            mainSpinBtn.style.display = 'block';
+            mainSpinBtn.innerHTML = '<span>⚡ GIRAR RULETA POR MI CHANCE AHORA</span>';
+        }
+        if (resultCard) resultCard.style.display = 'none';
+    }
+}
+
+function unlockRaffleWheel(event) {
+    if (event) event.preventDefault();
+
+    const firstInput = document.getElementById('raffleFirstName');
+    const lastInput = document.getElementById('raffleLastName');
+    const emailInput = document.getElementById('raffleEmail');
+    const feedbackEl = document.getElementById('raffleFormFeedback');
+
+    const firstName = firstInput ? firstInput.value.trim() : '';
+    const lastName = lastInput ? lastInput.value.trim() : '';
+    const email = emailInput ? emailInput.value.trim() : '';
+
+    const showFeedback = (msg) => {
+        if (!feedbackEl) return;
+        feedbackEl.textContent = msg;
+        feedbackEl.classList.add('is-visible');
+    };
+
+    if (!firstName || firstName.length < 2) {
+        showFeedback('Por favor, ingresá tu nombre para habilitar la ruleta.');
+        if (firstInput) firstInput.focus();
+        return;
+    }
+    if (!lastName || lastName.length < 2) {
+        showFeedback('Por favor, ingresá tu apellido para el registro del sorteo.');
+        if (lastInput) lastInput.focus();
+        return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+        showFeedback('Ingresá un email válido para asociar tu ticket y descuento.');
+        if (emailInput) emailInput.focus();
+        return;
+    }
+
+    if (feedbackEl) {
+        feedbackEl.textContent = '';
+        feedbackEl.classList.remove('is-visible');
+    }
+
+    // Verificar si este email ya había girado previamente en este dispositivo
+    let existingLead = null;
+    try {
+        const leads = JSON.parse(localStorage.getItem('tofeprot_raffle_leads') || '[]');
+        existingLead = leads.find(l => (l.email || '').toLowerCase() === email.toLowerCase());
+    } catch (e) {}
+
+    const ticketId = (existingLead && existingLead.ticketId)
+        ? existingLead.ticketId
+        : '#TP-' + Math.floor(1000 + Math.random() * 9000);
+
+    const newState = existingLead && existingLead.hasSpun
+        ? { ...existingLead, firstName, lastName, email }
+        : {
+            firstName,
+            lastName,
+            email,
+            ticketId,
+            hasSpun: false,
+            discountPct: 0,
+            extraChances: 1,
+            label: 'Participando en Sorteo Psychotic'
+        };
+
+    saveActiveRaffleBenefit(newState);
+    recordRaffleLead(newState);
+
+    // Sincronizar también con el perfil de usuario actual para facilitar su compra
+    currentUser = { name: `${firstName} ${lastName}`.trim(), email };
+    saveState();
+    updateAuthUI();
+    updateCartUI();
+
+    playSFX('equip');
+    hydrateRaffleUIFromState(newState);
+
+    if (typeof trackEvent === 'function') {
+        trackEvent('raffle_unlocked', { email, ticketId });
+    }
+
+    // En pantallas móviles, desplazar suavemente hacia la ruleta recién desbloqueada
+    if (window.innerWidth <= 960) {
+        const stage = document.getElementById('raffleWheelStage');
+        if (stage) {
+            setTimeout(() => {
+                stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 150);
+        }
+    }
+}
+
+function playRaffleTickSFX() {
+    if (!soundEnabled) return;
+    try {
+        initAudio();
+        if (!audioCtx) return;
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(920, now);
+        osc.frequency.exponentialRampToValueAtTime(340, now + 0.035);
+        gain.gain.setValueAtTime(0.07, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.035);
+    } catch (e) {}
+}
+
+function playRaffleWinSFX() {
+    if (!soundEnabled) return;
+    try {
+        initAudio();
+        if (!audioCtx) return;
+        const now = audioCtx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.5];
+        notes.forEach((freq, idx) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.09);
+            gain.gain.setValueAtTime(0.14, now + idx * 0.09);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.35);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + idx * 0.09);
+            osc.stop(now + idx * 0.09 + 0.35);
+        });
+    } catch (e) {}
+}
+
+function spinRaffleWheel() {
+    if (isSpinningRaffleWheel) return;
+    const state = getActiveRaffleBenefit();
+    if (!state || !state.email) {
+        const firstInput = document.getElementById('raffleFirstName');
+        if (firstInput) firstInput.focus();
+        return;
+    }
+    if (state.hasSpun) return;
+
+    isSpinningRaffleWheel = true;
+
+    const hubBtn = document.getElementById('raffleSpinHubBtn');
+    const hubText = document.getElementById('raffleHubText');
+    const mainSpinBtn = document.getElementById('raffleSpinMainBtn');
+    const wheelStatus = document.getElementById('raffleWheelStatus');
+    const rotor = document.getElementById('raffleWheelRotor');
+    const pointer = document.getElementById('raffleWheelPointer');
+
+    if (hubBtn) hubBtn.disabled = true;
+    if (hubText) hubText.textContent = 'GIRANDO';
+    if (mainSpinBtn) {
+        mainSpinBtn.disabled = true;
+        mainSpinBtn.innerHTML = '<span>GIRANDO LA RULETA...</span>';
+    }
+    if (wheelStatus) {
+        wheelStatus.textContent = '⚡ Girando por tu descuento o Chance Psychotic...';
+    }
+
+    // Selección ponderada equilibrada entre 5% OFF, 10% OFF, 15% OFF y CHANCE PRE-ENTRENO PSYCHOTIC
+    const chosenIndex = Math.floor(Math.random() * RAFFLE_WHEEL_SEGMENTS.length);
+    const chosenPrize = RAFFLE_WHEEL_SEGMENTS[chosenIndex];
+
+    // Cada segmento i está centrado en (i * 45°). Para quedar en las 12 en punto (0°):
+    // rotación final ≡ (360 - chosenPrize.angle) mod 360
+    const desiredModAngle = (360 - chosenPrize.angle) % 360;
+    const jitterDeg = (Math.random() - 0.5) * 16; // ±8° dentro del segmento de 45°
+    const extraFullSpins = (5 + Math.floor(Math.random() * 2)) * 360; // 5 a 6 giros completos
+    const baseAligned = currentWheelRotationDeg - (currentWheelRotationDeg % 360);
+    const targetRotation = baseAligned + extraFullSpins + desiredModAngle + jitterDeg;
+
+    currentWheelRotationDeg = targetRotation;
+
+    if (rotor) {
+        rotor.style.transform = `rotate(${targetRotation.toFixed(1)}deg)`;
+    }
+
+    // Secuencia de pulsos acústicos y rebote de la aguja desacelerando durante 4.2s
+    const tickDelays = [120, 260, 420, 600, 800, 1020, 1270, 1550, 1870, 2240, 2670, 3160, 3720];
+    tickDelays.forEach(delay => {
+        setTimeout(() => {
+            playRaffleTickSFX();
+            if (pointer) {
+                pointer.classList.add('is-ticking');
+                setTimeout(() => pointer.classList.remove('is-ticking'), 95);
+            }
+        }, delay);
+    });
+
+    setTimeout(() => {
+        isSpinningRaffleWheel = false;
+        playRaffleWinSFX();
+
+        const updatedState = {
+            ...state,
+            hasSpun: true,
+            segmentIndex: chosenPrize.index,
+            type: chosenPrize.type,
+            shortTitle: chosenPrize.shortTitle,
+            label: chosenPrize.label,
+            discountPct: chosenPrize.discountPct,
+            extraChances: chosenPrize.extraChances,
+            desc: chosenPrize.desc,
+            rotationDeg: currentWheelRotationDeg,
+            spunAt: new Date().toLocaleString('es-AR')
+        };
+
+        saveActiveRaffleBenefit(updatedState);
+        recordRaffleLead(updatedState);
+        hydrateRaffleUIFromState(updatedState);
+        updateCartUI();
+
+        if (typeof trackEvent === 'function') {
+            trackEvent('raffle_spin_complete', {
+                email: updatedState.email,
+                ticketId: updatedState.ticketId,
+                prize: updatedState.label,
+                discountPct: updatedState.discountPct
+            });
+        }
+    }, 4250);
+}
+
+function resetRaffleParticipant() {
+    if (isSpinningRaffleWheel) return;
+    try {
+        localStorage.removeItem('tofeprot_raffle_state');
+    } catch (e) {}
+
+    const firstInput = document.getElementById('raffleFirstName');
+    const lastInput = document.getElementById('raffleLastName');
+    const emailInput = document.getElementById('raffleEmail');
+    if (firstInput) firstInput.value = '';
+    if (lastInput) lastInput.value = '';
+    if (emailInput) emailInput.value = '';
+
+    hydrateRaffleUIFromState(null);
+    updateCartUI();
+    if (firstInput) firstInput.focus();
+}
+
+function applyRaffleBenefitAndShop() {
+    playSFX('equip');
+    updateCartUI();
+    scrollToProducts();
 }

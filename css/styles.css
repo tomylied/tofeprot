@@ -7038,5 +7038,817 @@ body.theme-light .gift-description {
     font-weight: 600;
 }
 
+/* ======================================================== */
+/* 7.5 SECCIÓN SORTEO PSYCHOTIC & RULETA INTERACTIVA        */
+/* ======================================================== */
+.raffle-band-wrapper {
+    position: relative;
+    padding: 4.5rem 0 2.5rem 0;
+}
+
+.raffle-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.raffle-eyebrow-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(225, 29, 72, 0.14);
+    border: 1px solid rgba(255, 42, 95, 0.38);
+    color: #fda4af;
+    font-family: var(--font-heading, 'Orbitron', sans-serif);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
+}
+
+body.theme-light .raffle-eyebrow-pill {
+    background: rgba(180, 134, 45, 0.12);
+    border-color: rgba(180, 134, 45, 0.42);
+    color: #926214;
+}
+
+.raffle-live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff2a5f;
+    box-shadow: 0 0 8px rgba(255, 42, 95, 0.8);
+    animation: raffleLivePulse 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+body.theme-light .raffle-live-dot {
+    background: #d97706;
+    box-shadow: 0 0 8px rgba(217, 119, 6, 0.7);
+}
+
+@keyframes raffleLivePulse {
+    0%, 100% { transform: scale(1); opacity: 0.95; }
+    50% { transform: scale(1.25); opacity: 0.55; }
+}
+
+.hero-btn-raffle {
+    border-color: rgba(255, 42, 95, 0.5) !important;
+    background: rgba(225, 29, 72, 0.16) !important;
+}
+
+body.theme-light .hero-btn-raffle {
+    border-color: rgba(180, 134, 45, 0.55) !important;
+    background: rgba(180, 134, 45, 0.14) !important;
+}
+
+.drawer-raffle-item {
+    border-color: rgba(255, 42, 95, 0.32) !important;
+    background: rgba(225, 29, 72, 0.08) !important;
+}
+
+body.theme-light .drawer-raffle-item {
+    border-color: rgba(180, 134, 45, 0.35) !important;
+    background: rgba(180, 134, 45, 0.08) !important;
+}
+
+.raffle-main-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 2rem;
+    align-items: stretch;
+    margin-top: 2rem;
+}
+
+.raffle-left-col,
+.raffle-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* TARJETA FOTOGRÁFICA DEL SORTEO PSYCHOTIC */
+.raffle-showcase-card {
+    background: rgba(14, 11, 22, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.5);
+}
+
+body.theme-light .raffle-showcase-card {
+    background: #ffffff;
+    border-color: rgba(180, 134, 45, 0.25);
+    box-shadow: 0 16px 36px rgba(24, 20, 14, 0.08);
+}
+
+.raffle-photo-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+    background: #09060e;
+}
+
+.raffle-showcase-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 42%;
+    display: block;
+    transform: scale(1.01);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.raffle-showcase-card:hover .raffle-showcase-img {
+    transform: scale(1.04);
+}
+
+.raffle-photo-badges {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    pointer-events: none;
+}
+
+.raffle-badge-primary,
+.raffle-badge-secondary {
+    padding: 5px 11px;
+    border-radius: 6px;
+    font-family: var(--font-heading, 'Orbitron', sans-serif);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.raffle-badge-primary {
+    background: rgba(225, 29, 72, 0.9);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.raffle-badge-secondary {
+    background: rgba(10, 8, 16, 0.85);
+    color: #fde047;
+    border: 1px solid rgba(253, 224, 71, 0.35);
+}
+
+.raffle-showcase-caption {
+    padding: 1.15rem 1.35rem 1.25rem;
+}
+
+.raffle-caption-title {
+    font-family: var(--font-display, 'Russo One', sans-serif);
+    font-size: 1.05rem;
+    color: var(--text-main);
+    letter-spacing: 0.6px;
+    margin-bottom: 0.35rem;
+}
+
+.raffle-caption-sub {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.raffle-caption-sub strong {
+    color: var(--text-main);
+}
+
+/* TARJETA DE FORMULARIO DE ACCESO */
+.raffle-access-card {
+    background: rgba(14, 11, 22, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 1.35rem 1.4rem;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+body.theme-light .raffle-access-card {
+    background: #ffffff;
+    border-color: rgba(180, 134, 45, 0.28);
+    box-shadow: 0 14px 32px rgba(24, 20, 14, 0.07);
+}
+
+.raffle-step-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.raffle-step-tag {
+    font-family: var(--font-heading, 'Orbitron', sans-serif);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--accent-purple, #c084fc);
+    text-transform: uppercase;
+}
+
+body.theme-light .raffle-step-tag {
+    color: #926214;
+}
+
+.raffle-ticket-pill {
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(74, 222, 128, 0.14);
+    border: 1px solid rgba(74, 222, 128, 0.4);
+    color: #4ade80;
+    font-family: var(--font-heading, 'Orbitron', sans-serif);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+}
+
+body.theme-light .raffle-ticket-pill {
+    background: rgba(22, 163, 74, 0.12);
+    border-color: rgba(22, 163, 74, 0.35);
+    color: #15803d;
+}
+
+.raffle-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.raffle-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+}
+
+.raffle-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.raffle-field label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.4px;
+}
+
+.raffle-field input {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.68rem 0.9rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(7, 5, 12, 0.85);
+    color: var(--text-main);
+    font-size: 0.94rem;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+body.theme-light .raffle-field input {
+    background: #faf7f0;
+    border-color: rgba(180, 134, 45, 0.32);
+    color: #1c160e;
+}
+
+.raffle-field input:focus {
+    outline: none;
+    border-color: #ff2a5f;
+    box-shadow: 0 0 0 3px rgba(255, 42, 95, 0.18);
+}
+
+body.theme-light .raffle-field input:focus {
+    border-color: #b4862d;
+    box-shadow: 0 0 0 3px rgba(180, 134, 45, 0.18);
+}
+
+.raffle-form-feedback {
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-height: 1.1rem;
+    color: #fb7185;
+    display: none;
+}
+
+.raffle-form-feedback.is-visible {
+    display: block;
+}
+
+.raffle-unlock-btn {
+    min-height: 48px;
+    width: 100%;
+    margin-top: 0.2rem;
+    padding: 0.85rem 1.2rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: linear-gradient(135deg, #e11d48 0%, #9333ea 100%);
+    color: #ffffff;
+    font-family: var(--font-display, 'Russo One', sans-serif);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(225, 29, 72, 0.32);
+    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s ease;
+}
+
+body.theme-light .raffle-unlock-btn {
+    background: linear-gradient(135deg, #b4862d 0%, #85581A 100%);
+    box-shadow: 0 10px 24px rgba(180, 134, 45, 0.28);
+}
+
+.raffle-unlock-btn:hover {
+    transform: translateY(-1px);
+}
+
+.raffle-unlock-btn:active {
+    transform: scale(0.97) !important;
+}
+
+.raffle-participant-summary {
+    padding-top: 0.25rem;
+}
+
+.participant-summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.theme-light .participant-summary-row {
+    background: #faf7f0;
+    border-color: rgba(180, 134, 45, 0.25);
+}
+
+.participant-info-col {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.participant-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #4ade80;
+    font-weight: 700;
+}
+
+body.theme-light .participant-label {
+    color: #15803d;
+}
+
+.participant-name {
+    font-size: 0.98rem;
+    color: var(--text-main);
+}
+
+.participant-email {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.raffle-change-user-btn {
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.76rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+body.theme-light .raffle-change-user-btn {
+    border-color: rgba(180, 134, 45, 0.35);
+    color: #5c4b32;
+}
+
+.raffle-change-user-btn:hover {
+    opacity: 0.85;
+}
+
+.raffle-change-user-btn:active {
+    transform: scale(0.96);
+}
+
+/* COLUMNA DERECHA: ESCENARIO DE LA RULETA INTERACTIVA */
+.raffle-wheel-card {
+    background: radial-gradient(circle at 50% 38%, rgba(126, 34, 206, 0.16), rgba(12, 9, 20, 0.96) 72%);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 18px;
+    padding: 1.35rem 1.4rem 1.5rem;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+body.theme-light .raffle-wheel-card {
+    background: radial-gradient(circle at 50% 38%, rgba(212, 175, 55, 0.16), #ffffff 74%);
+    border-color: rgba(180, 134, 45, 0.3);
+    box-shadow: 0 18px 42px rgba(24, 20, 14, 0.09);
+}
+
+.raffle-wheel-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 0.75rem;
+}
+
+.wheel-status-pill {
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+body.theme-light .wheel-status-pill {
+    background: #faf7f0;
+    border-color: rgba(180, 134, 45, 0.28);
+}
+
+.raffle-wheel-card.is-unlocked .wheel-status-pill {
+    background: rgba(74, 222, 128, 0.14);
+    border-color: rgba(74, 222, 128, 0.42);
+    color: #4ade80;
+}
+
+body.theme-light .raffle-wheel-card.is-unlocked .wheel-status-pill {
+    background: rgba(22, 163, 74, 0.12);
+    border-color: rgba(22, 163, 74, 0.35);
+    color: #15803d;
+}
+
+.wheel-prizes-hint {
+    font-size: 0.73rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.raffle-wheel-viewport {
+    position: relative;
+    width: min(100%, 340px);
+    aspect-ratio: 1 / 1;
+    margin: 0.4rem auto 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.raffle-wheel-pointer {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.65));
+    transform-origin: 50% 8px;
+    transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.raffle-wheel-pointer.is-ticking {
+    transform: translateX(-50%) rotate(-14deg);
+}
+
+.raffle-wheel-rotor {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    will-change: transform;
+    transform: rotate(0deg);
+    transition: transform 4.2s cubic-bezier(0.12, 0.82, 0.16, 1);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
+}
+
+.raffle-wheel-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* BOTÓN CENTRAL DE LA RULETA */
+.raffle-wheel-hub-btn {
+    position: absolute;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    background: radial-gradient(circle at 35% 30%, #ff2a5f, #881337 85%);
+    color: #ffffff;
+    font-family: var(--font-display, 'Russo One', sans-serif);
+    font-size: 0.68rem;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    z-index: 5;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.65);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+body.theme-light .raffle-wheel-hub-btn {
+    background: radial-gradient(circle at 35% 30%, #d97706, #78350f 85%);
+}
+
+.raffle-wheel-hub-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+    background: #1e1b2e;
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.raffle-wheel-hub-btn:not(:disabled):hover {
+    transform: scale(1.06);
+}
+
+.raffle-wheel-hub-btn:not(:disabled):active {
+    transform: scale(0.95) !important;
+}
+
+/* VELO DE BLOQUEO ANTES DE COMPLETAR NOMBRE, APELLIDO Y MAIL */
+.raffle-wheel-lock-veil {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(8, 6, 14, 0.62);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 7;
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.26s cubic-bezier(0.16, 1, 0.3, 1), transform 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.raffle-wheel-card.is-unlocked .raffle-wheel-lock-veil {
+    opacity: 0;
+    transform: scale(0.96);
+    pointer-events: none;
+}
+
+.lock-veil-badge {
+    background: rgba(15, 12, 26, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 14px;
+    padding: 0.9rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.35;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+}
+
+.lock-veil-badge svg {
+    color: #fde047;
+}
+
+/* FOOTER DE LA RULETA Y TARJETA DE RESULTADO */
+.raffle-wheel-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.raffle-spin-main-btn {
+    min-height: 48px;
+    width: 100%;
+    padding: 0.88rem 1.25rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: linear-gradient(135deg, #ff2a5f 0%, #7e22ce 100%);
+    color: #ffffff;
+    font-family: var(--font-display, 'Russo One', sans-serif);
+    font-size: 0.92rem;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 10px 26px rgba(255, 42, 95, 0.32);
+    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s ease;
+}
+
+body.theme-light .raffle-spin-main-btn {
+    background: linear-gradient(135deg, #d97706 0%, #926214 100%);
+    box-shadow: 0 10px 24px rgba(180, 134, 45, 0.3);
+}
+
+.raffle-spin-main-btn:disabled {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: var(--text-muted);
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+body.theme-light .raffle-spin-main-btn:disabled {
+    background: rgba(180, 134, 45, 0.1);
+    border-color: rgba(180, 134, 45, 0.22);
+    color: #7c684b;
+}
+
+.raffle-spin-main-btn:not(:disabled):hover {
+    transform: translateY(-1px);
+}
+
+.raffle-spin-main-btn:not(:disabled):active {
+    transform: scale(0.97) !important;
+}
+
+/* TARJETA DE RESULTADO GANADOR */
+.raffle-result-card {
+    background: rgba(20, 16, 34, 0.95);
+    border: 1px solid rgba(253, 224, 71, 0.45);
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem;
+    animation: raffleResultReveal 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+body.theme-light .raffle-result-card {
+    background: #fdfaf3;
+    border-color: rgba(180, 134, 45, 0.55);
+}
+
+@keyframes raffleResultReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.result-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 0.45rem;
+}
+
+.result-win-tag {
+    font-family: var(--font-heading, 'Orbitron', sans-serif);
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #fde047;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+}
+
+body.theme-light .result-win-tag {
+    color: #b45309;
+}
+
+.result-ticket-code {
+    font-family: var(--font-heading, 'Orbitron', sans-serif);
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+}
+
+body.theme-light .result-ticket-code {
+    background: rgba(22, 163, 74, 0.14);
+    color: #15803d;
+}
+
+.result-prize-headline {
+    font-family: var(--font-display, 'Russo One', sans-serif);
+    font-size: 1.22rem;
+    color: #ffffff;
+    margin: 0 0 0.35rem 0;
+    letter-spacing: 0.6px;
+}
+
+body.theme-light .result-prize-headline {
+    color: #1c160e;
+}
+
+.result-prize-desc {
+    font-size: 0.83rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+    margin: 0 0 0.85rem 0;
+}
+
+.result-apply-btn {
+    min-height: 44px;
+    width: 100%;
+    padding: 0.72rem 1rem;
+    border-radius: 9px;
+    border: 1px solid rgba(74, 222, 128, 0.45);
+    background: rgba(74, 222, 128, 0.16);
+    color: #4ade80;
+    font-family: var(--font-display, 'Russo One', sans-serif);
+    font-size: 0.82rem;
+    letter-spacing: 0.8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.16s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.16s ease;
+}
+
+body.theme-light .result-apply-btn {
+    background: #15803d;
+    border-color: #15803d;
+    color: #ffffff;
+}
+
+.result-apply-btn:hover {
+    opacity: 0.92;
+}
+
+.result-apply-btn:active {
+    transform: scale(0.97) !important;
+}
+
+.cart-raffle-row {
+    color: #fde047 !important;
+    font-weight: 700;
+}
+
+body.theme-light .cart-raffle-row {
+    color: #b45309 !important;
+}
+
+@media (max-width: 960px) {
+    .raffle-main-grid {
+        grid-template-columns: 1fr;
+    }
+    .raffle-wheel-viewport {
+        width: min(100%, 320px);
+    }
+}
+
+@media (max-width: 640px) {
+    .raffle-band-wrapper {
+        padding: 3rem 0 1.5rem 0;
+    }
+    .raffle-form-row {
+        grid-template-columns: 1fr;
+    }
+    .raffle-wheel-card,
+    .raffle-access-card {
+        padding: 1.15rem;
+    }
+    .raffle-wheel-viewport {
+        width: min(100%, 290px);
+    }
+}
+
+
 
 

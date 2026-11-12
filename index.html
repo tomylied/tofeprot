@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Proteínas Whey, Creatina Pura 200 Mesh y Pre-entreno Berserk. Elige tu bando: Luz o Oscuridad.">
     <meta name="twitter:image" content="assets/images/logo-oscuridad.png">
 
-    <link rel="stylesheet" href="css/styles.css?v=4.5">
+    <link rel="stylesheet" href="css/styles.css?v=4.6">
 
     <!-- Pre-detección de bando guardado: ingreso directo sin parpadeo del Gateway -->
     <script>
@@ -196,6 +196,13 @@
                     <span class="drawer-item-text">ARMERÍA COMPLETA</span>
                     <span class="drawer-item-arrow">→</span>
                 </a>
+                <a class="drawer-nav-item drawer-raffle-item" onclick="document.getElementById('sorteoSection').scrollIntoView({behavior:'smooth'}); closeNavDrawer();">
+                    <span class="drawer-item-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="9"></line><line x1="12" y1="15" x2="12" y2="22"></line><line x1="2" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="22" y2="12"></line></svg>
+                    </span>
+                    <span class="drawer-item-text">SORTEO & RULETA PSYCHOTIC</span>
+                    <span class="drawer-item-arrow">→</span>
+                </a>
                 <a class="drawer-nav-item" onclick="document.getElementById('calcSection').scrollIntoView({behavior:'smooth'}); closeNavDrawer();">
                     <span class="drawer-item-icon">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
@@ -283,6 +290,9 @@
             <div class="hero-cta-group">
                 <button class="hero-btn-secondary" onclick="document.getElementById('calcSection').scrollIntoView({behavior: 'smooth'})">
                     <span>CALCULAR MI DOSIS</span>
+                </button>
+                <button class="hero-btn-secondary hero-btn-raffle" onclick="document.getElementById('sorteoSection').scrollIntoView({behavior: 'smooth'})">
+                    <span>SORTEO &amp; RULETA PSYCHOTIC</span>
                 </button>
             </div>
         </div>
@@ -373,6 +383,248 @@
             </div>
         </div>
     </section>
+
+    <!-- ========================================== -->
+    <!-- 7.5 SORTEO PSYCHOTIC & RULETA INTERACTIVA  -->
+    <!-- ========================================== -->
+    <div class="section-wrapper raffle-band-wrapper reveal-on-scroll" id="sorteoSection">
+        <section class="raffle-section" aria-labelledby="raffleSectionTitle">
+            <div class="editorial-section-header">
+                <div class="raffle-eyebrow-pill">
+                    <span class="raffle-live-dot" aria-hidden="true"></span>
+                    <span>EVENTO ESPECIAL · INSANE LABZ PSYCHOTIC (1 GANADOR)</span>
+                </div>
+                <h2 class="section-title" id="raffleSectionTitle">Sorteo Psychotic &amp; Ruleta</h2>
+                <p class="editorial-subtitle">
+                    Completá tu nombre, apellido y email para habilitar tu giro directo. Participás por el Pre-Entreno Psychotic y desbloqueás descuentos de 5%, 10% o hasta 15% OFF.
+                </p>
+            </div>
+
+            <div class="raffle-main-grid">
+                <!-- COLUMNA IZQUIERDA: FOTO REAL DEL SORTEO + FORMULARIO DE ACCESO -->
+                <div class="raffle-left-col">
+                    <div class="raffle-showcase-card">
+                        <div class="raffle-photo-frame">
+                            <img src="assets/images/sorteo-psychotic.jpg?v=4.6" alt="Pirámide de Pre-entrenos Insane Labz Psychotic en el Santuario Tofeprot - Sorteo 1 Ganador" class="raffle-showcase-img" loading="lazy">
+                            <div class="raffle-photo-badges">
+                                <span class="raffle-badge-primary">INSANE LABZ · PSYCHOTIC</span>
+                                <span class="raffle-badge-secondary">35 SERVICIOS · FRUIT PUNCH</span>
+                            </div>
+                        </div>
+                        <div class="raffle-showcase-caption">
+                            <div class="raffle-caption-title">Premio Mayor en Juego: Pre-Entreno Psychotic</div>
+                            <p class="raffle-caption-sub">Al registrarte habilitás la ruleta al instante: podés sacar tu <strong>Chance por el Pre-Entreno</strong> o descuentos directos de <strong>5% OFF, 10% OFF y hasta 15% OFF</strong>.</p>
+                        </div>
+                    </div>
+
+                    <!-- FORMULARIO DE REGISTRO PARA HABILITAR LA RULETA -->
+                    <div class="raffle-access-card" id="raffleAccessCard">
+                        <div class="raffle-step-header">
+                            <span class="raffle-step-tag" id="raffleStepTag">PASO 1 · TUS DATOS DE PARTICIPANTE</span>
+                            <span class="raffle-ticket-pill" id="raffleTicketBadge" style="display: none;">TICKET #TP-0000</span>
+                        </div>
+
+                        <form id="raffleRegistrationForm" class="raffle-form" onsubmit="unlockRaffleWheel(event)" novalidate>
+                            <div class="raffle-form-row">
+                                <div class="raffle-field">
+                                    <label for="raffleFirstName">Nombre</label>
+                                    <input type="text" id="raffleFirstName" name="firstName" placeholder="Ej: Tomás" autocomplete="given-name" required>
+                                </div>
+                                <div class="raffle-field">
+                                    <label for="raffleLastName">Apellido</label>
+                                    <input type="text" id="raffleLastName" name="lastName" placeholder="Ej: Rossi" autocomplete="family-name" required>
+                                </div>
+                            </div>
+
+                            <div class="raffle-field">
+                                <label for="raffleEmail">Email</label>
+                                <input type="email" id="raffleEmail" name="email" placeholder="tu@email.com" autocomplete="email" required>
+                            </div>
+
+                            <div id="raffleFormFeedback" class="raffle-form-feedback" role="alert" aria-live="polite"></div>
+
+                            <button type="submit" class="raffle-unlock-btn" id="raffleUnlockBtn">
+                                <span>HABILITAR RULETA Y PARTICIPAR</span>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </button>
+                        </form>
+
+                        <!-- RESUMEN DEL PARTICIPANTE UNA VEZ DESBLOQUEADO -->
+                        <div id="raffleParticipantSummary" class="raffle-participant-summary" style="display: none;">
+                            <div class="participant-summary-row">
+                                <div class="participant-info-col">
+                                    <span class="participant-label">Participante Habilitado</span>
+                                    <strong class="participant-name" id="raffleSummaryName">—</strong>
+                                    <span class="participant-email" id="raffleSummaryEmail">—</span>
+                                </div>
+                                <button type="button" class="raffle-change-user-btn" onclick="resetRaffleParticipant()">Cambiar datos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUMNA DERECHA: RULETA INTERACTIVA -->
+                <div class="raffle-right-col">
+                    <div class="raffle-wheel-card" id="raffleWheelStage">
+                        <div class="raffle-wheel-topbar">
+                            <span class="wheel-status-pill" id="raffleWheelStatus">🔒 Completá tus datos para habilitar la ruleta</span>
+                            <span class="wheel-prizes-hint">Premios: 5% · 10% · 15% · Pre-Entreno</span>
+                        </div>
+
+                        <div class="raffle-wheel-viewport">
+                            <!-- Puntero / Aguja superior (12 en punto) -->
+                            <div class="raffle-wheel-pointer" id="raffleWheelPointer" aria-hidden="true">
+                                <svg width="38" height="42" viewBox="0 0 38 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 40L4 10C2.5 7 4.7 3 8.2 3H29.8C33.3 3 35.5 7 34 10L19 40Z" fill="var(--raffle-pointer-fill, #ff2a5f)" stroke="#ffffff" stroke-width="2.5"/>
+                                    <circle cx="19" cy="12" r="4" fill="#ffffff"/>
+                                </svg>
+                            </div>
+
+                            <!-- Disco giratorio SVG de 8 segmentos (45° cada uno) -->
+                            <div class="raffle-wheel-rotor" id="raffleWheelRotor">
+                                <svg class="raffle-wheel-svg" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ruleta de premios Tofeprot: 5% OFF, 10% OFF, 15% OFF y Chance por Pre-Entreno Psychotic">
+                                    <defs>
+                                        <radialGradient id="wheelRimGrad" cx="50%" cy="50%" r="50%">
+                                            <stop offset="82%" stop-color="#14101c" />
+                                            <stop offset="95%" stop-color="#2e2240" />
+                                            <stop offset="100%" stop-color="#09060e" />
+                                        </radialGradient>
+                                        <linearGradient id="sliceJackpotGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color="#e11d48" />
+                                            <stop offset="100%" stop-color="#881337" />
+                                        </linearGradient>
+                                        <linearGradient id="sliceFifteenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color="#7e22ce" />
+                                            <stop offset="100%" stop-color="#3b0764" />
+                                        </linearGradient>
+                                        <linearGradient id="sliceTenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color="#1e1b2e" />
+                                            <stop offset="100%" stop-color="#0f0c1b" />
+                                        </linearGradient>
+                                        <linearGradient id="sliceFiveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color="#27203a" />
+                                            <stop offset="100%" stop-color="#141022" />
+                                        </linearGradient>
+                                    </defs>
+
+                                    <!-- Aro metálico exterior -->
+                                    <circle cx="180" cy="180" r="174" fill="url(#wheelRimGrad)" stroke="rgba(255,255,255,0.18)" stroke-width="3"/>
+                                    <circle cx="180" cy="180" r="160" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+
+                                    <!-- Segmento 0 (0°): CHANCE PRE-ENTRENO PSYCHOTIC -->
+                                    <g transform="rotate(0 180 180)">
+                                        <path d="M 180 180 L 120.3 35.87 A 156 156 0 0 1 239.7 35.87 Z" fill="url(#sliceJackpotGrad)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+                                        <text x="180" y="66" fill="#ffffff" font-family="'Russo One', sans-serif" font-size="11.5" text-anchor="middle" letter-spacing="0.6">PRE-ENTRENO</text>
+                                        <text x="180" y="82" fill="#fde047" font-family="'Orbitron', sans-serif" font-size="8.2" font-weight="800" text-anchor="middle" letter-spacing="0.8">CHANCE SORTEO</text>
+                                    </g>
+
+                                    <!-- Segmento 1 (45°): 5% OFF -->
+                                    <g transform="rotate(45 180 180)">
+                                        <path d="M 180 180 L 120.3 35.87 A 156 156 0 0 1 239.7 35.87 Z" fill="url(#sliceFiveGrad)" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>
+                                        <text x="180" y="68" fill="#ffffff" font-family="'Russo One', sans-serif" font-size="16" text-anchor="middle" letter-spacing="0.8">5% OFF</text>
+                                        <text x="180" y="84" fill="#cbd5e1" font-family="'Orbitron', sans-serif" font-size="7.8" font-weight="700" text-anchor="middle" letter-spacing="0.8">DESCUENTO</text>
+                                    </g>
+
+                                    <!-- Segmento 2 (90°): 10% OFF -->
+                                    <g transform="rotate(90 180 180)">
+                                        <path d="M 180 180 L 120.3 35.87 A 156 156 0 0 1 239.7 35.87 Z" fill="url(#sliceTenGrad)" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>
+                                        <text x="180" y="68" fill="#f8fafc" font-family="'Russo One', sans-serif" font-size="15.5" text-anchor="middle" letter-spacing="0.8">10% OFF</text>
+                                        <text x="180" y="84" fill="#38bdf8" font-family="'Orbitron', sans-serif" font-size="7.8" font-weight="700" text-anchor="middle" letter-spacing="0.8">EN TU COMPRA</text>
+                                    </g>
+
+                                    <!-- Segmento 3 (135°): 15% OFF -->
+                                    <g transform="rotate(135 180 180)">
+                                        <path d="M 180 180 L 120.3 35.87 A 156 156 0 0 1 239.7 35.87 Z" fill="url(#sliceFifteenGrad)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+                                        <text x="180" y="68" fill="#fde047" font-family="'Russo One', sans-serif" font-size="16" text-anchor="middle" letter-spacing="0.8">15% OFF</text>
+                                        <text x="180" y="84" fill="#ffffff" font-family="'Orbitron', sans-serif" font-size="7.8" font-weight="800" text-anchor="middle" letter-spacing="0.8">DESCUENTO MAX</text>
+                                    </g>
+
+                                    <!-- Segmento 4 (180°): CHANCE PRE-ENTRENO PSYCHOTIC -->
+                                    <g transform="rotate(180 180 180)">
+                                        <path d="M 180 180 L 120.3 35.87 A 156 156 0 0 1 239.7 35.87 Z" fill="url(#sliceJackpotGrad)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+                                        <text x="180" y="66" fill="#ffffff" font-family="'Russo One', sans-serif" font-size="11.5" text-anchor="middle" letter-spacing="0.6">PRE-ENTRENO</text>
+                                        <text x="180" y="82" fill="#fde047" font-family="'Orbitron', sans-serif" font-size="8.2" font-weight="800" text-anchor="middle" letter-spacing="0.8">CHANCE PSYCHOTIC</text>
+                                    </g>
+
+                                    <!-- Segmento 5 (225°): 5% OFF -->
+                                    <g transform="rotate(225 180 180)">
+                                        <path d="M 180 180 L 120.3 35.87 A 156 156 0 0 1 239.7 35.87 Z" fill="url(#sliceFiveGrad)" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>
+                                        <text x="180" y="68" fill="#ffffff" font-family="'Russo One', sans-serif" font-size="16" text-anchor="middle" letter-spacing="0.8">5% OFF</text>
+                                        <text x="180" y="84" fill="#cbd5e1" font-family="'Orbitron', sans-serif" font-size="7.8" font-weight="700" text-anchor="middle" letter-spacing="0.8">DESCUENTO</text>
+                                    </g>
+
+                                    <!-- Segmento 6 (270°): 10% OFF -->
+                                    <g transform="rotate(270 180 180)">
+                                        <path d="M 180 180 L 120.3 35.87 A 156 156 0 0 1 239.7 35.87 Z" fill="url(#sliceTenGrad)" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>
+                                        <text x="180" y="68" fill="#f8fafc" font-family="'Russo One', sans-serif" font-size="15.5" text-anchor="middle" letter-spacing="0.8">10% OFF</text>
+                                        <text x="180" y="84" fill="#38bdf8" font-family="'Orbitron', sans-serif" font-size="7.8" font-weight="700" text-anchor="middle" letter-spacing="0.8">EN TU COMPRA</text>
+                                    </g>
+
+                                    <!-- Segmento 7 (315°): 15% OFF -->
+                                    <g transform="rotate(315 180 180)">
+                                        <path d="M 180 180 L 120.3 35.87 A 156 156 0 0 1 239.7 35.87 Z" fill="url(#sliceFifteenGrad)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+                                        <text x="180" y="68" fill="#fde047" font-family="'Russo One', sans-serif" font-size="16" text-anchor="middle" letter-spacing="0.8">15% OFF</text>
+                                        <text x="180" y="84" fill="#ffffff" font-family="'Orbitron', sans-serif" font-size="7.8" font-weight="800" text-anchor="middle" letter-spacing="0.8">DESCUENTO MAX</text>
+                                    </g>
+
+                                    <!-- Pines divisores en el borde exterior -->
+                                    <g fill="#fde047" stroke="#09060e" stroke-width="1.5">
+                                        <circle cx="180" cy="14" r="3.5" transform="rotate(22.5 180 180)"/>
+                                        <circle cx="180" cy="14" r="3.5" transform="rotate(67.5 180 180)"/>
+                                        <circle cx="180" cy="14" r="3.5" transform="rotate(112.5 180 180)"/>
+                                        <circle cx="180" cy="14" r="3.5" transform="rotate(157.5 180 180)"/>
+                                        <circle cx="180" cy="14" r="3.5" transform="rotate(202.5 180 180)"/>
+                                        <circle cx="180" cy="14" r="3.5" transform="rotate(247.5 180 180)"/>
+                                        <circle cx="180" cy="14" r="3.5" transform="rotate(292.5 180 180)"/>
+                                        <circle cx="180" cy="14" r="3.5" transform="rotate(337.5 180 180)"/>
+                                    </g>
+                                </svg>
+                            </div>
+
+                            <!-- Botón de núcleo central de la ruleta -->
+                            <button type="button" class="raffle-wheel-hub-btn" id="raffleSpinHubBtn" onclick="spinRaffleWheel()" disabled aria-label="Girar ruleta de premios">
+                                <span class="hub-btn-ring"></span>
+                                <span class="hub-btn-text" id="raffleHubText">BLOQUEADA</span>
+                            </button>
+
+                            <!-- Velo de bloqueo inicial hasta ingresar Nombre, Apellido y Email -->
+                            <div class="raffle-wheel-lock-veil" id="raffleWheelLockVeil">
+                                <div class="lock-veil-badge">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <span>Ingresá tu Nombre, Apellido y Mail para habilitar tu giro</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ACCIÓN DE GIRO / RESULTADO GANADOR -->
+                        <div class="raffle-wheel-footer">
+                            <button type="button" class="raffle-spin-main-btn" id="raffleSpinMainBtn" onclick="spinRaffleWheel()" disabled>
+                                <span>COMPLETÁ TUS DATOS PARA GIRAR</span>
+                            </button>
+
+                            <!-- Tarjeta de premio obtenido -->
+                            <div class="raffle-result-card" id="raffleResultCard" style="display: none;" role="region" aria-live="polite">
+                                <div class="result-card-top">
+                                    <span class="result-win-tag" id="raffleResultTag">¡PREMIO DESBLOQUEADO!</span>
+                                    <span class="result-ticket-code" id="raffleResultTicket">TICKET #TP-0000</span>
+                                </div>
+                                <h3 class="result-prize-headline" id="raffleResultHeadline">15% OFF EN TU COMPRA</h3>
+                                <p class="result-prize-desc" id="raffleResultDesc">
+                                    Tu beneficio ya está activo en tu carrito y tus datos quedaron inscriptos en el sorteo del Pre-Entreno Insane Labz Psychotic.
+                                </p>
+                                <div class="result-actions-row">
+                                    <button type="button" class="result-apply-btn" onclick="applyRaffleBenefitAndShop()">
+                                        <span>USAR MI BENEFICIO EN LA ARMERÍA</span>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <!-- ========================================== -->
     <!-- 8. BANNER EXCLUSIVO: MUESTRA GRATIS        -->
@@ -814,8 +1066,13 @@
             </div>
 
             <div class="cart-savings-row" id="cartSavingsRow" style="display: none;">
-                <span>Ahorro Transferencia (15%):</span>
+                <span id="cartSavingsLabel">Ahorro Transferencia (15%):</span>
                 <span id="cartSavingsAmount">-$0</span>
+            </div>
+
+            <div class="cart-savings-row cart-raffle-row" id="cartRaffleRow" style="display: none;">
+                <span id="cartRaffleLabel">Beneficio Ruleta Psychotic:</span>
+                <span id="cartRaffleAmount">Activo</span>
             </div>
 
             <div class="cart-total"><span>Total Pedido:</span> <span id="cartTotal">$0</span></div>
@@ -924,6 +1181,6 @@
     </a>
 
     <!-- ARCHIVO JS MODULAR -->
-    <script src="js/app.js?v=4.5" defer></script>
+    <script src="js/app.js?v=4.6" defer></script>
 </body>
 </html>
