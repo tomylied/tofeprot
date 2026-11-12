@@ -187,7 +187,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         specs: ["25g Proteína", "5.5g BCAAs", "0% Azúcar"],
         nutrition: {
             serving: "30g (1 scoop colmado)",
-            servingsPerTub: "33 tomas",
+            servingsPerTub: "33 servicios",
             cals: "118 kcal",
             protein: "25g (83.3%)",
             carbs: "1.8g (Sin azúcar añadida)",
@@ -229,7 +229,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         specs: ["100% Micronizada", "200 Mesh", "0% Relleno"],
         nutrition: {
             serving: "5g (1 scoop raso)",
-            servingsPerTub: "60 tomas (2 meses)",
+            servingsPerTub: "60 servicios (2 meses)",
             cals: "0 kcal",
             protein: "0g",
             carbs: "0g",
@@ -315,6 +315,7 @@ function getIndividualProducts() {
                             p.flavors = [];
                             if (!p.badge) p.badge = def.badge;
                             p.specs = def.specs;
+                            p.nutrition = def.nutrition;
                             p.isVariantOnly = false;
                         }
                         return p;
@@ -1621,13 +1622,13 @@ function verCertificado(nombre) {
 // TIENDA INDIVIDUAL (ARMERÍA EDITORIAL)      */
 // ========================================== */
 function getProductYieldLabel(product) {
-    const servingsStr = (product.nutrition && product.nutrition.servingsPerTub) || '30 tomas';
+    const servingsStr = (product.nutrition && product.nutrition.servingsPerTub) || '30 servicios';
     const numMatch = servingsStr.match(/\d+/);
     const numServings = numMatch ? parseInt(numMatch[0], 10) : 30;
     const perServing = Math.round(product.price / numServings);
     return {
-        servingsTag: `${numServings} TOMAS`,
-        perServingText: `${formatPrice(perServing)} / toma`
+        servingsTag: `${numServings} SERVICIOS`,
+        perServingText: `${formatPrice(perServing)} / servicio`
     };
 }
 
@@ -1729,7 +1730,6 @@ function renderTienda(items) {
                         <div class="price-container">
                             <div class="price-main-row">
                                 <span class="price">${formatPrice(product.price)}</span>
-                                <span class="price-per-serving">${yieldInfo.perServingText}</span>
                             </div>
                             <div class="price-sub-row">
                                 <span class="transfer-discount-badge">${formatPrice(transferPrice)} Transferencia (15% OFF)</span>
@@ -1843,7 +1843,6 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
             <div class="price-container">
                 <div class="price-main-row">
                     <span class="price">${formatPrice(targetProduct.price)}</span>
-                    <span class="price-per-serving">${yieldInfo.perServingText}</span>
                 </div>
                 <div class="price-sub-row">
                     <span class="transfer-discount-badge">${formatPrice(transferPrice)} Transferencia (15% OFF)</span>
@@ -2472,7 +2471,8 @@ function updateCartUI() {
     const discountAmount = effectiveDiscountPct > 0 ? Math.round(rawSubtotal * (effectiveDiscountPct / 100)) : 0;
     const subtotalAfterDiscount = rawSubtotal - discountAmount;
 
-    const isFreeShipping = rawSubtotal >= FREE_SHIPPING_THRESHOLD;
+    const hasRaffleFreeShipping = !!(activeRaffle && activeRaffle.hasSpun && activeRaffle.type === 'preworkout');
+    const isFreeShipping = rawSubtotal >= FREE_SHIPPING_THRESHOLD || hasRaffleFreeShipping;
     const shipping = (rawSubtotal > 0 && !isFreeShipping) ? 5000 : 0;
     const finalTotal = subtotalAfterDiscount + shipping;
 
@@ -2502,7 +2502,7 @@ function updateCartUI() {
             }
             if (raffleAmountEl) {
                 raffleAmountEl.textContent = activeRaffle.type === 'preworkout'
-                    ? '🏆 1x Pre-Entreno Psychotic GRATIS'
+                    ? '🏆 Pre-Entreno Psychotic SIN COSTO + ENVÍO GRATIS'
                     : `Descuento ${activeRaffle.discountPct}% OFF Activo`;
             }
         } else {
@@ -2773,7 +2773,8 @@ function checkout() {
     const effectiveDiscountPct = selectedPaymentMethod === 'transfer' ? Math.max(15, raffleDiscountPct) : raffleDiscountPct;
     const discountAmount = effectiveDiscountPct > 0 ? Math.round(rawSubtotal * (effectiveDiscountPct / 100)) : 0;
     const subtotalAfterDiscount = rawSubtotal - discountAmount;
-    const isFreeShipping = rawSubtotal >= 65000;
+    const hasRaffleFreeShipping = !!(activeRaffle && activeRaffle.hasSpun && activeRaffle.type === 'preworkout');
+    const isFreeShipping = rawSubtotal >= 65000 || hasRaffleFreeShipping;
     const shipping = (rawSubtotal > 0 && !isFreeShipping) ? 5000 : 0;
     const finalTotal = subtotalAfterDiscount + shipping;
 
@@ -2786,7 +2787,7 @@ function checkout() {
         const discTag = selectedPaymentMethod === 'transfer' ? `Descuento Transferencia (${effectiveDiscountPct}% OFF)` : `Beneficio Ruleta Psychotic (${effectiveDiscountPct}% OFF)`;
         msg += `🏷️ *${discTag}:* -${formatPrice(discountAmount)}\n`;
     }
-    msg += `🚚 *Envío:* ${shipping === 0 ? 'GRATIS (Supera $65.000)' : formatPrice(shipping)}\n`;
+    msg += `🚚 *Envío:* ${shipping === 0 ? (hasRaffleFreeShipping ? 'GRATIS (Premio Pre-Entreno Psychotic)' : 'GRATIS (Supera $65.000)') : formatPrice(shipping)}\n`;
     msg += `🔥 *TOTAL A PAGAR:* ${formatPrice(finalTotal)}\n`;
     msg += `━━━━━━━━━━━━━━━━━━━━━\n`;
     msg += `¡Hola Tofeprot! Deseo confirmar este pedido y coordinar el pago / envío.`;
@@ -3276,9 +3277,9 @@ const RAFFLE_WHEEL_SEGMENTS = [
         weight: 0.01, // 1% de probabilidad interna
         type: 'preworkout',
         shortTitle: 'PRE-ENTRENO PSYCHOTIC',
-        label: '¡GANASTE 1 PRE-ENTRENO PSYCHOTIC ($0)!',
+        label: '¡GANASTE 1 PRE-ENTRENO PSYCHOTIC SIN COSTO + ENVÍO GRATIS!',
         discountPct: 0,
-        desc: '¡Ganaste directamente 1 pote de Pre-Entreno Insane Labz Psychotic (de $89.000 a $0)! Incluiremos tu código ganador en tu pedido por WhatsApp.'
+        desc: '¡Ganaste directamente 1 pote de Pre-Entreno Insane Labz Psychotic (de $89.000 a $0) 100% Sin Costo y con Envío Gratis! Incluiremos tu código ganador en tu pedido por WhatsApp.'
     },
     {
         index: 1,
