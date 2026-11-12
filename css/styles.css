@@ -7206,25 +7206,126 @@ body.theme-light .raffle-inline-showcase {
 .raffle-inline-photo {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9.8;
-    max-height: 270px;
+    height: 320px;
     border-radius: 10px;
     overflow: hidden;
-    background: #09060e;
+    background: radial-gradient(circle at 50% 42%, rgba(225, 29, 72, 0.22), #07050c 76%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.raffle-showcase-img {
+body.theme-light .raffle-inline-photo {
+    background: radial-gradient(circle at 50% 42%, rgba(180, 134, 45, 0.18), #14100b 78%);
+}
+
+.raffle-showcase-img,
+.raffle-showcase-video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center 45%;
+    object-fit: contain;
+    object-position: center center;
     display: block;
-    transform: scale(1.01);
-    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
 }
 
-.raffle-inline-showcase:hover .raffle-showcase-img {
-    transform: scale(1.04);
+/* BARRA DE NAVEGACIÓN DEL VIDEO EN LA TARJETA DE SORTEO */
+.raffle-video-navbar {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background: rgba(8, 6, 14, 0.84);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.55);
+}
+
+.raffle-vctrl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 34px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
+    color: #f8fafc;
+    font-family: var(--font-heading, 'Orbitron', sans-serif);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.raffle-vctrl-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.32);
+}
+
+.raffle-vctrl-btn:active {
+    transform: scale(0.96);
+}
+
+.raffle-vctrl-sound.is-unmuted {
+    background: rgba(74, 222, 128, 0.2);
+    border-color: rgba(74, 222, 128, 0.55);
+    color: #4ade80;
+}
+
+.raffle-video-timeline {
+    flex: 1;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 4px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.raffle-video-timeline-track {
+    width: 100%;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.22);
+    overflow: hidden;
+    position: relative;
+}
+
+.raffle-video-timeline-fill {
+    width: 100%;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #ff2a5f 0%, #c084fc 100%);
+    transform-origin: left center;
+    transform: scaleX(var(--video-progress, 0));
+    transition: transform 0.1s linear;
+}
+
+body.theme-light .raffle-video-timeline-fill {
+    background: linear-gradient(90deg, #d4af37 0%, #f59e0b 100%);
+}
+
+.raffle-video-time {
+    font-family: var(--font-heading, 'Orbitron', sans-serif);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: rgba(248, 250, 252, 0.85);
+    min-width: 34px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
 }
 
 .raffle-inline-specs {
