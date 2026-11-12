@@ -170,66 +170,25 @@ function getProductSVG(type, label, sublabel) {
     `;
 }
 
-// Productos únicos para la Tienda Individual (en Pesos Argentinos - ARS)
+// Productos únicos en Stock para la Tienda Individual (en Pesos Argentinos - ARS)
 const DEFAULT_INDIVIDUAL_PRODUCTS = [
     { 
         id: 101, 
-        name: "Proteína Whey 1kg", 
-        emoji: "🥛", 
-        tubType: "vanilla",
-        tubLabel: "WHEY 1KG",
-        tubSub: "PURE WHEY",
-        description: "Proteína de suero concentrada de disolución instantánea y pureza clínica.", 
-        price: 45000, 
-        badge: "Fórmula Pura",
-        rating: "4.9",
-        reviews: 142,
-        specs: ["25g Proteína", "5.5g BCAAs", "0% Azúcar"],
-        nutrition: {
-            serving: "30g (1 scoop colmado)",
-            servingsPerTub: "33 servicios",
-            cals: "118 kcal",
-            protein: "25g (83.3%)",
-            carbs: "1.8g (Sin azúcar añadida)",
-            fats: "1.2g",
-            sodium: "55mg"
-        },
-        aminos: [
-            { name: "L-Leucina (BCAA)", amount: "2.8g", pct: 95 },
-            { name: "L-Isoleucina (BCAA)", amount: "1.4g", pct: 75 },
-            { name: "L-Valina (BCAA)", amount: "1.3g", pct: 70 },
-            { name: "L-Glutamina", amount: "4.2g", pct: 90 },
-            { name: "L-Arginina", amount: "0.8g", pct: 50 }
-        ],
-        timing: {
-            best: "Post-Entreno Inmediato",
-            instructions: "Diluir 1 scoop (30g) en 200-250ml de agua o leche descremada fría.",
-            goal: "Estimula la síntesis de mTor, combate el catabolismo y acelera la recuperación."
-        },
-        coa: {
-            batch: "#TF-8829",
-            purity: "99.8% WPC Instant",
-            lab: "Laboratorio Eurofins Bioanalytics",
-            date: "Agosto 2026",
-            status: "APROBADO - Libre de metales y gluten"
-        }
-    },
-    { 
-        id: 104, 
-        name: "Creatina Monohidrato 300g", 
-        emoji: "💪", 
+        name: "Creatina Star Nutrition 300g", 
+        emoji: "⚡", 
+        customImage: "assets/images/prod-star-creatina.png?v=5.4",
         tubType: "creatine",
-        tubLabel: "CREATINE",
-        tubSub: "200 MESH",
-        description: "100% pura micronizada malla 200 mesh. Saturación celular y fuerza ATP.", 
+        tubLabel: "STAR",
+        tubSub: "300G",
+        description: "Creatina monohidrato ultramicronizada 100% pura sin TACC en doypack de 300g.", 
         price: 28000, 
         badge: "Más Vendido",
-        rating: "5.0",
-        reviews: 312,
-        specs: ["100% Micronizada", "200 Mesh", "0% Relleno"],
+        rating: "4.9",
+        reviews: 342,
+        specs: ["100% Ultramicronizada", "60 Servicios", "Sin TACC"],
         nutrition: {
-            serving: "5g (1 scoop raso)",
-            servingsPerTub: "60 servicios (2 meses)",
+            serving: "5g (1 scoop)",
+            servingsPerTub: "60 servicios",
             cals: "0 kcal",
             protein: "0g",
             carbs: "0g",
@@ -237,62 +196,97 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
             sodium: "0mg"
         },
         aminos: [
-            { name: "Creatina Monohidrato Pura", amount: "5.0g (100%)", pct: 100 },
-            { name: "Malla de Filtrado", amount: "200 Mesh", pct: 100 }
+            { name: "Creatina Monohidrato Ultramicronizada", amount: "5.0g (100%)", pct: 100 }
         ],
         timing: {
             best: "Consumo Diario Continuo",
-            instructions: "Tomar 5g diarios con agua o junto a un carbohidrato simple para máxima absorción.",
-            goal: "Recarga de fosfocreatina muscular, fuerza explosiva y volumen hídrico celular."
+            instructions: "Diluir 5g diarios en 200ml de agua o jugo.",
+            goal: "Saturación de fosfocreatina celular, fuerza explosiva y recuperación entre series."
         },
         coa: {
-            batch: "#TF-CR440",
-            purity: "100.0% Micronizada 200 Mesh",
-            lab: "HPLC Certified Analysis",
-            date: "Septiembre 2026",
-            status: "APROBADO - Cero impurezas / Dicyandiamide free"
+            batch: "#SN-CR300",
+            purity: "100% Ultramicronized",
+            lab: "Star Nutrition Oficial",
+            date: "2026",
+            status: "EN STOCK INMEDIATO"
+        }
+    },
+    { 
+        id: 104, 
+        name: "Creatina Gold Nutrition 300g", 
+        emoji: "💪", 
+        customImage: "assets/images/prod-gold-creatina.png?v=5.4",
+        tubType: "creatine",
+        tubLabel: "GOLD",
+        tubSub: "BLACK LINE",
+        description: "Creatina monohidrato micronizada línea Black Line Power Strength por 300g.", 
+        price: 24500, 
+        badge: "Black Line",
+        rating: "4.9",
+        reviews: 218,
+        specs: ["Power Strength", "60 Servicios", "Fórmula Pura"],
+        nutrition: {
+            serving: "5g (1 scoop raso)",
+            servingsPerTub: "60 servicios",
+            cals: "0 kcal",
+            protein: "0g",
+            carbs: "0g",
+            fats: "0g",
+            sodium: "0mg"
+        },
+        aminos: [
+            { name: "Creatina Monohidrato Pura", amount: "5.0g (100%)", pct: 100 }
+        ],
+        timing: {
+            best: "Consumo Diario Continuo",
+            instructions: "Tomar 5g diarios con agua para mantener las reservas de ATP al máximo.",
+            goal: "Recarga de fosfocreatina muscular, potencia anaeróbica y volumen celular."
+        },
+        coa: {
+            batch: "#GN-BL300",
+            purity: "100% Pure Formula",
+            lab: "Gold Nutrition Black Line",
+            date: "2026",
+            status: "EN STOCK INMEDIATO"
         }
     },
     { 
         id: 106, 
-        name: "Pre-entreno Berserk 300g", 
-        emoji: "🚀", 
+        name: "Pre-Entreno Insane Labz Psychotic", 
+        emoji: "🔥", 
+        customImage: "assets/images/prod-psychotic.png?v=5.4",
         tubType: "preworkout",
-        tubLabel: "BERSERK",
-        tubSub: "PRE-WORK",
-        description: "Bombeo vascular explosivo, foco mental láser y vasodilatación al fallo.", 
-        price: 35000, 
-        badge: "Poder Extremo",
-        rating: "4.9",
-        reviews: 215,
-        specs: ["300mg Cafeína", "6g Citrulina", "3.2g Beta-Alanina"],
+        tubLabel: "PSYCHOTIC",
+        tubSub: "INSANE LABZ",
+        description: "Pre-entreno importado de energía extrema, foco mental túnel y resistencia.", 
+        price: 42000, 
+        badge: "Importado USA",
+        rating: "5.0",
+        reviews: 275,
+        specs: ["Energía Extrema", "35 Servicios", "Importado USA"],
         nutrition: {
-            serving: "10g (1 scoop)",
-            servingsPerTub: "30 servicios brutales",
-            cals: "10 kcal",
+            serving: "1 scoop (6.1g)",
+            servingsPerTub: "35 servicios",
+            cals: "0 kcal",
             protein: "0g",
-            carbs: "1.5g",
+            carbs: "0g",
             fats: "0g",
-            sodium: "80mg"
+            sodium: "0mg"
         },
         aminos: [
-            { name: "L-Citrulina Malato 2:1", amount: "6.000mg", pct: 100 },
-            { name: "Beta-Alanina", amount: "3.200mg", pct: 90 },
-            { name: "Cafeína Anhidra", amount: "300mg", pct: 95 },
-            { name: "Taurina Pura", amount: "1.000mg", pct: 80 },
-            { name: "L-Tirosina (Foco mental)", amount: "800mg", pct: 75 }
+            { name: "Psychotic Blend (Beta-Alanina, Creatina, Cafeína, AMPiberry)", amount: "4.459mg", pct: 100 }
         ],
         timing: {
             best: "20 a 30 min Pre-Entreno",
-            instructions: "Tomar 1 scoop con 250ml de agua helada. No consumir dentro de las 5hs previas a dormir.",
-            goal: "Vasodilatación extrema, retraso del fallo muscular y enfoque mental túnel."
+            instructions: "Tomar 1 scoop con 250ml de agua fría antes de entrenar.",
+            goal: "Energía explosiva, enfoque mental láser y rendimiento extremo."
         },
         coa: {
-            batch: "#TF-BZ901",
-            purity: "Grado Competición WADA Compliant",
-            lab: "BioTech Analytics USA / AR",
-            date: "Septiembre 2026",
-            status: "APROBADO - Sin sustancias prohibidas"
+            batch: "#IL-PSY35",
+            purity: "Original Importado USA",
+            lab: "Insane Labz USA",
+            date: "2026",
+            status: "EN STOCK INMEDIATO"
         }
     }
 ];
@@ -310,17 +304,25 @@ function getIndividualProducts() {
                         const def = DEFAULT_INDIVIDUAL_PRODUCTS.find(d => d.id === p.id);
                         if (def) {
                             p.name = def.name;
+                            p.emoji = def.emoji;
+                            p.customImage = def.customImage;
+                            p.price = def.price;
+                            p.badge = def.badge;
+                            p.description = def.description;
                             p.tubLabel = def.tubLabel;
                             p.tubSub = def.tubSub;
                             p.flavors = [];
-                            if (!p.badge) p.badge = def.badge;
                             p.specs = def.specs;
                             p.nutrition = def.nutrition;
+                            p.aminos = def.aminos;
+                            p.timing = def.timing;
+                            p.coa = def.coa;
                             p.isVariantOnly = false;
                         }
                         return p;
                     });
-                if (parsed.length > 0) {
+                if (parsed.length === DEFAULT_INDIVIDUAL_PRODUCTS.length) {
+                    localStorage.setItem('tofeprot_individual_products', JSON.stringify(parsed));
                     return parsed;
                 }
             }
@@ -1719,7 +1721,7 @@ function renderTienda(items) {
                 <div class="product-image" id="prodImg_${product.id}">
                     <div class="product-tub-stage" id="prodTubStage_${product.id}">
                         ${product.customImage 
-                            ? `<img src="${product.customImage}" alt="${product.name}" class="product-custom-img" style="max-height: 140px; max-width: 140px; object-fit: contain; margin: 0 auto; filter: drop-shadow(0 6px 15px rgba(0,0,0,0.7)); display:block;">` 
+                            ? `<img src="${product.customImage}" alt="${product.name}" class="product-custom-img" style="max-height: 175px; max-width: 175px; border-radius: 10px; object-fit: contain; margin: 0 auto; box-shadow: 0 8px 22px rgba(0,0,0,0.28); display:block;">` 
                             : getProductSVG(product.tubType, product.tubLabel, product.tubSub)}
                     </div>
                 </div>
