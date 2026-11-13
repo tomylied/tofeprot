@@ -15,6 +15,7 @@
 
 html {
     overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100%;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
@@ -120,6 +121,7 @@ body {
     background: var(--page-bg-color);
     color: var(--text-main);
     overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100%;
     transition: background 0.5s ease;
     position: relative;
@@ -829,29 +831,30 @@ body.theme-light .unlock-form input {
 /* ========================================== */
 /* ========================================== */
 /* BOTÓN FLOTANTE SUPERIOR DERECHO (PILL)     */
-/* (LOGO TP + CARRITO DE COMPRAS)             */
+/* (USUARIO + CARRITO DE COMPRAS)             */
 /* ========================================== */
 .floating-nav-pill {
     position: fixed;
-    top: 16px;
-    right: 18px;
+    top: max(18px, env(safe-area-inset-top, 18px));
+    right: max(22px, env(safe-area-inset-right, 22px));
     z-index: 10000;
     display: inline-flex;
     align-items: center;
-    background: rgba(14, 10, 20, 0.85);
+    gap: 4px;
+    background: rgba(14, 10, 20, 0.88);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(139, 47, 201, 0.35);
+    border: 1px solid rgba(139, 47, 201, 0.38);
     border-radius: 9999px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 0 14px rgba(139, 47, 201, 0.2);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.65), 0 0 14px rgba(139, 47, 201, 0.22);
     transition: transform 0.22s var(--ease-spring), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out), color 0.2s var(--ease-out);
     user-select: none;
-    padding: 3px 6px;
+    padding: 5px 8px;
 }
 
 body.theme-light .floating-nav-pill {
-    background: rgba(255, 252, 246, 0.92);
-    border: 1px solid rgba(245, 158, 11, 0.4);
+    background: rgba(255, 252, 246, 0.94);
+    border: 1px solid rgba(245, 158, 11, 0.42);
     box-shadow: 0 6px 20px rgba(180, 140, 60, 0.2), 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
@@ -872,14 +875,15 @@ body.theme-light .floating-nav-pill {
 .floating-btn-section {
     background: none;
     border: none;
-    padding: 4px 8px;
+    padding: 7px 11px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     color: var(--text-main);
     border-radius: 9999px;
-    transition: transform 0.16s var(--ease-out), background-color 0.16s var(--ease-out), color 0.16s var(--ease-out), filter 0.16s var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.16s var(--ease-out), background-color 0.16s var(--ease-out), color 0.16s var(--ease-out);
     outline: none;
 }
 
@@ -887,59 +891,46 @@ body.theme-light .floating-nav-pill {
     background: rgba(255, 255, 255, 0.1);
 }
 
+.floating-btn-section:active {
+    transform: scale(0.95);
+}
+
 body.theme-light .floating-btn-section:hover {
     background: rgba(0, 0, 0, 0.06);
 }
 
-/* Logo TP en el botón */
-.floating-tp-logo {
-    height: 26px;
-    width: auto;
+/* Icono de Usuario */
+.floating-user-icon {
     display: block;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
-    transition: transform 0.25s ease;
+    width: 21px;
+    height: 21px;
+    stroke: currentColor;
+    transition: transform 0.2s var(--ease-out), stroke 0.2s var(--ease-out);
 }
 
-body.theme-light .floating-tp-logo {
-    filter: drop-shadow(0 2px 4px rgba(180, 130, 30, 0.3));
-}
-
-.floating-tp-section:hover .floating-tp-logo {
+.floating-user-section:hover .floating-user-icon {
+    stroke: var(--accent-purple);
     transform: scale(1.08);
-}
-
-/* Divisor sutil entre TP y Carrito */
-.floating-pill-divider {
-    display: block;
-    width: 1px;
-    height: 18px;
-    background: rgba(255, 255, 255, 0.18);
-    margin: 0 2px;
-}
-
-body.theme-light .floating-pill-divider {
-    background: rgba(0, 0, 0, 0.14);
 }
 
 /* Sección Carrito */
 .floating-cart-section {
-    padding: 4px 8px;
-    gap: 4px;
+    padding: 7px 11px;
+    gap: 5px;
     color: var(--text-main);
 }
 
 .floating-cart-icon {
     display: block;
-    width: 18px;
-    height: 18px;
+    width: 21px;
+    height: 21px;
     stroke: currentColor;
-    transition: transform 0.25s ease, stroke 0.25s ease;
+    transition: transform 0.2s var(--ease-out), stroke 0.2s var(--ease-out);
 }
 
 .floating-cart-section:hover .floating-cart-icon {
     stroke: var(--accent-purple);
-    transform: scale(1.12);
+    transform: scale(1.08);
 }
 
 /* Badge contador dentro del carrito (oculto por defecto, sin 0 flotante) */
@@ -949,13 +940,13 @@ body.theme-light .floating-pill-divider {
     justify-content: center;
     background: var(--accent-purple);
     color: #ffffff;
-    font-size: 0.64rem;
+    font-size: 0.68rem;
     font-family: 'Russo One', sans-serif;
     font-weight: 900;
     line-height: 1;
-    min-width: 16px;
-    height: 16px;
-    padding: 0 4px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
     border-radius: 9999px;
     box-shadow: 0 0 8px var(--energy-glow);
 }
@@ -1002,21 +993,31 @@ body.theme-light .floating-cart-count {
     border-left: 1px solid rgba(139, 47, 201, 0.35);
     z-index: 10002;
     transform: translateX(100%);
-    transition: transform 0.36s var(--ease-drawer);
+    visibility: hidden;
+    pointer-events: none;
+    box-shadow: none;
+    transition: transform 0.36s var(--ease-drawer), visibility 0s linear 0.36s;
     display: flex;
     flex-direction: column;
-    box-shadow: -15px 0 50px rgba(0, 0, 0, 0.85);
     overflow-y: auto;
 }
 
 body.theme-light .nav-drawer-panel {
     background: rgba(254, 252, 247, 0.97);
     border-left: 1px solid rgba(245, 158, 11, 0.35);
-    box-shadow: -15px 0 50px rgba(180, 140, 60, 0.18);
+    box-shadow: none;
 }
 
 .nav-drawer-panel.active {
     transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+    box-shadow: -15px 0 50px rgba(0, 0, 0, 0.85);
+    transition: transform 0.36s var(--ease-drawer), visibility 0s linear 0s;
+}
+
+body.theme-light .nav-drawer-panel.active {
+    box-shadow: -15px 0 50px rgba(180, 140, 60, 0.18);
 }
 
 .nav-drawer-header {
@@ -1207,31 +1208,28 @@ body.theme-light .drawer-nav-item {
     font-size: 0.85rem;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .floating-nav-pill {
-        top: 10px;
-        right: 10px;
-        padding: 2px 4px;
+        top: max(12px, env(safe-area-inset-top, 12px));
+        right: max(12px, env(safe-area-inset-right, 12px));
+        padding: 7px 11px;
+        gap: 6px;
     }
     .floating-btn-section {
-        padding: 3px 6px;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 9px 13px;
     }
-    .floating-tp-logo {
-        height: 22px;
-    }
-    .floating-pill-divider {
-        height: 14px;
-        margin: 0 1px;
-    }
+    .floating-user-icon,
     .floating-cart-icon {
-        width: 15px;
-        height: 15px;
+        width: 26px;
+        height: 26px;
     }
     .floating-cart-count {
-        min-width: 14px;
-        height: 14px;
-        font-size: 0.58rem;
-        padding: 0 3px;
+        min-width: 20px;
+        height: 20px;
+        font-size: 0.72rem;
+        padding: 0 5px;
     }
 }
 
@@ -3200,22 +3198,34 @@ body.theme-light .card-qty-stepper {
     -webkit-backdrop-filter: blur(22px);
     border-left: 1px solid rgba(139, 47, 201, 0.35);
     z-index: 10005;
-    box-shadow: -15px 0 45px rgba(0, 0, 0, 0.9);
+    box-shadow: none;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     transform: translateX(100%);
-    transition: transform 0.34s var(--ease-drawer);
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 0.34s var(--ease-drawer), visibility 0s linear 0.34s;
     -webkit-overflow-scrolling: touch;
 }
 
 body.theme-light .cart-modal {
     background: rgba(255, 253, 249, 0.98);
     border-left: 1px solid rgba(217, 119, 6, 0.3);
-    box-shadow: -15px 0 45px rgba(180, 140, 60, 0.18);
+    box-shadow: none;
 }
 
-.cart-modal.active { transform: translateX(0); }
+.cart-modal.active {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+    box-shadow: -15px 0 45px rgba(0, 0, 0, 0.9);
+    transition: transform 0.34s var(--ease-drawer), visibility 0s linear 0s;
+}
+
+body.theme-light .cart-modal.active {
+    box-shadow: -15px 0 45px rgba(180, 140, 60, 0.18);
+}
 
 .cart-header {
     background: var(--bg-black);
@@ -6982,11 +6992,6 @@ button,
 }
 
 /* 4. Respeto de áreas seguras (Notch / Dynamic Island / Home Indicator) */
-.floating-nav-pill {
-    top: max(18px, env(safe-area-inset-top, 18px));
-    right: max(22px, env(safe-area-inset-right, 22px));
-}
-
 .floating-wa-btn {
     bottom: max(20px, env(safe-area-inset-bottom, 20px));
 }
@@ -7198,6 +7203,7 @@ body.theme-light .raffle-unified-left {
     flex-direction: column;
     justify-content: center;
     gap: 1rem;
+    min-width: 0;
 }
 
 .raffle-unified-right {
