@@ -254,7 +254,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         id: 106, 
         name: "Pre-Entreno Insane Labz Psychotic", 
         emoji: "🔥", 
-        customImage: "assets/images/prod-psychotic.png?v=5.6",
+        customImage: "assets/images/prod-psychotic.png?v=5.7",
         tubType: "preworkout",
         tubLabel: "PSYCHOTIC",
         tubSub: "INSANE LABZ",
