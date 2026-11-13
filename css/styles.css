@@ -6788,14 +6788,17 @@ body.theme-light .bio-equip-stack-btn {
     position: fixed;
     bottom: 25px;
     right: 25px;
+    width: 48px;
+    height: 48px;
+    padding: 0;
     background: var(--surface-light);
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
+    border: 1px solid rgba(37, 211, 102, 0.45);
+    color: #25D366;
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    border-radius: 30px;
+    justify-content: center;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
     text-decoration: none;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     z-index: 9998;
@@ -6803,10 +6806,15 @@ body.theme-light .bio-equip-stack-btn {
 }
 .floating-wa-btn:hover {
     transform: translateY(-3px) scale(1.05);
-    border-color: var(--accent-purple);
-    box-shadow: 0 8px 25px var(--energy-glow);
+    border-color: #25D366;
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
 }
-.wa-icon { font-size: 1.2rem; }
+.wa-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+}
 .wa-text { font-weight: bold; font-size: 0.85rem; letter-spacing: 0.5px; }
 
 /* ========================================== */
@@ -7002,7 +7010,9 @@ body.theme-light .bio-equip-stack-btn {
     .floating-wa-btn {
         bottom: 16px;
         right: 16px;
-        padding: 12px;
+        width: 48px;
+        height: 48px;
+        padding: 0;
         border-radius: 50%;
     }
     .wa-text {
