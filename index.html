@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Proteínas Whey, Creatina Pura 200 Mesh y Pre-entreno Berserk. Elige tu bando: Luz o Oscuridad.">
     <meta name="twitter:image" content="assets/images/logo-oscuridad.png">
 
-    <link rel="stylesheet" href="css/styles.css?v=6.1">
+    <link rel="stylesheet" href="css/styles.css?v=6.2">
 
     <!-- Pre-detección de bando guardado: ingreso directo sin parpadeo del Gateway -->
     <script>
@@ -450,13 +450,9 @@
                         <!-- Columna de Información + Gancho de Precio $89.000 -> $0 -->
                         <div class="raffle-left-copy">
                             <div class="raffle-unified-header">
-                                <div class="raffle-eyebrow-pill">
-                                    <span class="raffle-live-dot" aria-hidden="true"></span>
-                                    <span>RULETA DIRECTA · SIN COSTO Y ENVÍO GRATIS</span>
-                                </div>
-                                <h2 class="raffle-unified-title" id="raffleSectionTitle">Jugá por el Pre-Entreno o hasta <span>15% OFF</span></h2>
+                                <h2 class="raffle-unified-title" id="raffleSectionTitle">Jugá por el Pre&#8209;Entreno o hasta 15%&nbsp;OFF</h2>
                                 <p class="raffle-unified-subtitle">
-                                    Completá tus datos arriba de la ruleta para habilitar tu giro al instante. Podés ganar <strong>5%, 10% o 15% OFF</strong> o llevarte el <strong>Pre-Entreno Psychotic 100% Sin Costo y con Envío Gratis</strong>.
+                                    Ingresá tu email arriba de la ruleta para habilitar tu giro al instante. Podés ganar <strong>5%, 10% o 15% OFF</strong> o llevarte el <strong>Pre-Entreno Psychotic 100% Sin Costo y con Envío Gratis</strong>.
                                 </p>
                             </div>
 
@@ -482,11 +478,11 @@
                     </div>
                 </div>
 
-                <!-- MITAD DERECHA: FORMULARIO COMPACTO EN 1 FILA ARRIBA + RULETA DEBAJO -->
+                <!-- MITAD DERECHA: EMAIL COMPACTO EN 1 FILA ARRIBA + RULETA DEBAJO -->
                 <div class="raffle-unified-right">
                     <div class="raffle-unified-form-zone" id="raffleAccessCard">
                         <div class="raffle-step-header">
-                            <span class="raffle-step-tag" id="raffleStepTag">COMPLETÁ TUS DATOS PARA JUGAR</span>
+                            <span class="raffle-step-tag" id="raffleStepTag">INGRESÁ TU EMAIL PARA JUGAR</span>
                             <span class="wheel-status-pill" id="raffleWheelStatus">🔒 Ruleta bloqueada</span>
                             <span class="raffle-ticket-pill" id="raffleTicketBadge" style="display: none;">TICKET #TP-0000</span>
                         </div>
@@ -494,16 +490,8 @@
                         <form id="raffleRegistrationForm" class="raffle-form" onsubmit="unlockRaffleWheel(event)" novalidate>
                             <div class="raffle-form-compact-grid">
                                 <div class="raffle-field">
-                                    <label for="raffleFirstName" class="sr-only-label">Nombre</label>
-                                    <input type="text" id="raffleFirstName" name="firstName" placeholder="Nombre" aria-label="Nombre" autocomplete="given-name" required>
-                                </div>
-                                <div class="raffle-field">
-                                    <label for="raffleLastName" class="sr-only-label">Apellido</label>
-                                    <input type="text" id="raffleLastName" name="lastName" placeholder="Apellido" aria-label="Apellido" autocomplete="family-name" required>
-                                </div>
-                                <div class="raffle-field">
                                     <label for="raffleEmail" class="sr-only-label">Email</label>
-                                    <input type="email" id="raffleEmail" name="email" placeholder="Tu email" aria-label="Email" autocomplete="email" required>
+                                    <input type="email" id="raffleEmail" name="email" placeholder="Ingresá tu email para girar..." aria-label="Email" autocomplete="email" required>
                                 </div>
                                 <button type="submit" class="raffle-unlock-btn" id="raffleUnlockBtn">
                                     <span>HABILITAR</span>
@@ -518,11 +506,10 @@
                         <div id="raffleParticipantSummary" class="raffle-participant-summary" style="display: none;">
                             <div class="participant-summary-row">
                                 <div class="participant-info-col">
-                                    <span class="participant-label">Jugador Habilitado</span>
-                                    <strong class="participant-name" id="raffleSummaryName">—</strong>
-                                    <span class="participant-email" id="raffleSummaryEmail">—</span>
+                                    <span class="participant-label">Email Habilitado</span>
+                                    <strong class="participant-name" id="raffleSummaryEmail">—</strong>
                                 </div>
-                                <button type="button" class="raffle-change-user-btn" onclick="resetRaffleParticipant()">Cambiar datos</button>
+                                <button type="button" class="raffle-change-user-btn" onclick="resetRaffleParticipant()">Cambiar email</button>
                             </div>
                         </div>
                     </div>
@@ -627,11 +614,11 @@
                             <span class="hub-btn-text" id="raffleHubText">BLOQUEADA</span>
                         </button>
 
-                        <!-- Velo de bloqueo inicial hasta ingresar Nombre, Apellido y Email -->
+                        <!-- Velo de bloqueo inicial hasta ingresar Email -->
                         <div class="raffle-wheel-lock-veil" id="raffleWheelLockVeil">
                             <div class="lock-veil-badge">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                <span>Ingresá tu Nombre, Apellido y Mail para habilitar tu giro</span>
+                                <span>Ingresá tu email arriba para habilitar tu giro</span>
                             </div>
                         </div>
                     </div>
@@ -639,7 +626,7 @@
                     <!-- ACCIÓN DE GIRO / RESULTADO GANADOR -->
                     <div class="raffle-wheel-footer">
                         <button type="button" class="raffle-spin-main-btn" id="raffleSpinMainBtn" onclick="spinRaffleWheel()" disabled>
-                            <span>COMPLETÁ TUS DATOS PARA GIRAR</span>
+                            <span>INGRESÁ TU EMAIL PARA GIRAR</span>
                         </button>
 
                         <!-- Tarjeta de premio obtenido -->
@@ -1220,6 +1207,6 @@
     </a>
 
     <!-- ARCHIVO JS MODULAR -->
-    <script src="js/app.js?v=6.1" defer></script>
+    <script src="js/app.js?v=6.2" defer></script>
 </body>
 </html>

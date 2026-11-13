@@ -3380,11 +3380,7 @@ function initRaffleSection() {
     const state = getActiveRaffleBenefit();
     if (!state || !state.email) return;
 
-    const firstInput = document.getElementById('raffleFirstName');
-    const lastInput = document.getElementById('raffleLastName');
     const emailInput = document.getElementById('raffleEmail');
-    if (firstInput) firstInput.value = state.firstName || '';
-    if (lastInput) lastInput.value = state.lastName || '';
     if (emailInput) emailInput.value = state.email || '';
 
     if (typeof state.rotationDeg === 'number' && state.rotationDeg > 0) {
@@ -3405,7 +3401,6 @@ function initRaffleSection() {
 function hydrateRaffleUIFromState(state) {
     const formEl = document.getElementById('raffleRegistrationForm');
     const summaryEl = document.getElementById('raffleParticipantSummary');
-    const summaryName = document.getElementById('raffleSummaryName');
     const summaryEmail = document.getElementById('raffleSummaryEmail');
     const stepTag = document.getElementById('raffleStepTag');
     const ticketBadge = document.getElementById('raffleTicketBadge');
@@ -3423,27 +3418,26 @@ function hydrateRaffleUIFromState(state) {
     if (!state || !state.email) {
         if (formEl) formEl.style.display = 'flex';
         if (summaryEl) summaryEl.style.display = 'none';
-        if (stepTag) stepTag.textContent = 'PASO 1 · TUS DATOS DE PARTICIPANTE';
+        if (stepTag) stepTag.textContent = 'INGRESÁ TU EMAIL PARA JUGAR';
         if (ticketBadge) ticketBadge.style.display = 'none';
         if (wheelStage) wheelStage.classList.remove('is-unlocked');
-        if (wheelStatus) wheelStatus.textContent = '🔒 Completá tus datos para habilitar la ruleta';
+        if (wheelStatus) wheelStatus.textContent = '🔒 Ruleta bloqueada';
         if (hubBtn) hubBtn.disabled = true;
         if (hubText) hubText.textContent = 'BLOQUEADA';
         if (mainSpinBtn) {
             mainSpinBtn.disabled = true;
             mainSpinBtn.style.display = 'block';
-            mainSpinBtn.innerHTML = '<span>COMPLETÁ TUS DATOS PARA GIRAR</span>';
+            mainSpinBtn.innerHTML = '<span>INGRESÁ TU EMAIL PARA GIRAR</span>';
         }
         if (resultCard) resultCard.style.display = 'none';
         return;
     }
 
-    // El usuario ya registró Nombre, Apellido y Email
+    // El usuario ya registró su Email
     if (formEl) formEl.style.display = 'none';
     if (summaryEl) summaryEl.style.display = 'block';
-    if (summaryName) summaryName.textContent = `${state.firstName} ${state.lastName}`;
     if (summaryEmail) summaryEmail.textContent = state.email;
-    if (stepTag) stepTag.textContent = '✓ DATOS REGISTRADOS EN EL SORTEO';
+    if (stepTag) stepTag.textContent = '✓ EMAIL REGISTRADO EN EL SORTEO';
     if (ticketBadge && state.ticketId) {
         ticketBadge.textContent = `TICKET ${state.ticketId}`;
         ticketBadge.style.display = 'inline-flex';
@@ -3462,7 +3456,7 @@ function hydrateRaffleUIFromState(state) {
             if (resultDesc) resultDesc.textContent = state.desc || '';
         }
     } else {
-        if (wheelStatus) wheelStatus.textContent = `⚡ ¡Ruleta habilitada para ${state.firstName}! Tocá GIRAR`;
+        if (wheelStatus) wheelStatus.textContent = '⚡ ¡Ruleta habilitada! Tocá GIRAR';
         if (hubBtn) hubBtn.disabled = false;
         if (hubText) hubText.textContent = 'GIRAR';
         if (mainSpinBtn) {
@@ -3477,13 +3471,9 @@ function hydrateRaffleUIFromState(state) {
 function unlockRaffleWheel(event) {
     if (event) event.preventDefault();
 
-    const firstInput = document.getElementById('raffleFirstName');
-    const lastInput = document.getElementById('raffleLastName');
     const emailInput = document.getElementById('raffleEmail');
     const feedbackEl = document.getElementById('raffleFormFeedback');
 
-    const firstName = firstInput ? firstInput.value.trim() : '';
-    const lastName = lastInput ? lastInput.value.trim() : '';
     const email = emailInput ? emailInput.value.trim() : '';
 
     const showFeedback = (msg) => {
@@ -3492,19 +3482,9 @@ function unlockRaffleWheel(event) {
         feedbackEl.classList.add('is-visible');
     };
 
-    if (!firstName || firstName.length < 2) {
-        showFeedback('Por favor, ingresá tu nombre para habilitar la ruleta.');
-        if (firstInput) firstInput.focus();
-        return;
-    }
-    if (!lastName || lastName.length < 2) {
-        showFeedback('Por favor, ingresá tu apellido para el registro del sorteo.');
-        if (lastInput) lastInput.focus();
-        return;
-    }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRegex.test(email)) {
-        showFeedback('Ingresá un email válido para asociar tu ticket y descuento.');
+        showFeedback('Ingresá un email válido para habilitar tu giro.');
         if (emailInput) emailInput.focus();
         return;
     }
@@ -3526,10 +3506,8 @@ function unlockRaffleWheel(event) {
         : '#TP-' + Math.floor(1000 + Math.random() * 9000);
 
     const newState = existingLead && existingLead.hasSpun
-        ? { ...existingLead, firstName, lastName, email }
+        ? { ...existingLead, email }
         : {
-            firstName,
-            lastName,
             email,
             ticketId,
             hasSpun: false,
@@ -3542,7 +3520,7 @@ function unlockRaffleWheel(event) {
     recordRaffleLead(newState);
 
     // Sincronizar también con el perfil de usuario actual para facilitar su compra
-    currentUser = { name: `${firstName} ${lastName}`.trim(), email };
+    currentUser = currentUser && currentUser.name ? { ...currentUser, email } : { email };
     saveState();
     updateAuthUI();
     updateCartUI();
@@ -3611,8 +3589,8 @@ function spinRaffleWheel() {
     if (isSpinningRaffleWheel) return;
     const state = getActiveRaffleBenefit();
     if (!state || !state.email) {
-        const firstInput = document.getElementById('raffleFirstName');
-        if (firstInput) firstInput.focus();
+        const emailInput = document.getElementById('raffleEmail');
+        if (emailInput) emailInput.focus();
         return;
     }
     if (state.hasSpun) return;
@@ -3705,16 +3683,12 @@ function resetRaffleParticipant() {
         localStorage.removeItem('tofeprot_raffle_state');
     } catch (e) {}
 
-    const firstInput = document.getElementById('raffleFirstName');
-    const lastInput = document.getElementById('raffleLastName');
     const emailInput = document.getElementById('raffleEmail');
-    if (firstInput) firstInput.value = '';
-    if (lastInput) lastInput.value = '';
     if (emailInput) emailInput.value = '';
 
     hydrateRaffleUIFromState(null);
     updateCartUI();
-    if (firstInput) firstInput.focus();
+    if (emailInput) emailInput.focus();
 }
 
 function applyRaffleBenefitAndShop() {
