@@ -193,3 +193,47 @@ Actualizarlo cuando el propietario apruebe una decisión nueva de marca, una mod
 - **Pendiente de validar:** requiere confirmación, prueba o documentación.
 
 No convertir propuestas en hechos confirmados sin aprobación.
+
+---
+
+## 11. Estado Actual: TOFEPROT SAFE MODE (`chore/tofeprot-safe-mode`)
+
+> **Estado:** **Confirmado (Implementado en rama `chore/tofeprot-safe-mode`, pendiente de aprobación para `main` / producción)**  
+> La tienda pública se encuentra en **Modo Consulta** para eliminar riesgos de seguridad, privacidad y exposición comercial sin alterar la identidad Berserker / Iluminado, los logos originales ni el catálogo de productos (`$28.000`, `$22.500`, `$56.000`).
+
+### 11.1 Funcionalidades desactivadas temporalmente
+- **Administración cliente (`admin.html`, `js/admin.js`):** retirados del árbol público (con respaldo privado fuera del repositorio público en `_private_backup_admin/`) y eliminada la referencia desde el footer.
+- **Checkout y pagos (`checkout`, `goToCartPaymentStep`, Paso 2 del carrito):** bloqueada toda iniciación de compra; el carrito funciona únicamente como **Lista de Consulta** (`total` sin descuentos simulados, sin generación de pedidos en `localStorage`, sin descuento de stock en `deductOrderStock`, sin enlaces WhatsApp ni simulación de Mercado Pago Checkout Pro).
+- **Contacto y datos bancarios:** retirados el teléfono placeholder (`5491100000000`), titular (`TOFEPROT ARGENTINA S.A.S.`), CUIT (`30-71829304-8`), entidad (`Santander / Mercado Pago`), alias (`TOFEPROT.ARS`) y CBU (`0000003100088291002341`). El botón flotante y el modal informativo indican que los canales oficiales están en actualización.
+- **Promociones, ruleta y captura de leads (`Ruleta Psychotic`, `#unlockModal`, combos carrito):** desactivadas la ruleta, el popup/formulario de email del 10% OFF (`tofeprot_lead_email`), los descuentos automáticos de combos (`-15%`/`-20%`), la referencia promocional de `$89.000 -> $0`, la leyenda de `"3 cuotas sin interés"`, el umbral de envío gratis (`$65.000`) y el almacenamiento de leads en `tofeprot_raffle_leads`. Los handlers se mantienen encapsulados tras el flag `SAFE_MODE = true` para futura recuperación cuando las reglas comerciales estén confirmadas.
+- **Acceso/Registro y prueba social no verificada:** eliminados los campos de contraseña y email en `#authModal`, el bloque mock de perfil/EXP, los testimonios estáticos (`.pr-wall`), los plazos de envío por correo y el sello de garantía de 30 días hasta contar con respaldo verificable.
+
+### 11.2 Riesgos corregidos
+1. Exposición pública de un panel administrativo en cliente con PIN hardcodeado (`1234`) y sesión en `sessionStorage`.
+2. Flujo engañoso de checkout con simulación de redirección a Mercado Pago, posible vaciado del carrito sin cobro confirmado y creación de pedidos ficticios en `localStorage`.
+3. Modificación local de stock (`tofeprot_stock`) provocada por intentos de compra no confirmados.
+4. Captura y guardado en `localStorage` de emails y contraseñas ficticias sin autenticación ni política/flujo real.
+5. Publicación de datos fiscales/bancarios y número de WhatsApp ficticios en interfaz pública.
+6. Publicación de reseñas de terceros, garantías, cuotas y precios promocionales no verificados.
+
+### 11.3 Funcionalidades que requieren backend real
+- **Panel administrativo:** autenticación, autorización basada en roles y sesiones firmadas en servidor + API protegida para catálogo, stock y órdenes.
+- **Checkout y cobros:** creación server-side de preferencias de Mercado Pago (`/api/create_preference` real con credenciales de producción privadas) y confirmación exclusiva mediante webhook verificado del proveedor de pagos antes de registrar órdenes o descontar inventario.
+- **Cuentas de usuario:** registro y login reales con hashing seguro de contraseñas, tokens HTTP-only / sesión verificada y recuperación segura de acceso.
+- **Promociones, cupones y sorteos:** validación de reglas, límites por usuario/pedido y trazabilidad de sorteos en base de datos del lado servidor.
+
+### 11.4 Datos comerciales pendientes del propietario
+- Número oficial de WhatsApp comercial activo para atención/pedidos.
+- Datos legales y bancarios reales verificados: Razón social / Titular, CUIT, Entidad bancaria, CBU/CVU y Alias.
+- Política comercial de cobros confirmada: transferencia (condiciones/descuentos vigentes) y financiación con tarjeta (cuotas reales con o sin interés).
+- Condiciones logísticas verificadas: operadores de envío reales, cobertura, tiempos estimados y eventual umbral real de envío sin cargo.
+- Validación de precios finales de catálogo, precio de lista de referencia de Psychotic (`$56.000` confirmado en catálogo vs. campañas futuras), garantía/cambios aplicables y términos legales de promociones.
+- Testimonios reales con consentimiento verificable del autor (o deshabilitación definitiva si no se recopilan reseñas verificadas).
+
+### 11.5 Checklist obligatorio antes de rehabilitar pedidos online
+- [ ] Propietario entrega y confirma datos bancarios, fiscales, WhatsApp y logística reales.
+- [ ] Backend seguro implementado para administración, cuentas, creación de preferencias de pago y webhook confirmado.
+- [ ] Verificar que `SAFE_MODE` solo se desactive cuando las pasarelas reales respondan en staging sin vaciar carritos por error.
+- [ ] Inventario inicial cargado desde servidor y descontado únicamente ante pago aprobado confirmado.
+- [ ] Revisión legal/comercial de precios, cuotas, garantía y reglamento de sorteos/cupones.
+- [ ] Pruebas end-to-end completas en escritorio y móvil en ambos temas (Berserker e Iluminado).

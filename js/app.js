@@ -1,8 +1,10 @@
 // ========================================== */
 // CONFIGURACIÓN Y ESTADO GLOBAL              */
 // ========================================== */
-// 👉 Cambia este número por tu número de WhatsApp real con código de país (ej: 54911XXXXXXXX para Argentina)
-const WHATSAPP_PHONE = "5491100000000";
+// MODO SEGURO COMERCIAL Y DE SEGURIDAD (TAREA 01)
+const SAFE_MODE = true;
+// Canal WhatsApp desactivado en Safe Mode hasta configurar número oficial verificado
+const WHATSAPP_PHONE = null;
 
 // ========================================== */
 // MOTOR DE AUDIO SFX (WEB AUDIO API SINTÉTICO)*/
@@ -460,8 +462,8 @@ function loadState() {
             }
         }
 
-        if (savedUnlocked === 'true') {
-            const unlockModal = document.getElementById('unlockModal');
+        const unlockModal = document.getElementById('unlockModal');
+        if (SAFE_MODE || savedUnlocked === 'true') {
             if (unlockModal) {
                 unlockModal.style.display = 'none';
                 unlockModal.classList.remove('active');
@@ -1158,6 +1160,10 @@ function initScrollReveal() {
 // POP-UP DESBLOQUEO DE PODER (EMAIL LEADS)   */
 // ========================================== */
 function submitUnlockEmail() {
+    if (SAFE_MODE) {
+        if (typeof closeUnlockModal === 'function') closeUnlockModal();
+        return;
+    }
     const emailInput = document.getElementById('userUnlockEmail').value.trim();
     const lockIcon = document.getElementById('lockIconElement');
 
@@ -1535,11 +1541,11 @@ function updateLiveBiometrics() {
                 </div>
             </div>
 
-            <!-- PROTOCOLO / STACK RECOMENDADO CON 1-CLICK -->
+            <!-- PROTOCOLO / STACK RECOMENDADO -->
             <div class="bio-stack-card">
                 <div class="bio-stack-top">
                     <span class="bio-stack-tag">${stackBadgeLabel}</span>
-                    <span class="bio-stack-Gift">Hasta 15% OFF en la Ruleta</span>
+                    <span class="bio-stack-Gift">Referencia de Catálogo · Modo Consulta</span>
                 </div>
 
                 <div class="bio-stack-items">
@@ -1553,11 +1559,11 @@ function updateLiveBiometrics() {
 
                 <div class="bio-stack-footer">
                     <div class="bio-stack-pricing">
-                        <span class="bio-stack-transfer">${formatPrice(rawStackTotal)} <small>Hasta 3 cuotas sin interés</small></span>
-                        <span class="bio-stack-list-price">Aplicá hasta 15% OFF según lo que te toque en la ruleta</span>
+                        <span class="bio-stack-transfer">${formatPrice(rawStackTotal)} <small>Precio de lista</small></span>
+                        <span class="bio-stack-list-price">Pedidos online y promociones pausados temporalmente</span>
                     </div>
                     <button type="button" class="bio-equip-stack-btn" onclick="equipRecommendedStack([${stackIds.join(',')}], this)">
-                        EQUIPAR PROTOCOLO
+                        AGREGAR A CONSULTA
                     </button>
                 </div>
             </div>
@@ -1690,7 +1696,7 @@ function renderTienda(items) {
                     <span class="card-qty-val" id="cardQty_${product.id}">1</span>
                     <button type="button" class="card-qty-btn" onclick="changeCardQty(${product.id}, 1, event)" aria-label="Aumentar cantidad">+</button>
                 </div>
-                <button type="button" class="add-to-cart-btn" id="addBtn_${product.id}" data-current-id="${product.id}" data-base-id="${product.id}" onclick="addIndividualToCart(parseInt(this.dataset.currentId || ${product.id}), this, ${product.id})">EQUIPAR AL ARSENAL</button>
+                <button type="button" class="add-to-cart-btn" id="addBtn_${product.id}" data-current-id="${product.id}" data-base-id="${product.id}" onclick="addIndividualToCart(parseInt(this.dataset.currentId || ${product.id}), this, ${product.id})">AGREGAR A CONSULTA</button>
             </div>`;
 
         return `
@@ -1715,7 +1721,7 @@ function renderTienda(items) {
                                 <span class="price">${formatPrice(product.price)}</span>
                             </div>
                             <div class="price-sub-row">
-                                <span class="installments-caption">3 cuotas sin interés de ${formatPrice(installmentPrice)}</span>
+                                <span class="installments-caption">Precio de lista · Modo consulta</span>
                             </div>
                         </div>
                     </div>
@@ -1811,17 +1817,16 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
         }
     }
 
-    // 7. Actualizar precio y cuotas
+    // 7. Actualizar precio (modo consulta sin cuotas)
     const priceEl = document.getElementById(`prodPrice_${baseProductId}`);
     if (priceEl) {
-        const installmentPrice = Math.round(targetProduct.price / 3);
         priceEl.innerHTML = `
             <div class="price-container">
                 <div class="price-main-row">
                     <span class="price">${formatPrice(targetProduct.price)}</span>
                 </div>
                 <div class="price-sub-row">
-                    <span class="installments-caption">3 cuotas sin interés de ${formatPrice(installmentPrice)}</span>
+                    <span class="installments-caption">Precio de lista · Modo consulta</span>
                 </div>
             </div>
         `;
@@ -1841,7 +1846,7 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
             btn.disabled = false;
             btn.style.opacity = '1';
             btn.style.cursor = 'pointer';
-            btn.textContent = 'EQUIPAR AL ARSENAL';
+            btn.textContent = 'AGREGAR A CONSULTA';
         }
     }
 
@@ -2117,6 +2122,11 @@ function setCartStep(step) {
 }
 
 function goToCartPaymentStep() {
+    if (SAFE_MODE) {
+        playSFX('click');
+        openTransferModal();
+        return;
+    }
     if (cart.length === 0) {
         alert('⚔️ Tu arsenal está vacío. Agregá suplementos a tu carrito antes de elegir la forma de pago.');
         return;
@@ -2151,7 +2161,7 @@ function setPaymentMethod(method) {
 // MOTOR DE BUNDLES DINÁMICOS EN EL CARRITO   */
 // ========================================== */
 function evaluateCartBundle() {
-    if (!cart || cart.length === 0) return null;
+    if (SAFE_MODE || !cart || cart.length === 0) return null;
 
     // Verificar categorías presentes en el carrito actual
     const hasProtein = cart.some(i => {
@@ -2415,7 +2425,7 @@ function updateCartUI() {
 
     const rawSubtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
     const FREE_SHIPPING_THRESHOLD = 65000;
-    if (shippingTextEl && shippingFillEl) {
+    if (!SAFE_MODE && shippingTextEl && shippingFillEl) {
         const pct = Math.min(100, Math.round((rawSubtotal / FREE_SHIPPING_THRESHOLD) * 100));
         shippingFillEl.style.width = `${pct}%`;
         if (rawSubtotal === 0) {
@@ -2432,7 +2442,14 @@ function updateCartUI() {
     }
 
     if (cart.length === 0) {
-        cartItems.innerHTML = `
+        cartItems.innerHTML = SAFE_MODE
+            ? `
+            <div class="empty-cart">
+                <div class="empty-cart-title">TU LISTA DE CONSULTA ESTÁ VACÍA</div>
+                <p class="empty-cart-sub">Seleccioná productos del catálogo para calcular cantidades y precios de referencia.</p>
+            </div>
+        `
+            : `
             <div class="empty-cart">
                 <div class="empty-cart-title">TU ARSENAL ESTÁ VACÍO</div>
                 <p class="empty-cart-sub">Seleccioná tus suplementos en la tienda para armar tu orden.</p>
@@ -2456,8 +2473,8 @@ function updateCartUI() {
 
     cartItems.innerHTML = cart.map(item => {
         const itemTotal = item.price * item.qty;
-        const bundleBadge = item.isBundle 
-            ? `<span class="bundle-item-badge">COMBO -${item.bundleDiscountPct || 15}%</span>` 
+        const bundleBadge = (!SAFE_MODE && item.isBundle)
+            ? `<span class="bundle-item-badge">COMBO -${item.bundleDiscountPct || 15}%</span>`
             : '';
         return `
             <div class="cart-item">
@@ -2477,25 +2494,29 @@ function updateCartUI() {
         `;
     }).join('');
 
-    // Actualizar oferta interactiva de Bundle Dinámico
-    renderCartBundleOffer();
+    // Actualizar oferta interactiva de Bundle Dinámico (solo fuera de Safe Mode)
+    if (!SAFE_MODE) {
+        renderCartBundleOffer();
+    } else if (bundleContainer) {
+        bundleContainer.style.display = 'none';
+        bundleContainer.innerHTML = '';
+    }
 
-    const activeRaffle = getActiveRaffleBenefit();
-    const raffleDiscountPct = (activeRaffle && activeRaffle.hasSpun && activeRaffle.discountPct) ? Number(activeRaffle.discountPct) : 0;
+    const activeRaffle = SAFE_MODE ? null : getActiveRaffleBenefit();
+    const raffleDiscountPct = (!SAFE_MODE && activeRaffle && activeRaffle.hasSpun && activeRaffle.discountPct) ? Number(activeRaffle.discountPct) : 0;
 
-    // Descuento sujeto únicamente al beneficio obtenido en la Ruleta Psychotic (5%, 10% o hasta 15% OFF)
     const effectiveDiscountPct = raffleDiscountPct;
     const discountAmount = effectiveDiscountPct > 0 ? Math.round(rawSubtotal * (effectiveDiscountPct / 100)) : 0;
     const subtotalAfterDiscount = rawSubtotal - discountAmount;
 
-    const hasRaffleFreeShipping = !!(activeRaffle && activeRaffle.hasSpun && activeRaffle.type === 'preworkout');
-    const isFreeShipping = rawSubtotal >= FREE_SHIPPING_THRESHOLD || hasRaffleFreeShipping;
+    const hasRaffleFreeShipping = !SAFE_MODE && !!(activeRaffle && activeRaffle.hasSpun && activeRaffle.type === 'preworkout');
+    const isFreeShipping = SAFE_MODE || rawSubtotal >= FREE_SHIPPING_THRESHOLD || hasRaffleFreeShipping;
     const shipping = (rawSubtotal > 0 && !isFreeShipping) ? 5000 : 0;
-    const finalTotal = subtotalAfterDiscount + shipping;
+    const finalTotal = SAFE_MODE ? rawSubtotal : (subtotalAfterDiscount + shipping);
 
     const savingsLabelEl = document.getElementById('cartSavingsLabel');
     if (savingsRowEl && savingsAmountEl) {
-        if (discountAmount > 0) {
+        if (!SAFE_MODE && discountAmount > 0) {
             savingsRowEl.style.display = 'flex';
             if (savingsLabelEl) {
                 savingsLabelEl.textContent = `Descuento Ruleta Psychotic (${effectiveDiscountPct}%):`;
@@ -2510,7 +2531,7 @@ function updateCartUI() {
     const raffleLabelEl = document.getElementById('cartRaffleLabel');
     const raffleAmountEl = document.getElementById('cartRaffleAmount');
     if (raffleRowEl) {
-        if (activeRaffle && activeRaffle.hasSpun) {
+        if (!SAFE_MODE && activeRaffle && activeRaffle.hasSpun) {
             raffleRowEl.style.display = 'flex';
             if (raffleLabelEl) {
                 raffleLabelEl.textContent = `Ruleta (${activeRaffle.ticketId}):`;
@@ -2528,14 +2549,14 @@ function updateCartUI() {
     const totalEl = document.getElementById('cartTotal');
     if (totalEl) totalEl.textContent = formatPrice(finalTotal);
 
-    // Sincronizar resumen del Paso 2 (Forma de Pago)
+    // Sincronizar resumen del Paso 2
     const payItemsCountEl = document.getElementById('cartPaymentItemsCount');
     if (payItemsCountEl) payItemsCountEl.textContent = `${count} ${count === 1 ? 'unidad' : 'unidades'}`;
 
     const payRaffleRow = document.getElementById('cartPaymentRaffleSummaryRow');
     const payRaffleVal = document.getElementById('cartPaymentRaffleValue');
     if (payRaffleRow && payRaffleVal) {
-        if (activeRaffle && activeRaffle.hasSpun) {
+        if (!SAFE_MODE && activeRaffle && activeRaffle.hasSpun) {
             payRaffleRow.style.display = 'flex';
             payRaffleVal.textContent = activeRaffle.type === 'preworkout'
                 ? 'Premio Psychotic + Envío Gratis'
@@ -2552,9 +2573,13 @@ function updateCartUI() {
 
     const payNoteEl = document.getElementById('paymentStepNote');
     if (payNoteEl) {
-        payNoteEl.textContent = discountAmount > 0
-            ? `Tu beneficio de ${effectiveDiscountPct}% OFF de la Ruleta ya está aplicado al total.`
-            : '¿Querés hasta 15% OFF? Probá suerte en la Ruleta Psychotic antes de finalizar y aplicá tu descuento automático.';
+        if (SAFE_MODE) {
+            payNoteEl.textContent = 'Los pedidos online están temporalmente pausados mientras actualizamos nuestros canales de compra.';
+        } else {
+            payNoteEl.textContent = discountAmount > 0
+                ? `Tu beneficio de ${effectiveDiscountPct}% OFF de la Ruleta ya está aplicado al total.`
+                : '¿Querés hasta 15% OFF? Probá suerte en la Ruleta Psychotic antes de finalizar y aplicá tu descuento automático.';
+        }
     }
 }
 
@@ -2720,6 +2745,10 @@ function toggleUserProfile() {
 // GESTIÓN DE USUARIOS                        */
 // ========================================== */
 function login() {
+    if (SAFE_MODE) {
+        if (typeof toggleAuthModal === 'function') toggleAuthModal();
+        return;
+    }
     const email = document.getElementById('loginEmail').value.trim();
     if (!email) return alert('Por favor, ingresa tu email.');
     currentUser = { email };
@@ -2729,6 +2758,10 @@ function login() {
 }
 
 function register() {
+    if (SAFE_MODE) {
+        if (typeof toggleAuthModal === 'function') toggleAuthModal();
+        return;
+    }
     const name = document.getElementById('registerName').value.trim();
     const email = document.getElementById('registerEmail').value.trim();
     if (!name || !email) return alert('Por favor, completa los campos requeridos.');
@@ -2753,6 +2786,13 @@ function updateAuthUI() {
     const userProfileBtn = document.getElementById('userProfileBtn');
     const mobileAuthBtn = document.querySelector('.mobile-auth-btn');
 
+    if (SAFE_MODE) {
+        if (authBtn) authBtn.style.display = 'block';
+        if (mobileAuthBtn) mobileAuthBtn.style.display = 'block';
+        if (userProfileBtn) userProfileBtn.style.display = 'none';
+        return;
+    }
+
     if (currentUser) {
         if (authBtn) authBtn.style.display = 'none';
         if (mobileAuthBtn) mobileAuthBtn.style.display = 'none';
@@ -2770,6 +2810,11 @@ function updateAuthUI() {
 // CHECKOUT CON WHATSAPP (PESOS ARS)          */
 // ========================================== */
 function checkout() {
+    if (SAFE_MODE) {
+        playSFX('click');
+        openTransferModal();
+        return;
+    }
     if (cart.length === 0) {
         alert('⚔️ Tu arsenal está vacío. Agregá suplementos a tu carrito antes de iniciar la transacción.');
         return;
@@ -2863,51 +2908,19 @@ function checkout() {
         status: 'pending'
     };
 
-    saveOrderToAdmin(orderData);
-    deductOrderStock(orderData);
-
-    // TRACKING ANALYTICS: begin_checkout
-    if (typeof trackEvent === 'function') {
-        trackEvent('begin_checkout', { orderId: orderId, total: finalTotal, method: selectedPaymentMethod });
+    // En SAFE_MODE nunca se generan órdenes, ni se descuenta stock, ni se simula pago ni se vacía el carrito
+    if (SAFE_MODE || !WHATSAPP_PHONE) {
+        openTransferModal();
+        return;
     }
 
-    if (selectedPaymentMethod === 'card') {
-        // Lógica de MercadoPago Frontend
-        const mpPayload = {
-            orderId: orderId,
-            items: cart.map(i => ({ title: i.name, unit_price: i.price, quantity: i.qty })),
-            payer: { email: buyerEmail, name: buyerName }
-        };
-        console.log("🚀 [MercadoPago] Payload generado listo para enviar al servidor:", mpPayload);
-        
-        // Simulación visual para el usuario (hasta que haya Backend)
-        const btn = document.querySelector('.checkout-btn');
-        const oldText = btn.textContent;
-        btn.innerHTML = '🔄 Generando link de pago...';
-        
-        setTimeout(() => {
-            alert(`💳 Redireccionando a MercadoPago Checkout Pro.\n\n[Nota de Sistema]: Se ha generado el Payload correctamente. El servidor debe tomar estos datos en /api/create_preference para devolver el link real.`);
-            btn.innerHTML = oldText;
-            
-            // Simular vaciado del carrito tras pago (solo mock frontend)
-            cart = [];
-            saveState();
-            updateCartUI();
-            toggleCart();
-        }, 1500);
-
-    } else {
-        // Flujo tradicional Transferencia (WhatsApp)
-        const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(msg)}`;
-        window.open(waLink, '_blank');
-        cart = [];
-        saveState();
-        updateCartUI();
-        toggleCart();
+    if (typeof trackEvent === 'function') {
+        trackEvent('begin_checkout', { orderId: orderId, total: finalTotal, method: selectedPaymentMethod });
     }
 }
 
 function saveOrderToAdmin(orderData) {
+    if (SAFE_MODE) return;
     try {
         let orders = JSON.parse(localStorage.getItem('tofeprot_orders')) || [];
         orders.unshift(orderData);
@@ -2918,6 +2931,7 @@ function saveOrderToAdmin(orderData) {
 }
 
 function deductOrderStock(order) {
+    if (SAFE_MODE) return;
     try {
         const stockMap = getStockMap();
         if (order.individuals) {
@@ -3111,8 +3125,8 @@ function renderProductModalContent(product) {
                 ${modalFlavorsHTML}
                 <div class="pm-price-box">
                     <div class="pm-price-main">${formatPrice(product.price)}</div>
-                    <div class="pm-price-transfer">⚡ Hasta 15% OFF según lo que te toque en la Ruleta</div>
-                    <div style="font-size:0.76rem; color:var(--text-muted); margin-top:3px;">Hasta 3 cuotas sin interés de ${formatPrice(installmentPrice)}</div>
+                    <div class="pm-price-transfer">Precio de lista · Modo consulta</div>
+                    <div style="font-size:0.76rem; color:var(--text-muted); margin-top:3px;">Pedidos online pausados temporalmente</div>
                 </div>
             </div>
         </div>
@@ -3180,14 +3194,14 @@ function renderProductModalContent(product) {
                 <button type="button" class="qty-btn" onclick="changeModalQty(1)" aria-label="Aumentar cantidad">+</button>
             </div>
             <button type="button" class="pm-equip-btn" id="pmEquipBtn" onclick="addModalProductToCart()">
-                + EQUIPAR AL ARSENAL (${formatPrice(product.price * currentModalQty)})
+                + AGREGAR A CONSULTA (${formatPrice(product.price * currentModalQty)})
             </button>
         </div>
     `;
 }
 
 // ========================================== */
-// DATOS DE TRANSFERENCIA BANCARIA (ALIAS/CBU)*/
+// DATOS DE TRANSFERENCIA / ESTADO CONTACTO   */
 // ========================================== */
 function openTransferModal() {
     document.getElementById('transferBackdrop')?.classList.add('active');
@@ -3207,7 +3221,12 @@ function closeTransferModal() {
 }
 
 function copyAlias() {
-    const alias = "TOFEPROT.ARS";
+    if (SAFE_MODE) {
+        openTransferModal();
+        return;
+    }
+    const alias = '';
+    if (!alias) return;
     navigator.clipboard.writeText(alias).then(() => {
         const btn = document.getElementById('copyAliasBtn');
         if (btn) {
@@ -3219,9 +3238,7 @@ function copyAlias() {
                 btn.style.background = "";
             }, 2000);
         }
-    }).catch(() => {
-        prompt("Copia el alias bancario:", "TOFEPROT.ARS");
-    });
+    }).catch(() => {});
 }
 
 // ========================================== */
@@ -3257,7 +3274,7 @@ let cartTimerInterval = null;
 let timerHasStarted = false;
 
 function startCartTimer() {
-    if (timerHasStarted) return;
+    if (SAFE_MODE || timerHasStarted) return;
     timerHasStarted = true;
     
     const timerContainer = document.getElementById('cartUrgencyTimer');
@@ -3293,12 +3310,12 @@ const RAFFLE_WHEEL_SEGMENTS = [
     {
         index: 0,
         angle: 0,
-        weight: 0.01, // 1% de probabilidad interna
+        weight: 0.01,
         type: 'preworkout',
         shortTitle: 'PRE-ENTRENO PSYCHOTIC',
-        label: '¡GANASTE 1 PRE-ENTRENO PSYCHOTIC SIN COSTO + ENVÍO GRATIS!',
+        label: 'PREMIO EN PAUSA (SAFE MODE)',
         discountPct: 0,
-        desc: '¡Ganaste directamente 1 pote de Pre-Entreno Insane Labz Psychotic (de $89.000 a $0) 100% Sin Costo y con Envío Gratis! Incluiremos tu código ganador en tu pedido por WhatsApp.'
+        desc: 'Promoción pausada en Safe Mode hasta confirmar condiciones comerciales.'
     },
     {
         index: 1,
@@ -3368,6 +3385,7 @@ let isSpinningRaffleWheel = false;
 let currentWheelRotationDeg = 0;
 
 function getActiveRaffleBenefit() {
+    if (SAFE_MODE) return null;
     try {
         const raw = localStorage.getItem('tofeprot_raffle_state');
         if (raw) return JSON.parse(raw);
@@ -3376,12 +3394,14 @@ function getActiveRaffleBenefit() {
 }
 
 function saveActiveRaffleBenefit(stateObj) {
+    if (SAFE_MODE) return;
     try {
         localStorage.setItem('tofeprot_raffle_state', JSON.stringify(stateObj));
     } catch (e) {}
 }
 
 function recordRaffleLead(leadEntry) {
+    if (SAFE_MODE) return;
     try {
         const existingRaw = localStorage.getItem('tofeprot_raffle_leads');
         const list = existingRaw ? JSON.parse(existingRaw) : [];
@@ -3396,6 +3416,7 @@ function recordRaffleLead(leadEntry) {
 }
 
 function initRaffleSection() {
+    if (SAFE_MODE) return;
     initRaffleVideoPlayer();
     const state = getActiveRaffleBenefit();
     if (!state || !state.email) return;
@@ -3490,6 +3511,7 @@ function hydrateRaffleUIFromState(state) {
 
 function unlockRaffleWheel(event) {
     if (event) event.preventDefault();
+    if (SAFE_MODE) return;
 
     const emailInput = document.getElementById('raffleEmail');
     const feedbackEl = document.getElementById('raffleFormFeedback');
@@ -3606,7 +3628,7 @@ function playRaffleWinSFX() {
 }
 
 function spinRaffleWheel() {
-    if (isSpinningRaffleWheel) return;
+    if (SAFE_MODE || isSpinningRaffleWheel) return;
     const state = getActiveRaffleBenefit();
     if (!state || !state.email) {
         const emailInput = document.getElementById('raffleEmail');
@@ -3712,6 +3734,7 @@ function resetRaffleParticipant() {
 }
 
 function applyRaffleBenefitAndShop() {
+    if (SAFE_MODE) return;
     playSFX('equip');
     updateCartUI();
     scrollToProducts();

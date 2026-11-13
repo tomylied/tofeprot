@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Tofeprot - Suplementación deportiva premium en Argentina. Proteínas whey, creatinas y pre-entrenos de alta performance. Jugá en la ruleta por hasta 15% OFF o un Psychotic.">
-    <title>Tofeprot - Suplementos Deportivos Premium | Tienda Oficial</title>
+    <meta name="description" content="Tofeprot - Suplementación deportiva en Argentina. Explorá nuestro catálogo y conocé nuestras dos identidades: Berserker e Iluminado.">
+    <title>Tofeprot - Suplementos Deportivos | Catálogo Oficial</title>
     
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png">
@@ -14,18 +14,18 @@
 
     <!-- Open Graph / Redes Sociales & WhatsApp -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Tofeprot - Suplementos Deportivos Premium | Tienda Oficial">
-    <meta property="og:description" content="Proteínas Whey, Creatinas y Pre-entrenos de alto rendimiento. Girá la ruleta y obtené hasta 15% OFF o ganá un Pre-Entreno Psychotic.">
+    <meta property="og:title" content="Tofeprot - Suplementos Deportivos | Catálogo Oficial">
+    <meta property="og:description" content="Explorá el catálogo de suplementación deportiva Tofeprot. Elegí tu facción: Berserker o Iluminado.">
     <meta property="og:image" content="assets/images/logo-oscuridad.png">
     <meta property="og:locale" content="es_AR">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tofeprot - Suplementación Deportiva Premium">
-    <meta name="twitter:description" content="Proteínas Whey, Creatina Pura y Pre-entrenos de alto rendimiento. Hasta 15% OFF en la ruleta. Elegí tu bando: Luz o Oscuridad.">
+    <meta name="twitter:title" content="Tofeprot - Suplementación Deportiva">
+    <meta name="twitter:description" content="Catálogo de suplementación deportiva Tofeprot. Elegí tu facción: Berserker o Iluminado.">
     <meta name="twitter:image" content="assets/images/logo-oscuridad.png">
 
-    <link rel="stylesheet" href="css/styles.css?v=6.5">
+    <link rel="stylesheet" href="css/styles.css?v=6.6">
 
     <!-- Pre-detección de bando guardado: ingreso directo sin parpadeo del Gateway -->
     <script>
@@ -115,25 +115,14 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- 2. POP-UP DE DESBLOQUEO DE PODER (EMAIL)   -->
+    <!-- 2. POP-UP EMAIL (PAUSADO EN SAFE MODE)     -->
     <!-- ========================================== -->
-    <div id="unlockModal" class="unlock-modal-overlay">
+    <div id="unlockModal" class="unlock-modal-overlay" hidden aria-hidden="true" style="display: none;">
         <div class="unlock-modal-content">
-            <button class="close-unlock-btn" onclick="closeUnlockModal()">✕</button>
-            <div class="unlock-lock-wrapper">
-                <div class="unlock-lock-icon" id="lockIconElement">
-                    <svg class="svg-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                </div>
-            </div>
-            <h2>Desbloquea tu Poder</h2>
-            <p>Deja tu email para obtener un <strong>10% de descuento</strong> instantáneo en tu primer pedido.</p>
-            
-            <form class="unlock-form" onsubmit="event.preventDefault(); submitUnlockEmail();">
-                <input type="email" id="userUnlockEmail" placeholder="Ingresa tu email de guerrero..." required>
-                <button type="submit" class="submit-btn">Desbloquear 10% OFF</button>
-            </form>
-            
-            <a class="skip-unlock" onclick="closeUnlockModal()">Continuar sin descuento &gt;</a>
+            <button type="button" class="close-unlock-btn" onclick="closeUnlockModal()">✕</button>
+            <h2>Beneficios en Actualización</h2>
+            <p>Las promociones por correo electrónico están temporalmente pausadas mientras actualizamos nuestros canales oficiales.</p>
+            <button type="button" class="submit-btn" onclick="closeUnlockModal()">Entendido</button>
         </div>
     </div>
 
@@ -197,18 +186,18 @@
                     <span class="drawer-item-text">ARMERÍA COMPLETA</span>
                     <span class="drawer-item-arrow">→</span>
                 </a>
-                <a class="drawer-nav-item drawer-raffle-item" onclick="document.getElementById('sorteoSection').scrollIntoView({behavior:'smooth'}); closeNavDrawer();">
+                <a class="drawer-nav-item drawer-raffle-item" onclick="document.getElementById('faqAccordion').scrollIntoView({behavior:'smooth'}); closeNavDrawer();">
                     <span class="drawer-item-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="9"></line><line x1="12" y1="15" x2="12" y2="22"></line><line x1="2" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="22" y2="12"></line></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                     </span>
-                    <span class="drawer-item-text">⚡ GANÁ UN PRE-ENTRENO PSYCHOTIC</span>
+                    <span class="drawer-item-text">ESTADO DE COMPRA Y FAQ</span>
                     <span class="drawer-item-arrow">→</span>
                 </a>
                 <a class="drawer-nav-item drawer-cart-item" onclick="toggleCart(); closeNavDrawer();">
                     <span class="drawer-item-icon">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                     </span>
-                    <span class="drawer-item-text">MI ARSENAL / CARRITO</span>
+                    <span class="drawer-item-text">LISTA DE CONSULTA</span>
                     <span class="drawer-cart-badge-inner" id="cartCount" style="display: none;">0</span>
                 </a>
             </nav>
@@ -223,31 +212,17 @@
                 </div>
 
                 <div class="drawer-auth-row">
-                    <button class="auth-btn drawer-auth-btn" id="authBtn" onclick="toggleAuthModal(); closeNavDrawer();">INGRESAR / REGISTRARSE</button>
-                    <div id="userProfileBtn" class="drawer-profile-btn" style="cursor: pointer; display: none;" onclick="toggleUserProfile(); closeNavDrawer();">
-                        <svg class="svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                        <span>Mi Perfil Guerrero</span>
-                    </div>
+                    <button class="auth-btn drawer-auth-btn safe-mode-auth-btn" id="authBtn" onclick="toggleAuthModal(); closeNavDrawer();">CUENTAS (PRÓXIMAMENTE)</button>
+                    <div id="userProfileBtn" class="drawer-profile-btn" style="display: none;" aria-hidden="true"></div>
                 </div>
             </div>
         </div>
     </aside>
 
     <!-- ========================================== -->
-    <!-- 5. PERFIL DE USUARIO                       -->
+    <!-- 5. PERFIL DE USUARIO (DESACTIVADO SAFE MODE) -->
     <!-- ========================================== -->
-    <div id="userProfile" class="user-profile">
-        <div class="user-info">
-            <div class="user-email" id="profileEmail">usuario@email.com</div>
-            <div class="user-membership" id="profileMembership">Guerrero Tofeprot</div>
-            <div class="exp-container">
-                <div class="exp-text"><span>EXP GUERRERO</span> <span>650 / 1000 pt</span></div>
-                <div class="exp-bar-bg"><div class="exp-bar-fill"></div></div>
-            </div>
-            <button class="auth-btn" style="width:100%; margin-top: 10px; font-size: 0.8rem; padding: 6px;" onclick="switchSide(); toggleUserProfile();">Cambiar Bando (Berserker / Iluminado)</button>
-        </div>
-        <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
-    </div>
+    <div id="userProfile" class="user-profile" style="display: none;" aria-hidden="true"></div>
 
     <!-- ========================================== -->
     <!-- 6. HERO EDITORIAL BRUTALISTA (OPCIÓN 1)    -->
@@ -282,8 +257,11 @@
             <p id="heroDescription">El dolor no se esquiva, se conquista. Suplementación pura sin piedad para doblegar el hierro.</p>
 
             <div class="hero-cta-group">
-                <button class="hero-btn-secondary hero-btn-raffle" onclick="document.getElementById('sorteoSection').scrollIntoView({behavior: 'smooth'})">
-                    <span>⚡ GANÁ UN PRE-ENTRENO PSYCHOTIC</span>
+                <button class="hero-btn-secondary" onclick="scrollToProducts()">
+                    <span>EXPLORAR CATÁLOGO</span>
+                </button>
+                <button class="hero-btn-secondary hero-btn-raffle" onclick="openTransferModal()">
+                    <span>CANALES DE COMPRA EN ACTUALIZACIÓN</span>
                 </button>
             </div>
         </div>
@@ -294,16 +272,16 @@
     <!-- ========================================== -->
     <div class="editorial-marquee" aria-hidden="true">
         <div class="editorial-marquee-track">
-            <span>SUPLEMENTACIÓN PREMIUM DE ALTO RENDIMIENTO</span><span class="marquee-dot">✦</span>
-            <span>HASTA 15% OFF SEGÚN LO QUE TE TOQUE EN LA RULETA</span><span class="marquee-dot">✦</span>
-            <span>GANÁ UN PRE-ENTRENO PSYCHOTIC EN LA RULETA</span><span class="marquee-dot">✦</span>
-            <span>SIN RELLENOS NI AZÚCARES AÑADIDOS</span><span class="marquee-dot">✦</span>
-            <span>3 CUOTAS SIN INTERÉS CON MERCADO PAGO</span><span class="marquee-dot">✦</span>
-            <span>SUPLEMENTACIÓN PREMIUM DE ALTO RENDIMIENTO</span><span class="marquee-dot">✦</span>
-            <span>HASTA 15% OFF SEGÚN LO QUE TE TOQUE EN LA RULETA</span><span class="marquee-dot">✦</span>
-            <span>GANÁ UN PRE-ENTRENO PSYCHOTIC EN LA RULETA</span><span class="marquee-dot">✦</span>
-            <span>SIN RELLENOS NI AZÚCARES AÑADIDOS</span><span class="marquee-dot">✦</span>
-            <span>3 CUOTAS SIN INTERÉS CON MERCADO PAGO</span><span class="marquee-dot">✦</span>
+            <span>TOFEPROT SUPLEMENTACIÓN DEPORTIVA</span><span class="marquee-dot">✦</span>
+            <span>BERSERKER · FUERZA E INTENSIDAD</span><span class="marquee-dot">✦</span>
+            <span>ILUMINADO · DISCIPLINA Y PRECISIÓN</span><span class="marquee-dot">✦</span>
+            <span>CATÁLOGO DISPONIBLE EN MODO CONSULTA</span><span class="marquee-dot">✦</span>
+            <span>PEDIDOS ONLINE TEMPORALMENTE PAUSADOS</span><span class="marquee-dot">✦</span>
+            <span>TOFEPROT SUPLEMENTACIÓN DEPORTIVA</span><span class="marquee-dot">✦</span>
+            <span>BERSERKER · FUERZA E INTENSIDAD</span><span class="marquee-dot">✦</span>
+            <span>ILUMINADO · DISCIPLINA Y PRECISIÓN</span><span class="marquee-dot">✦</span>
+            <span>CATÁLOGO DISPONIBLE EN MODO CONSULTA</span><span class="marquee-dot">✦</span>
+            <span>PEDIDOS ONLINE TEMPORALMENTE PAUSADOS</span><span class="marquee-dot">✦</span>
         </div>
     </div>
 
@@ -315,43 +293,54 @@
             <div class="editorial-section-header">
                 <h2 class="section-title">Armería de Suplementos</h2>
                 <p class="editorial-subtitle">
-                    Suplementos puros de alta performance, sin rellenos ni azúcares añadidos. Elegí tu fórmula, seleccioná el sabor y aprovechá hasta 15% OFF según lo que te toque en la ruleta.
+                    Explorá el catálogo de productos disponibles para consulta y armá tu lista estimada. Los pedidos online están temporalmente pausados mientras actualizamos nuestros canales de compra.
                 </p>
-                <div class="armory-highlights-strip" aria-label="Beneficios incluidos en la armería">
-                    <span class="armory-strip-item"><strong>Hasta 15% OFF</strong> En la Ruleta</span>
+                <div class="armory-highlights-strip" aria-label="Estado del catálogo">
+                    <span class="armory-strip-item"><strong>Catálogo Activo</strong> Para Explorar</span>
                     <span class="armory-strip-sep" aria-hidden="true">·</span>
-                    <span class="armory-strip-item"><strong>3 Cuotas</strong> Sin Interés</span>
+                    <span class="armory-strip-item"><strong>Modo Consulta</strong> Sin Pagos Online</span>
                     <span class="armory-strip-sep" aria-hidden="true">·</span>
-                    <span class="armory-strip-item"><strong>100% Puro</strong> Sin Rellenos</span>
-                    <span class="armory-strip-sep" aria-hidden="true">·</span>
-                    <span class="armory-strip-item"><strong>Envíos</strong> A Todo el País</span>
+                    <span class="armory-strip-item"><strong>Canales</strong> En Actualización</span>
                 </div>
+            </div>
+            <div class="safe-mode-banner safe-mode-store-banner" role="status">
+                <span class="safe-mode-badge">AVISO</span>
+                <p class="safe-mode-message"><strong>Los pedidos online están temporalmente pausados mientras actualizamos nuestros canales de compra.</strong> Podés consultar fichas, precios de catálogo y armar tu carrito de referencia.</p>
             </div>
             <div class="products-grid" id="tiendaGrid"></div>
         </section>
     </div>
 
     <!-- ========================================== -->
-    <!-- 7.1 BARRA DE CONFIANZA & BENEFICIOS (TRUST)-->
+    <!-- 7.1 BARRA DE ESTADO & TRANSPARENCIA        -->
     <!-- ========================================== -->
     <section class="trust-bar-section">
         <div class="trust-bar-grid">
             <div class="trust-item">
                 <div class="trust-icon">
-                    <svg class="svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                    <svg class="svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                 </div>
                 <div class="trust-text">
-                    <h4>Envíos a Todo el País</h4>
-                    <p>Andreani y Correo Arg con tracking en vivo.</p>
+                    <h4>Compras en Pausa Temporal</h4>
+                    <p>Estamos actualizando nuestros canales de compra y medios de pago.</p>
                 </div>
             </div>
             <div class="trust-item">
                 <div class="trust-icon">
-                    <svg class="svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line><line x1="6" y1="15" x2="10" y2="15"></line></svg>
+                    <svg class="svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                 </div>
                 <div class="trust-text">
-                    <h4>3 Cuotas o Hasta 15% OFF</h4>
-                    <p>3 cuotas sin interés o hasta 15% OFF según lo que te toque en la ruleta.</p>
+                    <h4>Datos Bancarios en Validación</h4>
+                    <p>No aceptamos transferencias ni cobros online hasta confirmar datos oficiales.</p>
+                </div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">
+                    <svg class="svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                </div>
+                <div class="trust-text">
+                    <h4>Envíos y Condiciones</h4>
+                    <p>Tarifas y logística en verificación antes de reactivar pedidos.</p>
                 </div>
             </div>
             <div class="trust-item">
@@ -359,284 +348,38 @@
                     <svg class="svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
                 </div>
                 <div class="trust-text">
-                    <h4>Calidad Premium Real</h4>
-                    <p>Fórmulas seleccionadas, sin azúcares ni rellenos.</p>
-                </div>
-            </div>
-            <div class="trust-item">
-                <div class="trust-icon">
-                    <svg class="svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="9"></line><line x1="12" y1="15" x2="12" y2="22"></line><line x1="2" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="22" y2="12"></line></svg>
-                </div>
-                <div class="trust-text">
-                    <h4>Ruleta Psychotic</h4>
-                    <p>Girá gratis y participá por un Pre-Entreno Psychotic o hasta 15% OFF.</p>
+                    <h4>Catálogo en Modo Consulta</h4>
+                    <p>Revisá precios, presentaciones y fichas técnicas sin compromiso.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ========================================== -->
-    <!-- 7.5 SORTEO PSYCHOTIC & RULETA INTERACTIVA  -->
+    <!-- 7.5 PROMOCIONES Y RULETA (PAUSA SAFE MODE) -->
     <!-- ========================================== -->
     <div class="section-wrapper raffle-band-wrapper reveal-on-scroll" id="sorteoSection">
         <section class="raffle-section" aria-labelledby="raffleSectionTitle">
-            <!-- TARJETA ÚNICA INTEGRAL COMPACTA (VIDEO VERTICAL + INFO A LA IZQUIERDA | DATOS ARRIBA + RULETA A LA DERECHA) -->
-            <div class="raffle-unified-card" id="raffleWheelStage">
-                <!-- MITAD IZQUIERDA: VIDEO VERTICAL COMPACTO AL LADO DEL TEXTO Y PRECIO -->
-                <div class="raffle-unified-left">
-                    <div class="raffle-left-split">
-                        <!-- Columna del Video Vertical (9:16 compacto) -->
-                        <div class="raffle-inline-photo raffle-video-stage" id="raffleVideoStage">
-                            <video
-                                id="raffleShowcaseVideo"
-                                class="raffle-showcase-video"
-                                src="assets/images/sorteo-psychotic.mp4?v=5.2"
-                                poster="assets/images/sorteo-psychotic.jpg?v=5.0"
-                                autoplay
-                                muted
-                                loop
-                                playsinline
-                                preload="metadata"
-                                onclick="toggleRaffleVideoPlay(event)"
-                                aria-label="Video del sorteo de Pre-entreno Insane Labz Psychotic">
-                            </video>
-
-                            <!-- BARRA DE NAVEGACIÓN COMPACTA DEL VIDEO -->
-                            <div class="raffle-video-navbar" role="toolbar" aria-label="Controles del video del sorteo">
-                                <button type="button" class="raffle-vctrl-btn" id="raffleVideoPlayBtn" onclick="toggleRaffleVideoPlay(event)" aria-label="Pausar video" title="Pausar / Reproducir">
-                                    <svg class="vctrl-icon vctrl-icon-pause" id="rafflePlayIconPause" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                        <rect x="6" y="4" width="4" height="16" rx="1"></rect>
-                                        <rect x="14" y="4" width="4" height="16" rx="1"></rect>
-                                    </svg>
-                                    <svg class="vctrl-icon vctrl-icon-play" id="rafflePlayIconPlay" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display: none;" aria-hidden="true">
-                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                    </svg>
-                                    <span class="vctrl-btn-text sr-only-compact" id="raffleVideoPlayLabel">Pausar</span>
-                                </button>
-
-                                <div class="raffle-video-timeline" id="raffleVideoTimeline" onclick="seekRaffleVideo(event)" role="slider" aria-label="Progreso del video" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
-                                    <div class="raffle-video-timeline-track">
-                                        <div class="raffle-video-timeline-fill" id="raffleVideoProgressFill"></div>
-                                    </div>
-                                </div>
-
-                                <span class="raffle-video-time" id="raffleVideoTime">0:00</span>
-
-                                <button type="button" class="raffle-vctrl-btn raffle-vctrl-sound is-muted" id="raffleVideoMuteBtn" onclick="toggleRaffleVideoMute(event)" aria-label="Activar sonido" title="Activar / Silenciar sonido">
-                                    <svg class="vctrl-icon" id="raffleSoundIconMuted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                        <line x1="23" y1="9" x2="17" y2="15"></line>
-                                        <line x1="17" y1="9" x2="23" y2="15"></line>
-                                    </svg>
-                                    <svg class="vctrl-icon" id="raffleSoundIconUnmuted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: none;" aria-hidden="true">
-                                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-                                    </svg>
-                                    <span class="vctrl-btn-text sr-only-compact" id="raffleVideoMuteLabel">Sonido</span>
-                                </button>
-                            </div>
+            <div class="raffle-unified-card safe-mode-card-layout" id="raffleWheelStage">
+                <div class="safe-mode-panel-main">
+                    <span class="safe-mode-pill">SAFE MODE · PROMOCIONES EN PAUSA</span>
+                    <h2 class="raffle-unified-title" id="raffleSectionTitle">Ruleta y Beneficios en Actualización</h2>
+                    <p class="raffle-unified-subtitle">
+                        Las dinámicas promocionales, cupones por email, descuentos combinados y sorteos se encuentran temporalmente desactivados mientras confirmamos stock, condiciones comerciales y canales oficiales de cobro y envío.
+                    </p>
+                    <div class="safe-mode-highlights">
+                        <div class="safe-mode-highlight-item">
+                            <strong>Catálogo Disponible</strong>
+                            <span>Podés consultar fórmulas, tablas nutricionales, sabores y precios de lista.</span>
                         </div>
-
-                        <!-- Columna de Información + Gancho de Precio $89.000 -> $0 -->
-                        <div class="raffle-left-copy">
-                            <div class="raffle-unified-header">
-                                <h2 class="raffle-unified-title" id="raffleSectionTitle">Jugá por el Pre&#8209;Entreno o hasta 15%&nbsp;OFF</h2>
-                                <p class="raffle-unified-subtitle">
-                                    Ingresá tu email arriba de la ruleta para habilitar tu giro al instante. Podés ganar <strong>5%, 10% o 15% OFF</strong> o llevarte el <strong>Pre-Entreno Psychotic 100% Sin Costo y con Envío Gratis</strong>.
-                                </p>
-                            </div>
-
-                            <div class="raffle-inline-showcase">
-                                <div class="raffle-inline-specs">
-                                    <div class="raffle-price-hook-row">
-                                        <div class="raffle-price-hook-left">
-                                            <span class="raffle-prod-tag">Insane Labz Psychotic (35 serv.)</span>
-                                            <div class="raffle-free-perks">
-                                                <span class="raffle-perk-pill">✓ SIN COSTO</span>
-                                                <span class="raffle-perk-pill">🚚 ENVÍO GRATIS</span>
-                                            </div>
-                                        </div>
-                                        <div class="raffle-price-hook-right" aria-label="De 89.000 pesos a 0 pesos sin costo y con envío gratis">
-                                            <span class="raffle-old-price">$89.000</span>
-                                            <span class="raffle-price-arrow" aria-hidden="true">→</span>
-                                            <span class="raffle-zero-price">$0</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="safe-mode-highlight-item">
+                            <strong>Sin Captura de Datos</strong>
+                            <span>No recopilamos emails ni prometemos premios o descuentos sin verificación.</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- MITAD DERECHA: EMAIL COMPACTO EN 1 FILA ARRIBA + RULETA DEBAJO -->
-                <div class="raffle-unified-right">
-                    <div class="raffle-unified-form-zone" id="raffleAccessCard">
-                        <div class="raffle-step-header">
-                            <span class="raffle-step-tag" id="raffleStepTag">INGRESÁ TU EMAIL PARA JUGAR</span>
-                            <span class="wheel-status-pill" id="raffleWheelStatus">🔒 Ruleta bloqueada</span>
-                            <span class="raffle-ticket-pill" id="raffleTicketBadge" style="display: none;">TICKET #TP-0000</span>
-                        </div>
-
-                        <form id="raffleRegistrationForm" class="raffle-form" onsubmit="unlockRaffleWheel(event)" novalidate>
-                            <div class="raffle-form-compact-grid">
-                                <div class="raffle-field">
-                                    <label for="raffleEmail" class="sr-only-label">Email</label>
-                                    <input type="email" id="raffleEmail" name="email" placeholder="Ingresá tu email para girar..." aria-label="Email" autocomplete="email" required>
-                                </div>
-                                <button type="submit" class="raffle-unlock-btn" id="raffleUnlockBtn">
-                                    <span>HABILITAR</span>
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                                </button>
-                            </div>
-
-                            <div id="raffleFormFeedback" class="raffle-form-feedback" role="alert" aria-live="polite"></div>
-                        </form>
-
-                        <!-- RESUMEN DEL PARTICIPANTE UNA VEZ DESBLOQUEADO -->
-                        <div id="raffleParticipantSummary" class="raffle-participant-summary" style="display: none;">
-                            <div class="participant-summary-row">
-                                <div class="participant-info-col">
-                                    <span class="participant-label">Email Habilitado</span>
-                                    <strong class="participant-name" id="raffleSummaryEmail">—</strong>
-                                </div>
-                                <button type="button" class="raffle-change-user-btn" onclick="resetRaffleParticipant()">Cambiar email</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="raffle-wheel-viewport">
-                        <!-- Puntero / Aguja superior (12 en punto) -->
-                        <div class="raffle-wheel-pointer" id="raffleWheelPointer" aria-hidden="true">
-                            <svg width="38" height="42" viewBox="0 0 38 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 40L4 10C2.5 7 4.7 3 8.2 3H29.8C33.3 3 35.5 7 34 10L19 40Z" fill="var(--raffle-pointer-fill, #ff2a5f)" stroke="#ffffff" stroke-width="2.5"/>
-                                <circle cx="19" cy="12" r="4" fill="#ffffff"/>
-                            </svg>
-                        </div>
-
-                        <!-- Disco giratorio SVG de 6 segmentos amplios (60° cada uno) -->
-                        <div class="raffle-wheel-rotor" id="raffleWheelRotor">
-                            <svg class="raffle-wheel-svg" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ruleta de premios Tofeprot: 5% OFF, 10% OFF, 15% OFF y Pre-Entreno Psychotic">
-                                <defs>
-                                    <radialGradient id="wheelRimGrad" cx="50%" cy="50%" r="50%">
-                                        <stop offset="82%" stop-color="#14101c" />
-                                        <stop offset="95%" stop-color="#2e2240" />
-                                        <stop offset="100%" stop-color="#09060e" />
-                                    </radialGradient>
-                                    <linearGradient id="sliceJackpotGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="#e11d48" />
-                                        <stop offset="100%" stop-color="#881337" />
-                                    </linearGradient>
-                                    <linearGradient id="sliceFifteenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="#7e22ce" />
-                                        <stop offset="100%" stop-color="#3b0764" />
-                                    </linearGradient>
-                                    <linearGradient id="sliceTenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="#1e1b2e" />
-                                        <stop offset="100%" stop-color="#0f0c1b" />
-                                    </linearGradient>
-                                    <linearGradient id="sliceFiveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="#27203a" />
-                                        <stop offset="100%" stop-color="#141022" />
-                                    </linearGradient>
-                                </defs>
-
-                                <!-- Aro metálico exterior -->
-                                <circle cx="180" cy="180" r="174" fill="url(#wheelRimGrad)" stroke="rgba(255,255,255,0.18)" stroke-width="3"/>
-                                <circle cx="180" cy="180" r="160" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
-
-                                <!-- Segmento 0 (0°): PRE-ENTRENO PSYCHOTIC (Gajo de 60°: de -30° a +30°) -->
-                                <g transform="rotate(0 180 180)">
-                                    <path d="M 180 180 L 102 44.9 A 156 156 0 0 1 258 44.9 Z" fill="url(#sliceJackpotGrad)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
-                                    <text x="180" y="60" fill="#fde047" font-family="'Russo One', sans-serif" font-size="12" text-anchor="middle" letter-spacing="0.6">PSYCHOTIC</text>
-                                    <text x="180" y="75" fill="#ffffff" font-family="'Orbitron', sans-serif" font-size="8.2" font-weight="800" text-anchor="middle" letter-spacing="0.6">PRE-ENTRENO</text>
-                                </g>
-
-                                <!-- Segmento 1 (60°): 5% OFF -->
-                                <g transform="rotate(60 180 180)">
-                                    <path d="M 180 180 L 102 44.9 A 156 156 0 0 1 258 44.9 Z" fill="url(#sliceFiveGrad)" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>
-                                    <text x="180" y="62" fill="#ffffff" font-family="'Russo One', sans-serif" font-size="16" text-anchor="middle" letter-spacing="0.6">5% OFF</text>
-                                    <text x="180" y="77" fill="#cbd5e1" font-family="'Orbitron', sans-serif" font-size="8" font-weight="700" text-anchor="middle" letter-spacing="0.6">DESCUENTO</text>
-                                </g>
-
-                                <!-- Segmento 2 (120°): 10% OFF -->
-                                <g transform="rotate(120 180 180)">
-                                    <path d="M 180 180 L 102 44.9 A 156 156 0 0 1 258 44.9 Z" fill="url(#sliceTenGrad)" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>
-                                    <text x="180" y="62" fill="#f8fafc" font-family="'Russo One', sans-serif" font-size="16" text-anchor="middle" letter-spacing="0.6">10% OFF</text>
-                                    <text x="180" y="77" fill="#38bdf8" font-family="'Orbitron', sans-serif" font-size="8" font-weight="700" text-anchor="middle" letter-spacing="0.6">DESCUENTO</text>
-                                </g>
-
-                                <!-- Segmento 3 (180°): 15% OFF -->
-                                <g transform="rotate(180 180 180)">
-                                    <path d="M 180 180 L 102 44.9 A 156 156 0 0 1 258 44.9 Z" fill="url(#sliceFifteenGrad)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
-                                    <text x="180" y="62" fill="#fde047" font-family="'Russo One', sans-serif" font-size="16" text-anchor="middle" letter-spacing="0.6">15% OFF</text>
-                                    <text x="180" y="77" fill="#ffffff" font-family="'Orbitron', sans-serif" font-size="8" font-weight="800" text-anchor="middle" letter-spacing="0.6">DESCUENTO</text>
-                                </g>
-
-                                <!-- Segmento 4 (240°): 5% OFF -->
-                                <g transform="rotate(240 180 180)">
-                                    <path d="M 180 180 L 102 44.9 A 156 156 0 0 1 258 44.9 Z" fill="url(#sliceFiveGrad)" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>
-                                    <text x="180" y="62" fill="#ffffff" font-family="'Russo One', sans-serif" font-size="16" text-anchor="middle" letter-spacing="0.6">5% OFF</text>
-                                    <text x="180" y="77" fill="#cbd5e1" font-family="'Orbitron', sans-serif" font-size="8" font-weight="700" text-anchor="middle" letter-spacing="0.6">DESCUENTO</text>
-                                </g>
-
-                                <!-- Segmento 5 (300°): 10% OFF -->
-                                <g transform="rotate(300 180 180)">
-                                    <path d="M 180 180 L 102 44.9 A 156 156 0 0 1 258 44.9 Z" fill="url(#sliceTenGrad)" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>
-                                    <text x="180" y="62" fill="#f8fafc" font-family="'Russo One', sans-serif" font-size="16" text-anchor="middle" letter-spacing="0.6">10% OFF</text>
-                                    <text x="180" y="77" fill="#38bdf8" font-family="'Orbitron', sans-serif" font-size="8" font-weight="700" text-anchor="middle" letter-spacing="0.6">DESCUENTO</text>
-                                </g>
-
-                                <!-- Pines divisores en el borde exterior (cada 60°) -->
-                                <g fill="#fde047" stroke="#09060e" stroke-width="1.5">
-                                    <circle cx="180" cy="14" r="3.8" transform="rotate(30 180 180)"/>
-                                    <circle cx="180" cy="14" r="3.8" transform="rotate(90 180 180)"/>
-                                    <circle cx="180" cy="14" r="3.8" transform="rotate(150 180 180)"/>
-                                    <circle cx="180" cy="14" r="3.8" transform="rotate(210 180 180)"/>
-                                    <circle cx="180" cy="14" r="3.8" transform="rotate(270 180 180)"/>
-                                    <circle cx="180" cy="14" r="3.8" transform="rotate(330 180 180)"/>
-                                </g>
-                            </svg>
-                        </div>
-
-                        <!-- Botón de núcleo central de la ruleta -->
-                        <button type="button" class="raffle-wheel-hub-btn" id="raffleSpinHubBtn" onclick="spinRaffleWheel()" disabled aria-label="Girar ruleta de premios">
-                            <span class="hub-btn-ring"></span>
-                            <span class="hub-btn-text" id="raffleHubText">BLOQUEADA</span>
-                        </button>
-
-                        <!-- Velo de bloqueo inicial hasta ingresar Email -->
-                        <div class="raffle-wheel-lock-veil" id="raffleWheelLockVeil">
-                            <div class="lock-veil-badge">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                <span>Ingresá tu email arriba para habilitar tu giro</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ACCIÓN DE GIRO / RESULTADO GANADOR -->
-                    <div class="raffle-wheel-footer">
-                        <button type="button" class="raffle-spin-main-btn" id="raffleSpinMainBtn" onclick="spinRaffleWheel()" disabled>
-                            <span>INGRESÁ TU EMAIL PARA GIRAR</span>
-                        </button>
-
-                        <!-- Tarjeta de premio obtenido -->
-                        <div class="raffle-result-card" id="raffleResultCard" style="display: none;" role="region" aria-live="polite">
-                            <div class="result-card-top">
-                                <span class="result-win-tag" id="raffleResultTag">¡PREMIO OBTENIDO!</span>
-                                <span class="result-ticket-code" id="raffleResultTicket">CÓDIGO #TP-0000</span>
-                            </div>
-                            <h3 class="result-prize-headline" id="raffleResultHeadline">10% OFF EN TU COMPRA</h3>
-                            <p class="result-prize-desc" id="raffleResultDesc">
-                                Tu beneficio ya está activo en el carrito para usar en tu pedido.
-                            </p>
-                            <div class="result-actions-row">
-                                <button type="button" class="result-apply-btn" onclick="applyRaffleBenefitAndShop()">
-                                    <span>USAR MI PREMIO EN LA ARMERÍA</span>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="safe-mode-panel-actions">
+                        <button type="button" class="hero-btn-primary" onclick="scrollToProducts()">Explorar Catálogo</button>
+                        <button type="button" class="hero-btn-secondary" onclick="openTransferModal()">Estado de Contacto</button>
                     </div>
                 </div>
             </div>
@@ -644,243 +387,166 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- 10. MURO DE LEYENDAS (PR WALL)             -->
+    <!-- 10. TESTIMONIOS (OCULTOS EN SAFE MODE)     -->
     <!-- ========================================== -->
-    <section class="pr-wall reveal-on-scroll">
-        <div class="pr-container">
-            <div class="editorial-section-header" style="margin-bottom: 2.5rem;">
-                <h2 class="section-title">Marcas de la Comunidad</h2>
-                <p class="editorial-subtitle">Levantamientos y experiencia real de atletas que entrenan con Tofeprot.</p>
-            </div>
-            <div class="pr-cards">
-                <div class="pr-card">
-                    <div class="pr-user">Marcos V. · Córdoba</div>
-                    <div class="pr-lift">Press Banca: 140 kg</div>
-                    <div class="pr-quote">"La creatina pura se disuelve al instante sin dejar arena en el fondo. Subí mis repeticiones con 120 kg en cuatro semanas."</div>
-                </div>
-                <div class="pr-card">
-                    <div class="pr-user">Julieta S. · CABA</div>
-                    <div class="pr-lift">Sentadilla: 110 kg</div>
-                    <div class="pr-quote">"El Pre-entreno Berserk pega parejo, sin taquicardia ni caída brusca después de entrenar. Foco limpio de principio a fin."</div>
-                </div>
-                <div class="pr-card">
-                    <div class="pr-user">Tomás R. · Rosario</div>
-                    <div class="pr-lift">Peso Muerto: 180 kg</div>
-                    <div class="pr-quote">"Arranqué probando la Whey de 1 kg y no la cambié más. Sabor cacao real, excelente disolución y cero pesadez."</div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- .pr-wall temporalmente oculta hasta contar con reseñas verificadas y autorizadas -->
 
     <!-- ========================================== -->
-    <!-- 10.1 PREGUNTAS FRECUENTES (FAQ) & GARANTÍA -->
+    <!-- 10.1 PREGUNTAS FRECUENTES (FAQ)            -->
     <!-- ========================================== -->
     <div class="section-wrapper reveal-on-scroll" style="padding-bottom: 3rem;">
         <section class="faq-section">
             <h2 class="section-title" style="margin-top: 0; margin-bottom: 0.5rem;">Preguntas Frecuentes</h2>
-            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Respuestas directas sobre envíos, pagos, pureza y dosificación.</p>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Información clara sobre el estado actual del sitio, catálogo y modo consulta.</p>
             
             <div class="faq-accordion" id="faqAccordion">
                 <div class="faq-item active">
                     <div class="faq-header" onclick="toggleFaq(this)">
                         <div class="faq-title">
-                            ¿Cómo consigo hasta 15% OFF o el Pre-Entreno Psychotic en la ruleta?
+                            ¿Por qué están pausados los pedidos online?
                         </div>
                         <span class="faq-icon-toggle">+</span>
                     </div>
                     <div class="faq-body">
-                        Dejá tu email en la sección de la <strong>Ruleta Psychotic</strong> y girá sin cargo. Podés ganar <strong>5%, 10% o hasta 15% OFF</strong> para aplicar directo en tu carrito, o llevarte el premio mayor de un <strong>Pre-Entreno Psychotic</strong>.
+                        Los pedidos online están temporalmente pausados mientras actualizamos nuestros canales de compra, integración de pagos real y datos comerciales oficiales. Podés recorrer el catálogo y armar tu lista en modo consulta.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-header" onclick="toggleFaq(this)">
                         <div class="faq-title">
-                            ¿Qué medios de pago aceptan?
+                            ¿Están habilitados los pagos, descuentos o la ruleta?
                         </div>
                         <span class="faq-icon-toggle">+</span>
                     </div>
                     <div class="faq-body">
-                        Aceptamos <strong>Transferencia Bancaria</strong> y también <strong>Mercado Pago o Tarjetas de Crédito en hasta 3 cuotas sin interés</strong>. Primero armás tu carrito y luego, en el paso de pago, elegís cómo querés abonar (tu descuento de la ruleta aplica igual).
+                        No por el momento. Los cobros online, transferencias bancarias, cuentas de usuario, cupones y la Ruleta Psychotic se encuentran desactivados temporalmente para garantizar condiciones verificadas antes de habilitar ventas.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-header" onclick="toggleFaq(this)">
                         <div class="faq-title">
-                            ¿Cuánto demoran los envíos y cómo los sigo?
+                            ¿Cómo funcionarán los envíos y datos de contacto?
                         </div>
                         <span class="faq-icon-toggle">+</span>
                     </div>
                     <div class="faq-body">
-                        Despachamos en el día por <strong>Andreani y Correo Argentino</strong> a todo el país. En CABA y GBA la entrega toma de <strong>24 a 48 hs hábiles</strong>; en el interior del país, de <strong>2 a 4 días hábiles</strong>. Te enviamos el código de seguimiento por WhatsApp apenas sale el paquete.
+                        Las condiciones de envío, plazos de despacho y canales oficiales de atención por WhatsApp y transferencia se encuentran en actualización y serán publicados únicamente cuando estén confirmados.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-header" onclick="toggleFaq(this)">
                         <div class="faq-title">
-                            ¿Qué calidad tienen los suplementos Tofeprot?
+                            ¿Qué información incluye cada producto del catálogo?
                         </div>
                         <span class="faq-icon-toggle">+</span>
                     </div>
                     <div class="faq-body">
-                        Trabajamos con <strong>fórmulas puras y concentradas</strong>, libres de rellenos, espesantes y azúcares agregados. En cada ficha de producto podés consultar sus ingredientes completos, tabla nutricional y modo de uso recomendado.
+                        En cada ficha técnica podés consultar sabores disponibles, tamaño de porción, tabla nutricional declarada y recomendaciones generales de uso correspondientes al catálogo publicado.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-header" onclick="toggleFaq(this)">
                         <div class="faq-title">
-                            ¿Cómo debo tomar la proteína, creatina y pre-entreno?
+                            ¿Cómo se utilizan habitualmente proteína, creatina y pre-entreno?
                         </div>
                         <span class="faq-icon-toggle">+</span>
                     </div>
                     <div class="faq-body">
-                        <strong>Proteína Whey:</strong> 1 scoop (30g) post-entreno o entre comidas con 200-250ml de agua o leche fría. <strong>Creatina Monohidrato:</strong> 1 scoop raso (5g) todos los días, entrenes o no, para mantener la saturación muscular. <strong>Pre-entreno Berserk:</strong> 1 scoop (10g) de 20 a 30 minutos antes de entrenar.
+                        <strong>Proteína Whey:</strong> 1 scoop (30g) post-entreno o entre comidas con 200-250ml de agua o leche fría. <strong>Creatina Monohidrato:</strong> 1 scoop raso (5g) al día de forma continua. <strong>Pre-entreno:</strong> seguir siempre la porción recomendada indicada en el envase de cada fórmula antes de entrenar.
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SELLO DE GARANTÍA BLINDADA -->
-        <div class="guarantee-section">
-            <div class="guarantee-card">
-                <div class="guarantee-icon">
-                    <svg class="svg-icon" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
-                </div>
-                <div class="guarantee-content">
-                    <h3>Garantía de Satisfacción <span>30 Días Tofeprot</span></h3>
-                    <p>
-                        Respaldamos la pureza, solubilidad y sabor real de cada lote. Si tu pedido presenta cualquier inconveniente o no cumple con lo especificado en su ficha técnica, gestionamos el cambio directo o el reintegro de tu compra.
-                    </p>
-                </div>
-            </div>
-        </div>
+        <!-- Garantía comercial oculta temporalmente hasta validación de condiciones -->
     </div>
 
     <!-- ========================================== -->
     <!-- 11. FOOTER                                 -->
     <!-- ========================================== -->
     <footer>
-        <p>&copy; 2026 Tofeprot Argentina · Suplementación Deportiva de Alto Rendimiento.</p>
+        <p>&copy; 2026 Tofeprot Argentina · Suplementación Deportiva.</p>
         <div>
-            <a href="admin.html" class="admin-footer-link">Panel de Administración</a>
+            <p class="footer-safe-note">Modo Consulta activo · Canales de compra y contacto en actualización.</p>
         </div>
     </footer>
 
     <!-- ========================================== -->
-    <!-- 13. MODAL CARRITO DE COMPRAS               -->
+    <!-- 13. MODAL CARRITO (MODO CONSULTA)          -->
     <!-- ========================================== -->
     <div id="cartBackdrop" class="cart-backdrop" onclick="toggleCart()"></div>
-    <div id="cartModal" class="cart-modal" aria-label="Carrito de compras">
+    <div id="cartModal" class="cart-modal" aria-label="Lista de consulta de suplementos">
         <div class="cart-header">
             <div class="drawer-brand">
-                <span class="drawer-brand-title" id="cartHeaderTitle">MI ARSENAL</span>
+                <span class="drawer-brand-title" id="cartHeaderTitle">LISTA DE CONSULTA</span>
                 <span class="drawer-brand-sub" id="cartHeaderCountSub">0 productos</span>
             </div>
             <button type="button" class="nav-drawer-close" onclick="toggleCart()" aria-label="Cerrar carrito">✕</button>
         </div>
 
-        <!-- PASO 1: REVISIÓN DE PRODUCTOS EN EL CARRITO -->
+        <!-- PASO 1: CONSULTA DE PRODUCTOS SELECCIONADOS -->
         <div id="cartStep1Review" class="cart-step-pane">
-            <!-- BARRA DE PROGRESO ENVÍO GRATIS -->
-            <div id="cartShippingBarWrap" class="cart-shipping-bar-wrap">
-                <div class="cart-shipping-text" id="cartShippingText">Envío gratis superando los $65.000</div>
-                <div class="cart-shipping-track">
-                    <div class="cart-shipping-fill" id="cartShippingFill" style="width: 0%;"></div>
-                </div>
+            <div class="safe-mode-banner safe-mode-banner-compact" role="status">
+                <span class="safe-mode-pill">MODO CONSULTA</span>
+                <p>Los pedidos online están temporalmente pausados mientras actualizamos nuestros canales de compra.</p>
             </div>
-            
+
             <div class="cart-items" id="cartItems"><div class="empty-cart">Aún no hay suplementos</div></div>
 
-            <!-- SECCIÓN DE BUNDLES DINÁMICOS INTELIGENTES -->
+            <!-- CONTENEDOR BUNDLE DESACTIVADO EN SAFE MODE -->
             <div id="cartBundleContainer" class="cart-bundle-container" style="display: none;"></div>
 
             <div class="cart-footer">
                 <div class="cart-savings-row" id="cartSavingsRow" style="display: none;">
-                    <span id="cartSavingsLabel">Descuento Ruleta:</span>
+                    <span id="cartSavingsLabel">Promoción:</span>
                     <span id="cartSavingsAmount">-$0</span>
                 </div>
 
                 <div class="cart-savings-row cart-raffle-row" id="cartRaffleRow" style="display: none;">
-                    <span id="cartRaffleLabel">Beneficio Ruleta Psychotic:</span>
-                    <span id="cartRaffleAmount">Activo</span>
+                    <span id="cartRaffleLabel">Beneficio:</span>
+                    <span id="cartRaffleAmount">Pausado</span>
                 </div>
 
-                <div class="cart-total"><span>Total Pedido:</span> <span id="cartTotal">$0</span></div>
-                <button type="button" class="checkout-btn" id="cartContinueBtn" onclick="goToCartPaymentStep()">Continuar al Pago →</button>
+                <div class="cart-total"><span>Total Estimado (Consulta):</span> <span id="cartTotal">$0</span></div>
+                <button type="button" class="checkout-btn safe-mode-cta-disabled" id="cartContinueBtn" onclick="goToCartPaymentStep()" aria-disabled="true">Pedidos Online Pausados</button>
             </div>
         </div>
 
-        <!-- PASO 2: ELECCIÓN DE FORMA DE PAGO -->
+        <!-- PASO 2: PAUSADO EN SAFE MODE -->
         <div id="cartStep2Payment" class="cart-step-pane" style="display: none;">
             <div class="cart-payment-step-body">
                 <button type="button" class="cart-back-btn" onclick="goToCartReviewStep()">
-                    ← Volver al carrito
+                    ← Volver a la lista de consulta
                 </button>
-
-                <div class="cart-payment-summary-box">
-                    <div class="cart-payment-summary-row">
-                        <span>Productos seleccionados:</span>
-                        <strong id="cartPaymentItemsCount">0 unidades</strong>
-                    </div>
-                    <div class="cart-payment-summary-row highlight" id="cartPaymentRaffleSummaryRow" style="display: none;">
-                        <span id="cartPaymentRaffleLabel">Beneficio Ruleta:</span>
-                        <strong id="cartPaymentRaffleValue">Activo</strong>
-                    </div>
-                    <div class="cart-payment-summary-row total">
-                        <span>Total a abonar:</span>
-                        <strong id="cartPaymentTotalDisplay">$0</strong>
-                    </div>
-                </div>
-
-                <!-- SELECTOR DE MÉTODO DE PAGO (SOLO EN PASO 2) -->
-                <div class="payment-selector-container">
-                    <div class="payment-selector-title">Elegí cómo querés pagar:</div>
-                    <div class="payment-options-grid">
-                        <button type="button" class="payment-option-btn active" id="payTransferBtn" onclick="setPaymentMethod('transfer')">
-                            <strong>Transferencia</strong>
-                            <span>Bancaria / Alias</span>
-                        </button>
-                        <button type="button" class="payment-option-btn" id="payCardBtn" onclick="setPaymentMethod('card')">
-                            <strong>Tarjeta / MP</strong>
-                            <span>3 Cuotas Sin Interés</span>
-                        </button>
-                    </div>
-                    <p class="payment-step-note" id="paymentStepNote">
-                        ¿Querés hasta 15% OFF? Probá suerte en la Ruleta Psychotic y aplicá tu descuento automático.
-                    </p>
+                <div class="safe-mode-card" role="status">
+                    <span class="safe-mode-pill">CHECKOUT EN PAUSA</span>
+                    <p>Los pedidos online están temporalmente pausados mientras actualizamos nuestros canales de compra.</p>
                 </div>
             </div>
-
             <div class="cart-footer">
-                <div class="cart-total"><span>Total Final:</span> <span id="cartPaymentFooterTotal">$0</span></div>
-                <button type="button" class="checkout-btn" onclick="checkout()">Finalizar Pedido por WhatsApp</button>
+                <div class="cart-total"><span>Total Estimado:</span> <span id="cartPaymentFooterTotal">$0</span></div>
+                <button type="button" class="checkout-btn safe-mode-cta-disabled" disabled aria-disabled="true">Checkout Desactivado</button>
             </div>
         </div>
     </div>
 
     <!-- ========================================== -->
-    <!-- 14. MODAL AUTENTICACIÓN (LOGIN / REGISTRO) -->
+    <!-- 14. MODAL AUTENTICACIÓN (PAUSA SAFE MODE)  -->
     <!-- ========================================== -->
     <div id="authModal" class="modal">
         <div class="modal-content">
             <button type="button" class="nav-drawer-close" onclick="toggleAuthModal()" aria-label="Cerrar">✕</button>
-            <div id="loginForm">
-                <h2 style="color: var(--text-main); margin-bottom: 1.5rem; font-family: 'Russo One', sans-serif;">Ingresar</h2>
-                <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="tu@email.com"></div>
-                <div class="form-group"><label>Contraseña</label><input type="password" id="loginPassword" placeholder="Contraseña"></div>
-                <button class="submit-btn" onclick="login()">Ingresar a mi cuenta</button>
-                <div class="toggle-form">¿No tenés cuenta? <a onclick="toggleLoginRegister()">Crear cuenta</a></div>
-            </div>
-            <div id="registerForm" style="display: none;">
-                <h2 style="color: var(--text-main); margin-bottom: 1.5rem; font-family: 'Russo One', sans-serif;">Crear Cuenta</h2>
-                <div class="form-group"><label>Nombre</label><input type="text" id="registerName" placeholder="Tu nombre"></div>
-                <div class="form-group"><label>Email</label><input type="email" id="registerEmail" placeholder="tu@email.com"></div>
-                <div class="form-group"><label>Contraseña</label><input type="password" id="registerPassword" placeholder="Contraseña"></div>
-                <button class="submit-btn" onclick="register()">Registrarme</button>
-                <div class="toggle-form">¿Ya tenés cuenta? <a onclick="toggleLoginRegister()">Ingresar</a></div>
+            <div class="safe-mode-modal-box" role="status">
+                <span class="safe-mode-pill">AUTENTICACIÓN EN ACTUALIZACIÓN</span>
+                <h2 style="color: var(--text-main); margin: 0.75rem 0 0.75rem; font-family: 'Russo One', sans-serif;">Cuentas Próximamente</h2>
+                <p style="color: var(--text-muted); line-height: 1.55; margin-bottom: 1.25rem;">
+                    Las cuentas de usuario estarán disponibles cuando se implemente autenticación real del lado servidor. Por seguridad, no solicitamos ni almacenamos contraseñas en este momento.
+                </p>
+                <button type="button" class="submit-btn" onclick="toggleAuthModal()">Entendido</button>
             </div>
         </div>
     </div>
@@ -903,64 +569,41 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- 16. MODAL DATOS BANCARIOS / TRANSFERENCIA  -->
+    <!-- 16. MODAL DATOS Y CONTACTO (SAFE MODE)     -->
     <!-- ========================================== -->
     <div id="transferBackdrop" class="modal-backdrop" onclick="closeTransferModal()"></div>
-    <div id="transferModal" class="transfer-modal-dialog">
+    <div id="transferModal" class="transfer-modal-dialog" aria-label="Estado de datos bancarios y contacto">
         <div class="transfer-modal-header">
-            <h3 style="font-family: var(--font-heading, 'Russo One', sans-serif);">Datos de Transferencia Bancaria</h3>
+            <h3 style="font-family: var(--font-heading, 'Russo One', sans-serif);">Contacto y Datos Bancarios</h3>
             <button type="button" class="nav-drawer-close" onclick="closeTransferModal()" aria-label="Cerrar">✕</button>
         </div>
         <div class="transfer-modal-body">
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem;">
-                Realizá tu transferencia (aplicando tu descuento de la ruleta si ganaste uno) y envianos el comprobante por WhatsApp para despacho prioritario.
-            </p>
-            
-            <div class="bank-data-card">
-                <div class="bank-row">
-                    <span class="bank-label">Titular:</span>
-                    <span class="bank-val">TOFEPROT ARGENTINA S.A.S.</span>
-                </div>
-                <div class="bank-row">
-                    <span class="bank-label">CUIT:</span>
-                    <span class="bank-val">30-71829304-8</span>
-                </div>
-                <div class="bank-row">
-                    <span class="bank-label">Entidad:</span>
-                    <span class="bank-val">Santander / Mercado Pago</span>
-                </div>
-                <div class="bank-row highlight">
-                    <span class="bank-label">ALIAS:</span>
-                    <span class="bank-val" id="bankAlias">TOFEPROT.ARS</span>
-                    <button class="copy-alias-btn" id="copyAliasBtn" onclick="copyAlias()">Copiar</button>
-                </div>
-                <div class="bank-row">
-                    <span class="bank-label">CBU:</span>
-                    <span class="bank-val" style="font-family: monospace;">0000003100088291002341</span>
-                </div>
+            <div class="safe-mode-card" role="status">
+                <span class="safe-mode-pill">CANALES EN ACTUALIZACIÓN</span>
+                <p style="color: var(--text-main); font-weight: 600; margin: 0.75rem 0 0.5rem;">
+                    Los datos de transferencia bancaria y los canales oficiales de contacto se encuentran en actualización.
+                </p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; margin: 0;">
+                    Los pedidos online están temporalmente pausados mientras actualizamos nuestros canales de compra. Una vez confirmados los datos comerciales oficiales, volverán a publicarse aquí.
+                </p>
             </div>
 
-            <div class="transfer-steps">
-                <div class="transfer-step"><strong>1.</strong> Copiá el alias y transferí desde cualquier banco o billetera virtual.</div>
-                <div class="transfer-step"><strong>2.</strong> Tocá el botón de abajo para enviar el pedido con el comprobante por WhatsApp.</div>
-            </div>
-
-            <button class="submit-btn" style="width: 100%; margin-top: 1.2rem;" onclick="closeTransferModal(); checkout();">
-                Continuar a WhatsApp con Pedido →
+            <button type="button" class="submit-btn" style="width: 100%; margin-top: 1.2rem;" onclick="closeTransferModal()">
+                Entendido
             </button>
         </div>
     </div>
 
     <!-- ========================================== -->
-    <!-- 17. BOTÓN FLOTANTE WHATSAPP VIP            -->
+    <!-- 17. BOTÓN FLOTANTE CONTACTO (SAFE MODE)    -->
     <!-- ========================================== -->
-    <a href="https://wa.me/5491100000000?text=Hola%20Coach,%20necesito%20asesoramiento%20sobre%20suplementaci%C3%B3n." class="floating-wa-btn" target="_blank" rel="noopener noreferrer" title="Consultar por WhatsApp" aria-label="Consultar por WhatsApp">
+    <button type="button" class="floating-wa-btn is-paused" onclick="openTransferModal()" title="Canales de contacto en actualización" aria-label="Canales de contacto en actualización">
         <span class="wa-icon" aria-hidden="true">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.766.469 3.484 1.344 5l-1.406 5.156 5.281-1.375c1.469.797 3.109 1.219 4.75 1.219 5.516 0 9.969-4.453 9.969-9.969S17.547 2 12.031 2zm5.813 14.125c-.25.703-1.438 1.344-2 1.422-.516.078-1.172.109-1.891-.125-.438-.141-1-.328-1.719-.641-3.016-1.297-4.984-4.328-5.141-4.531-.156-.203-1.234-1.641-1.234-3.125s.781-2.219 1.063-2.516c.281-.297.609-.375.813-.375.203 0 .406 0 .578.016.188.016.438-.078.688.516.25.609.859 2.094.938 2.25.078.156.125.344.031.547-.094.203-.141.328-.297.5-.156.172-.313.391-.453.516-.156.141-.313.297-.141.609.172.313.781 1.297 1.672 2.094 1.156 1.031 2.125 1.344 2.438 1.5.313.156.484.125.672-.078.188-.203.781-.906.984-1.219.203-.313.422-.266.703-.156.281.109 1.797.844 2.109 1 .313.156.516.234.594.359.078.125.078.734-.172 1.438z"/></svg>
         </span>
-    </a>
+    </button>
 
     <!-- ARCHIVO JS MODULAR -->
-    <script src="js/app.js?v=6.4" defer></script>
+    <script src="js/app.js?v=6.6" defer></script>
 </body>
 </html>
