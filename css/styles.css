@@ -7208,6 +7208,7 @@ body.theme-light .raffle-unified-title span {
 .raffle-inline-showcase {
     display: flex;
     flex-direction: column;
+    flex: 1;
     gap: 0.75rem;
     padding: 0.85rem;
     border-radius: 14px;
@@ -7223,7 +7224,8 @@ body.theme-light .raffle-inline-showcase {
 .raffle-inline-photo {
     position: relative;
     width: 100%;
-    height: 320px;
+    flex: 1;
+    min-height: 330px;
     border-radius: 10px;
     overflow: hidden;
     background: radial-gradient(circle at 50% 42%, rgba(225, 29, 72, 0.22), #07050c 76%);
@@ -7453,12 +7455,21 @@ body.theme-light .raffle-zero-price {
     color: #15803d;
 }
 
-/* ZONA DE FORMULARIO INTEGRADA EN LA MISMA TARJETA */
+/* ZONA DE FORMULARIO ARRIBA DE LA RULETA */
 .raffle-unified-form-zone {
-    padding-top: 0.25rem;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+body.theme-light .raffle-unified-form-zone {
+    background: #faf7f0;
+    border-color: rgba(180, 134, 45, 0.24);
 }
 
 .raffle-step-header {
@@ -7466,14 +7477,14 @@ body.theme-light .raffle-zero-price {
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.65rem;
 }
 
 .raffle-step-tag {
     font-family: var(--font-heading, 'Orbitron', sans-serif);
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 800;
-    letter-spacing: 1px;
+    letter-spacing: 0.9px;
     color: var(--accent-purple, #c084fc);
     text-transform: uppercase;
 }
@@ -7483,13 +7494,13 @@ body.theme-light .raffle-step-tag {
 }
 
 .raffle-ticket-pill {
-    padding: 4px 10px;
+    padding: 3px 9px;
     border-radius: 6px;
     background: rgba(74, 222, 128, 0.14);
     border: 1px solid rgba(74, 222, 128, 0.4);
     color: #4ade80;
     font-family: var(--font-heading, 'Orbitron', sans-serif);
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 800;
     letter-spacing: 0.8px;
 }
@@ -7503,23 +7514,30 @@ body.theme-light .raffle-ticket-pill {
 .raffle-form {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 0.65rem;
 }
 
 .raffle-form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.85rem;
+    gap: 0.65rem;
+}
+
+.raffle-form-bottom-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 0.65rem;
 }
 
 .raffle-field {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.25rem;
 }
 
 .raffle-field label {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: var(--text-muted);
     letter-spacing: 0.4px;
@@ -7527,18 +7545,18 @@ body.theme-light .raffle-ticket-pill {
 
 .raffle-field input {
     width: 100%;
-    min-height: 44px;
-    padding: 0.68rem 0.9rem;
-    border-radius: 10px;
+    min-height: 40px;
+    padding: 0.5rem 0.75rem;
+    border-radius: 9px;
     border: 1px solid rgba(255, 255, 255, 0.16);
     background: rgba(7, 5, 12, 0.85);
     color: var(--text-main);
-    font-size: 0.94rem;
+    font-size: 0.88rem;
     transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 body.theme-light .raffle-field input {
-    background: #faf7f0;
+    background: #ffffff;
     border-color: rgba(180, 134, 45, 0.32);
     color: #1c160e;
 }
@@ -7555,9 +7573,9 @@ body.theme-light .raffle-field input:focus {
 }
 
 .raffle-form-feedback {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    min-height: 1.1rem;
+    min-height: 1rem;
     color: #fb7185;
     display: none;
 }
@@ -7567,24 +7585,23 @@ body.theme-light .raffle-field input:focus {
 }
 
 .raffle-unlock-btn {
-    min-height: 48px;
-    width: 100%;
-    margin-top: 0.2rem;
-    padding: 0.85rem 1.2rem;
-    border-radius: 10px;
+    min-height: 40px;
+    padding: 0.55rem 1rem;
+    border-radius: 9px;
     border: 1px solid rgba(255, 255, 255, 0.22);
     background: linear-gradient(135deg, #e11d48 0%, #9333ea 100%);
     color: #ffffff;
     font-family: var(--font-display, 'Russo One', sans-serif);
-    font-size: 0.9rem;
-    letter-spacing: 1px;
+    font-size: 0.78rem;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
+    white-space: nowrap;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 7px;
     cursor: pointer;
-    box-shadow: 0 10px 24px rgba(225, 29, 72, 0.32);
+    box-shadow: 0 8px 20px rgba(225, 29, 72, 0.32);
     transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s ease;
 }
 
@@ -7739,9 +7756,9 @@ body.theme-light .raffle-unified-card.is-unlocked .wheel-status-pill {
 
 .raffle-wheel-viewport {
     position: relative;
-    width: min(100%, 340px);
+    width: min(100%, 295px);
     aspect-ratio: 1 / 1;
-    margin: 0.4rem auto 0.85rem;
+    margin: 0.2rem auto 0.65rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8067,8 +8084,12 @@ body.theme-light .cart-raffle-row {
     .raffle-inline-showcase {
         grid-template-columns: 1fr;
     }
-    .raffle-form-row {
+    .raffle-form-row,
+    .raffle-form-bottom-row {
         grid-template-columns: 1fr;
+    }
+    .raffle-unlock-btn {
+        width: 100%;
     }
     .raffle-unified-left,
     .raffle-unified-right {

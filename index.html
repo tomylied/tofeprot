@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Proteínas Whey, Creatina Pura 200 Mesh y Pre-entreno Berserk. Elige tu bando: Luz o Oscuridad.">
     <meta name="twitter:image" content="assets/images/logo-oscuridad.png">
 
-    <link rel="stylesheet" href="css/styles.css?v=5.8">
+    <link rel="stylesheet" href="css/styles.css?v=5.9">
 
     <!-- Pre-detección de bando guardado: ingreso directo sin parpadeo del Gateway -->
     <script>
@@ -474,8 +474,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- BLOQUE DE REGISTRO / ESTADO DEL PARTICIPANTE (INTEGRADO SIN CAJA EXTERNA) -->
+                <!-- MITAD DERECHA DE LA MISMA TARJETA: DATOS DEL CLIENTE ARRIBA + RULETA DEBAJO -->
+                <div class="raffle-unified-right">
+                    <!-- BLOQUE DE REGISTRO / ESTADO DEL PARTICIPANTE ARRIBA DE LA RULETA -->
                     <div class="raffle-unified-form-zone" id="raffleAccessCard">
                         <div class="raffle-step-header">
                             <span class="raffle-step-tag" id="raffleStepTag">COMPLETÁ TUS DATOS PARA JUGAR</span>
@@ -494,17 +497,19 @@
                                 </div>
                             </div>
 
-                            <div class="raffle-field">
-                                <label for="raffleEmail">Email</label>
-                                <input type="email" id="raffleEmail" name="email" placeholder="tu@email.com" autocomplete="email" required>
+                            <div class="raffle-form-bottom-row">
+                                <div class="raffle-field">
+                                    <label for="raffleEmail">Email</label>
+                                    <input type="email" id="raffleEmail" name="email" placeholder="tu@email.com" autocomplete="email" required>
+                                </div>
+
+                                <button type="submit" class="raffle-unlock-btn" id="raffleUnlockBtn">
+                                    <span>HABILITAR RULETA</span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                </button>
                             </div>
 
                             <div id="raffleFormFeedback" class="raffle-form-feedback" role="alert" aria-live="polite"></div>
-
-                            <button type="submit" class="raffle-unlock-btn" id="raffleUnlockBtn">
-                                <span>HABILITAR RULETA Y JUGAR</span>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                            </button>
                         </form>
 
                         <!-- RESUMEN DEL PARTICIPANTE UNA VEZ DESBLOQUEADO -->
@@ -519,12 +524,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- MITAD DERECHA DE LA MISMA TARJETA: RULETA INTERACTIVA DE 6 GAJOS AMPLIOS -->
-                <div class="raffle-unified-right">
                     <div class="raffle-wheel-topbar">
-                        <span class="wheel-status-pill" id="raffleWheelStatus">🔒 Completá tus datos para habilitar la ruleta</span>
+                        <span class="wheel-status-pill" id="raffleWheelStatus">🔒 Completá tus datos arriba para habilitar la ruleta</span>
                     </div>
 
                     <div class="raffle-wheel-viewport">
@@ -1220,6 +1222,6 @@
     </a>
 
     <!-- ARCHIVO JS MODULAR -->
-    <script src="js/app.js?v=5.8" defer></script>
+    <script src="js/app.js?v=5.9" defer></script>
 </body>
 </html>
