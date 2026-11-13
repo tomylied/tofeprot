@@ -163,7 +163,7 @@ function getProductSVG(type, label, sublabel) {
                 <rect x="20" y="46" width="60" height="7" fill="currentColor" opacity="0.22"/>
                 <text x="50" y="52" font-family="'Russo One', sans-serif" font-size="6" fill="currentColor" text-anchor="middle" font-weight="900" letter-spacing="0.5">TOFEPROT</text>
                 <text x="50" y="68" font-family="'Russo One', sans-serif" font-size="7.5" fill="var(--tub-title-fill, #ffffff)" text-anchor="middle" font-weight="bold">${label || 'WHEY'}</text>
-                <text x="50" y="78" font-family="'Orbitron', sans-serif" font-size="5" fill="currentColor" text-anchor="middle" font-weight="bold" letter-spacing="0.5">${sublabel || 'CLINICAL'}</text>
+                <text x="50" y="78" font-family="'Orbitron', sans-serif" font-size="5" fill="currentColor" text-anchor="middle" font-weight="bold" letter-spacing="0.5">${sublabel || 'PREMIUM'}</text>
                 <circle cx="50" cy="85" r="2" fill="currentColor"/>
             </svg>
         </div>
@@ -180,7 +180,7 @@ const DEFAULT_INDIVIDUAL_PRODUCTS = [
         tubType: "creatine",
         tubLabel: "STAR",
         tubSub: "300G",
-        description: "Creatina monohidrato ultramicronizada 100% pura sin TACC en doypack de 300g.", 
+        description: "Creatina monohidrato ultramicronizada 100% pura sin TACC por 300g.", 
         price: 28000, 
         badge: "Más Vendido",
         rating: "4.9",
@@ -555,7 +555,7 @@ function applySideTheme(side) {
         if (logoGhost) logoGhost.src = 'assets/images/logo-wordmark-luz.png';
         if (logoHintText) logoHintText.textContent = 'TOCÁ EL LOGO · TRANSMUTAR A ILUMINADO';
         if (heroTitle) heroTitle.innerHTML = 'DESATÁ EL <span class="glory-highlight">CAOS</span>';
-        if (heroDesc) heroDesc.textContent = "El dolor no se esquiva, se conquista. Suplementación clínica sin piedad para doblegar el hierro.";
+        if (heroDesc) heroDesc.textContent = "El dolor no se esquiva, se conquista. Suplementación pura sin piedad para doblegar el hierro.";
         if (heroBgImg) {
             heroBgImg.src = 'assets/images/hero-bg.jpg?v=2.8';
             heroBgImg.alt = 'Fondo Hero Tofeprot Berserker';
@@ -1241,20 +1241,20 @@ function filterProducts() {
 }
 
 // ========================================== */
-// INSPECTOR INTERACTIVO DE PUREZA CLÍNICA    */
+// INSPECTOR INTERACTIVO DE CALIDAD REAL      */
 // ========================================== */
 const PURITY_PILLAR_DATA = {
     mesh: {
-        tag: 'MOLIENDA FÍSICA 200 MESH',
-        caption: 'Partícula micronizada 20 veces más fina que el polvo estándar para disolución total en agua fría y absorción celular sin pesadez.'
+        tag: 'DISOLUCIÓN ULTRAFINA',
+        caption: 'Partícula micronizada ultrafina para disolución total en agua fría y rápida absorción sin pesadez estomacal.'
     },
     hplc: {
-        tag: 'AUDITORÍA CROMATOGRÁFICA HPLC 99.8%',
-        caption: 'Cada lote se analiza en laboratorio independiente para certificar su aminograma real. Cero glicina ni taurina barata para inflar nitrógeno.'
+        tag: 'FÓRMULAS DE ALTA PUREZA',
+        caption: 'Cada servicio aporta dosis reales y efectivas de principio activo. Cero glicina ni taurina barata para inflar la etiqueta.'
     },
     zero: {
-        tag: 'FÓRMULA ABIERTA · 0% MALTODEXTRINA',
-        caption: 'Materia prima importada pura sin maltodextrina oculta, espesantes gomosos ni azúcares añadidos que rebajen la concentración por servicio.'
+        tag: 'FÓRMULA LIMPIA · 0% MALTODEXTRINA',
+        caption: 'Fórmulas limpias sin maltodextrina oculta, espesantes gomosos ni azúcares añadidos que rebajen la concentración por servicio.'
     }
 };
 
@@ -1316,7 +1316,7 @@ function setPurityComparison(mode) {
 
     if (isTofeprot) {
         if (auditBadge) {
-            auditBadge.textContent = 'Lote Auditado CoA';
+            auditBadge.textContent = 'Fórmula Real';
             auditBadge.classList.remove('is-warning');
         }
         if (specMain) specMain.textContent = '80% Proteína Pura (24g)';
@@ -1349,7 +1349,7 @@ function setPurityComparison(mode) {
             verdictDot.classList.remove('status-diluted');
         }
         if (verdictText) {
-            verdictText.innerHTML = '<strong>Fórmula 100% transparente:</strong> Cada servicio entrega proteína concentrada e isolada real verificada por cromatografía líquida (HPLC), sin carbohidratos baratos escondidos.';
+            verdictText.innerHTML = '<strong>Fórmula 100% transparente:</strong> Cada servicio entrega proteína concentrada e isolada real, sin carbohidratos baratos ni rellenos escondidos.';
         }
     } else {
         if (auditBadge) {
@@ -1478,11 +1478,10 @@ function updateLiveBiometrics() {
     const stackIds = stackItems.filter(Boolean).map(p => p.id);
 
     const rawStackTotal = stackItems.reduce((sum, p) => sum + (p ? p.price : 0), 0);
-    const transferStackTotal = Math.round(rawStackTotal * 0.85);
 
     const stackBadgeLabel = includePreworkout
         ? 'TRÍADA DE ALTO RENDIMIENTO'
-        : (biometricGoal === 'definicion' ? 'PROTOCOLO DEFINICIÓN MAGRA' : 'PROTOCOLO HIPERTROFIA CLÍNICA');
+        : (biometricGoal === 'definicion' ? 'PROTOCOLO DEFINICIÓN MAGRA' : 'PROTOCOLO HIPERTROFIA REAL');
 
     resultContainer.innerHTML = `
         <div class="bio-dashboard-inner">
@@ -1506,7 +1505,7 @@ function updateLiveBiometrics() {
                         <span class="bio-kpi-note">Cubrís el ${wheyCoveragePct}% de tu meta diaria sin grasas ni azúcar</span>
                     </div>
                     <div class="bio-kpi-item">
-                        <span class="bio-kpi-label">Saturación Creatina 200 Mesh</span>
+                        <span class="bio-kpi-label">Saturación Creatina Pura</span>
                         <span class="bio-kpi-value">${totalCreatine} g / día (1 scoop)</span>
                         <span class="bio-kpi-note">Reposición de ATP para ${biometricTrainingDays} días/sem de exigencia</span>
                     </div>
@@ -1528,7 +1527,7 @@ function updateLiveBiometrics() {
                 <div class="bio-bar-row">
                     <div class="bio-bar-labels">
                         <span>Reserva Muscular de Fosfocreatina</span>
-                        <strong>${totalCreatine} g / día · Malla 200</strong>
+                        <strong>${totalCreatine} g / día · Ultramicronizada</strong>
                     </div>
                     <div class="bio-bar-track">
                         <div class="bio-bar-fill" style="transform: scaleX(${creatineScale});"></div>
@@ -1540,7 +1539,7 @@ function updateLiveBiometrics() {
             <div class="bio-stack-card">
                 <div class="bio-stack-top">
                     <span class="bio-stack-tag">${stackBadgeLabel}</span>
-                    <span class="bio-stack-Gift">+1 Doypack Gratis Incluido</span>
+                    <span class="bio-stack-Gift">Hasta 15% OFF en la Ruleta</span>
                 </div>
 
                 <div class="bio-stack-items">
@@ -1554,8 +1553,8 @@ function updateLiveBiometrics() {
 
                 <div class="bio-stack-footer">
                     <div class="bio-stack-pricing">
-                        <span class="bio-stack-transfer">${formatPrice(transferStackTotal)} <small>Transferencia (15% OFF)</small></span>
-                        <span class="bio-stack-list-price">Precio de lista: ${formatPrice(rawStackTotal)} · Envío Gratis Incluido</span>
+                        <span class="bio-stack-transfer">${formatPrice(rawStackTotal)} <small>Hasta 3 cuotas sin interés</small></span>
+                        <span class="bio-stack-list-price">Aplicá hasta 15% OFF según lo que te toque en la ruleta</span>
                     </div>
                     <button type="button" class="bio-equip-stack-btn" onclick="equipRecommendedStack([${stackIds.join(',')}], this)">
                         EQUIPAR PROTOCOLO
@@ -1614,7 +1613,7 @@ function equipRecommendedStack(productIds, btnEl) {
 function verCertificado(nombre) {
     const prod = individualProducts.find(p => p.name === nombre) || individualProducts[0];
     openProductModal(prod.id);
-    setModalTab('coa');
+    setModalTab('nutrition');
 }
 
 // ========================================== */
@@ -1629,13 +1628,6 @@ function getProductYieldLabel(product) {
         servingsTag: `${numServings} SERVICIOS`,
         perServingText: `${formatPrice(perServing)} / servicio`
     };
-}
-
-function getProductCoaSummary(product) {
-    const coa = product.coa || {};
-    const batch = coa.batch || '#TF-8829';
-    const purity = coa.purity || '99.8% Pureza';
-    return `<span class="coa-meta-batch">Lote ${batch}</span><span class="coa-meta-dot">·</span><span class="coa-meta-purity">${purity}</span>`;
 }
 
 function renderTienda(items) {
@@ -1655,7 +1647,6 @@ function renderTienda(items) {
         const isSoldOut = stock <= 0;
         const badgeHTML = product.badge ? `<div class="product-badge holographic-badge" id="prodBadge_${product.id}" data-badge="${product.badge}">${product.badge}</div>` : '';
         const soldOutBadge = isSoldOut ? `<div class="out-of-stock-badge">AGOTADO</div>` : '';
-        const transferPrice = Math.round(product.price * 0.85);
         const installmentPrice = Math.round(product.price / 3);
         const yieldInfo = getProductYieldLabel(product);
 
@@ -1664,12 +1655,6 @@ function renderTienda(items) {
                 ${product.specs.map((s, i) => `<span class="product-spec-pill ${i === 0 ? 'highlight' : ''}">${s}</span>`).join('')}
             </div>
         ` : '';
-
-        const coaMetaHTML = `
-            <div class="product-rating" id="prodRating_${product.id}">
-                ${getProductCoaSummary(product)}
-            </div>
-        `;
 
         const flavors = product.flavors && product.flavors.length > 0 ? product.flavors : null;
         const currentFlavorName = flavors ? flavors[0].name : '';
@@ -1795,7 +1780,7 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
         descEl.textContent = targetProduct.description;
     }
 
-    // 5. Actualizar specs, badge, lote CoA y rendimiento
+    // 5. Actualizar specs, badge y rendimiento
     const specsEl = document.getElementById(`prodSpecs_${baseProductId}`);
     if (specsEl && targetProduct.specs) {
         specsEl.innerHTML = targetProduct.specs.map((s, i) => `<span class="product-spec-pill ${i === 0 ? 'highlight' : ''}">${s}</span>`).join('');
@@ -1805,11 +1790,6 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
     if (badgeEl && targetProduct.badge) {
         badgeEl.textContent = targetProduct.badge;
         badgeEl.setAttribute('data-badge', targetProduct.badge);
-    }
-
-    const ratingEl = document.getElementById(`prodRating_${baseProductId}`);
-    if (ratingEl) {
-        ratingEl.innerHTML = getProductCoaSummary(targetProduct);
     }
 
     const yieldInfo = getProductYieldLabel(targetProduct);
@@ -1831,10 +1811,9 @@ function selectQuickFlavor(baseProductId, flavorIdx, event) {
         }
     }
 
-    // 7. Actualizar precio, transferencia y cuotas
+    // 7. Actualizar precio y cuotas
     const priceEl = document.getElementById(`prodPrice_${baseProductId}`);
     if (priceEl) {
-        const transferPrice = Math.round(targetProduct.price * 0.85);
         const installmentPrice = Math.round(targetProduct.price / 3);
         priceEl.innerHTML = `
             <div class="price-container">
@@ -2112,6 +2091,45 @@ function removeFromCart(boxId) {
 }
 
 let selectedPaymentMethod = 'transfer'; // 'transfer' | 'card'
+let currentCartStep = 'review'; // 'review' | 'payment'
+
+function setCartStep(step) {
+    currentCartStep = step === 'payment' ? 'payment' : 'review';
+    const step1 = document.getElementById('cartStep1Review');
+    const step2 = document.getElementById('cartStep2Payment');
+    const headerTitle = document.getElementById('cartHeaderTitle');
+    const headerSub = document.getElementById('cartHeaderCountSub');
+    const count = cart.reduce((sum, item) => sum + item.qty, 0);
+
+    if (step1 && step2) {
+        if (currentCartStep === 'payment') {
+            step1.style.display = 'none';
+            step2.style.display = 'flex';
+            if (headerTitle) headerTitle.textContent = 'FORMA DE PAGO';
+            if (headerSub) headerSub.textContent = 'Paso 2 de 2 · Elegí cómo abonar';
+        } else {
+            step2.style.display = 'none';
+            step1.style.display = 'flex';
+            if (headerTitle) headerTitle.textContent = 'MI ARSENAL';
+            if (headerSub) headerSub.textContent = `${count} ${count === 1 ? 'producto' : 'productos'}`;
+        }
+    }
+}
+
+function goToCartPaymentStep() {
+    if (cart.length === 0) {
+        alert('⚔️ Tu arsenal está vacío. Agregá suplementos a tu carrito antes de elegir la forma de pago.');
+        return;
+    }
+    playSFX('click');
+    setCartStep('payment');
+    updateCartUI();
+}
+
+function goToCartReviewStep() {
+    playSFX('click');
+    setCartStep('review');
+}
 
 function setPaymentMethod(method) {
     selectedPaymentMethod = method;
@@ -2288,7 +2306,7 @@ function renderCartBundleOffer() {
     if (prod.customImage) {
         thumbHtml = `<img src="${prod.customImage}" alt="${prod.name}">`;
     } else if (typeof getProductSVG === 'function') {
-        thumbHtml = getProductSVG(prod.tubType || 'creatine', prod.tubLabel || 'SUPP', prod.tubSub || 'CLINICAL');
+        thumbHtml = getProductSVG(prod.tubType || 'creatine', prod.tubLabel || 'SUPP', prod.tubSub || 'PREMIUM');
     }
 
     container.innerHTML = `
@@ -2376,7 +2394,7 @@ function updateCartUI() {
     }
 
     const cartHeaderSub = document.getElementById('cartHeaderCountSub');
-    if (cartHeaderSub) {
+    if (cartHeaderSub && currentCartStep !== 'payment') {
         cartHeaderSub.textContent = `${count} ${count === 1 ? 'producto' : 'productos'}`;
     }
 
@@ -2387,7 +2405,6 @@ function updateCartUI() {
     }
 
     const cartItems = document.getElementById('cartItems');
-    const giftNoticeEl = document.getElementById('cartGiftNotice');
     const savingsRowEl = document.getElementById('cartSavingsRow');
     const savingsAmountEl = document.getElementById('cartSavingsAmount');
     const bundleContainer = document.getElementById('cartBundleContainer');
@@ -2418,10 +2435,9 @@ function updateCartUI() {
         cartItems.innerHTML = `
             <div class="empty-cart">
                 <div class="empty-cart-title">TU ARSENAL ESTÁ VACÍO</div>
-                <p class="empty-cart-sub">Seleccioná tus suplementos clínicos en la tienda para armar tu orden.</p>
+                <p class="empty-cart-sub">Seleccioná tus suplementos en la tienda para armar tu orden.</p>
             </div>
         `;
-        if (giftNoticeEl) giftNoticeEl.style.display = 'none';
         if (savingsRowEl) savingsRowEl.style.display = 'none';
         if (bundleContainer) {
             bundleContainer.style.display = 'none';
@@ -2429,10 +2445,15 @@ function updateCartUI() {
         }
         const totalEl = document.getElementById('cartTotal');
         if (totalEl) totalEl.textContent = "$0";
+        const payTotalEl = document.getElementById('cartPaymentTotalDisplay');
+        if (payTotalEl) payTotalEl.textContent = "$0";
+        const payFooterTotalEl = document.getElementById('cartPaymentFooterTotal');
+        if (payFooterTotalEl) payFooterTotalEl.textContent = "$0";
+        const payItemsCountEl = document.getElementById('cartPaymentItemsCount');
+        if (payItemsCountEl) payItemsCountEl.textContent = "0 unidades";
         return;
     }
 
-    if (giftNoticeEl) giftNoticeEl.style.display = 'flex';
     cartItems.innerHTML = cart.map(item => {
         const itemTotal = item.price * item.qty;
         const bundleBadge = item.isBundle 
@@ -2462,8 +2483,8 @@ function updateCartUI() {
     const activeRaffle = getActiveRaffleBenefit();
     const raffleDiscountPct = (activeRaffle && activeRaffle.hasSpun && activeRaffle.discountPct) ? Number(activeRaffle.discountPct) : 0;
 
-    // Transferencia otorga 15% OFF; con Tarjeta/MP se aplica el descuento ganado en la Ruleta (5%, 10% o 15%)
-    const effectiveDiscountPct = selectedPaymentMethod === 'transfer' ? Math.max(15, raffleDiscountPct) : raffleDiscountPct;
+    // Descuento sujeto únicamente al beneficio obtenido en la Ruleta Psychotic (5%, 10% o hasta 15% OFF)
+    const effectiveDiscountPct = raffleDiscountPct;
     const discountAmount = effectiveDiscountPct > 0 ? Math.round(rawSubtotal * (effectiveDiscountPct / 100)) : 0;
     const subtotalAfterDiscount = rawSubtotal - discountAmount;
 
@@ -2477,9 +2498,7 @@ function updateCartUI() {
         if (discountAmount > 0) {
             savingsRowEl.style.display = 'flex';
             if (savingsLabelEl) {
-                savingsLabelEl.textContent = selectedPaymentMethod === 'transfer'
-                    ? `Ahorro Transferencia (${effectiveDiscountPct}%):`
-                    : `Descuento Ruleta Psychotic (${effectiveDiscountPct}%):`;
+                savingsLabelEl.textContent = `Descuento Ruleta Psychotic (${effectiveDiscountPct}%):`;
             }
             savingsAmountEl.textContent = `-${formatPrice(discountAmount)}`;
         } else {
@@ -2508,6 +2527,35 @@ function updateCartUI() {
 
     const totalEl = document.getElementById('cartTotal');
     if (totalEl) totalEl.textContent = formatPrice(finalTotal);
+
+    // Sincronizar resumen del Paso 2 (Forma de Pago)
+    const payItemsCountEl = document.getElementById('cartPaymentItemsCount');
+    if (payItemsCountEl) payItemsCountEl.textContent = `${count} ${count === 1 ? 'unidad' : 'unidades'}`;
+
+    const payRaffleRow = document.getElementById('cartPaymentRaffleSummaryRow');
+    const payRaffleVal = document.getElementById('cartPaymentRaffleValue');
+    if (payRaffleRow && payRaffleVal) {
+        if (activeRaffle && activeRaffle.hasSpun) {
+            payRaffleRow.style.display = 'flex';
+            payRaffleVal.textContent = activeRaffle.type === 'preworkout'
+                ? 'Premio Psychotic + Envío Gratis'
+                : `${activeRaffle.discountPct}% OFF (-${formatPrice(discountAmount)})`;
+        } else {
+            payRaffleRow.style.display = 'none';
+        }
+    }
+
+    const payTotalEl = document.getElementById('cartPaymentTotalDisplay');
+    if (payTotalEl) payTotalEl.textContent = formatPrice(finalTotal);
+    const payFooterTotalEl = document.getElementById('cartPaymentFooterTotal');
+    if (payFooterTotalEl) payFooterTotalEl.textContent = formatPrice(finalTotal);
+
+    const payNoteEl = document.getElementById('paymentStepNote');
+    if (payNoteEl) {
+        payNoteEl.textContent = discountAmount > 0
+            ? `Tu beneficio de ${effectiveDiscountPct}% OFF de la Ruleta ya está aplicado al total.`
+            : '¿Querés hasta 15% OFF? Probá suerte en la Ruleta Psychotic antes de finalizar y aplicá tu descuento automático.';
+    }
 }
 
 // ========================================== */
@@ -2528,11 +2576,11 @@ function toggleFaq(headerEl) {
 // ========================================== */
 const SOCIAL_PROOF_EVENTS = [
     { name: "Lucas", city: "Córdoba Capital", product: "Creatina Monohidrato 300g", time: "hace 3 minutos", icon: "⚡" },
-    { name: "Micaela", city: "Palermo, CABA", product: "Proteína Whey Frutilla + Muestra Gratis", time: "hace 7 minutos", icon: "🎁" },
-    { name: "Facundo", city: "Rosario", product: "Pre-entreno Berserk 300g", time: "hace 12 minutos", icon: "🚀" },
-    { name: "Gonzalo", city: "Mendoza", product: "Proteína Whey 1kg Chocolate", time: "hace 18 minutos", icon: "🍫" },
-    { name: "Agustina", city: "La Plata", product: "Creatina Citrus + Muestra Gratis", time: "hace 24 minutos", icon: "🍋" },
-    { name: "Joaquín", city: "Mar del Plata", product: "Proteína Whey Vainilla + Creatina 300g", time: "hace 31 minutos", icon: "🥛" }
+    { name: "Micaela", city: "Palermo, CABA", product: "Creatina Star Nutrition 300g", time: "hace 7 minutos", icon: "🎁" },
+    { name: "Facundo", city: "Rosario", product: "Pre-entreno Psychotic", time: "hace 12 minutos", icon: "🚀" },
+    { name: "Gonzalo", city: "Mendoza", product: "Creatina Gold Nutrition 300g", time: "hace 18 minutos", icon: "🍫" },
+    { name: "Agustina", city: "La Plata", product: "Creatina Star Nutrition 300g", time: "hace 24 minutos", icon: "🍋" },
+    { name: "Joaquín", city: "Mar del Plata", product: "Pre-Entreno Psychotic + Creatina 300g", time: "hace 31 minutos", icon: "🥛" }
 ];
 
 let socialProofIndex = 0;
@@ -2652,10 +2700,14 @@ function toggleCart() {
         }
     }
     if (isCartOpen) {
+        setCartStep('review');
         document.body.style.overflow = 'hidden';
         if (typeof startCartTimer === 'function' && cart.length > 0) startCartTimer();
-    } else if (!document.getElementById('authModal')?.classList.contains('active') && !navDrawer?.classList.contains('active')) {
-        document.body.style.overflow = '';
+    } else {
+        setCartStep('review');
+        if (!document.getElementById('authModal')?.classList.contains('active') && !navDrawer?.classList.contains('active')) {
+            document.body.style.overflow = '';
+        }
     }
 }
 
@@ -2744,7 +2796,7 @@ function checkout() {
     msg += `━━━━━━━━━━━━━━━━━━━━━\n`;
     msg += `👤 *Guerrero:* ${buyerName}\n`;
     if (buyerEmail) msg += `📧 *Email:* ${buyerEmail}\n`;
-    msg += `💳 *Método de Pago:* ${selectedPaymentMethod === 'transfer' ? '🏦 Transferencia Bancaria (15% OFF Extra)' : '💳 Tarjeta / Mercado Pago (3 Cuotas)'}\n`;
+    msg += `💳 *Método de Pago:* ${selectedPaymentMethod === 'transfer' ? '🏦 Transferencia Bancaria' : '💳 Tarjeta / Mercado Pago (3 Cuotas)'}\n`;
     msg += `⚖️ *Bando:* ${document.body.classList.contains('theme-light') ? 'Iluminado (Luz/Oro)' : 'Berserker (Oscuridad)'}\n`;
     if (activeRaffle && activeRaffle.hasSpun) {
         msg += `🎰 *Premio Ruleta (${activeRaffle.ticketId}):* ${activeRaffle.label}\n`;
@@ -2762,11 +2814,8 @@ function checkout() {
 
     const totalBundleSavings = cart.reduce((sum, item) => item.isBundle ? sum + (((item.originalPrice || item.price) - item.price) * item.qty) : sum, 0);
 
-    msg += `\n🎁 *REGALO EXCLUSIVO INCLUIDO:*\n`;
-    msg += `• 1x Doypack de Muestra (Proteína / Pre-entreno Importado) BONIFICADO $0\n`;
-
     const raffleDiscountPct = (activeRaffle && activeRaffle.hasSpun && activeRaffle.discountPct) ? Number(activeRaffle.discountPct) : 0;
-    const effectiveDiscountPct = selectedPaymentMethod === 'transfer' ? Math.max(15, raffleDiscountPct) : raffleDiscountPct;
+    const effectiveDiscountPct = raffleDiscountPct;
     const discountAmount = effectiveDiscountPct > 0 ? Math.round(rawSubtotal * (effectiveDiscountPct / 100)) : 0;
     const subtotalAfterDiscount = rawSubtotal - discountAmount;
     const hasRaffleFreeShipping = !!(activeRaffle && activeRaffle.hasSpun && activeRaffle.type === 'preworkout');
@@ -2780,7 +2829,7 @@ function checkout() {
         msg += `🔥 *Ahorro Combo Bundle:* -${formatPrice(totalBundleSavings)}\n`;
     }
     if (discountAmount > 0) {
-        const discTag = selectedPaymentMethod === 'transfer' ? `Descuento Transferencia (${effectiveDiscountPct}% OFF)` : `Beneficio Ruleta Psychotic (${effectiveDiscountPct}% OFF)`;
+        const discTag = `Beneficio Ruleta Psychotic (${effectiveDiscountPct}% OFF)`;
         msg += `🏷️ *${discTag}:* -${formatPrice(discountAmount)}\n`;
     }
     msg += `🚚 *Envío:* ${shipping === 0 ? (hasRaffleFreeShipping ? 'GRATIS (Premio Pre-Entreno Psychotic)' : 'GRATIS (Supera $65.000)') : formatPrice(shipping)}\n`;
@@ -2799,7 +2848,7 @@ function checkout() {
         timestamp: Date.now(),
         buyerName: buyerName,
         buyerEmail: buyerEmail || 'No informado',
-        paymentMethod: selectedPaymentMethod === 'transfer' ? 'Transferencia (15% OFF)' : 'Tarjeta / Cuotas',
+        paymentMethod: selectedPaymentMethod === 'transfer' ? 'Transferencia Bancaria' : 'Tarjeta / Cuotas',
         side: document.body.classList.contains('theme-light') ? 'Iluminado (Luz)' : 'Berserker (Oscuridad)',
         individuals: cart.map(item => ({
             productId: item.productId,
@@ -2808,7 +2857,6 @@ function checkout() {
             price: item.price,
             isBundle: !!item.isBundle
         })),
-        hasGiftSample: true,
         subtotalInd: subtotalAfterDiscount,
         shipping: shipping,
         total: finalTotal,
@@ -3026,12 +3074,10 @@ function renderProductModalContent(product) {
     const body = document.getElementById('pmBody');
     if (!body) return;
 
-    const transferPrice = Math.round(product.price * 0.85);
     const installmentPrice = Math.round(product.price / 3);
     const nut = product.nutrition || {};
     const aminos = product.aminos || [];
     const timing = product.timing || {};
-    const coa = product.coa || {};
 
     const modalFlavorsHTML = (product.flavors && product.flavors.length > 1) ? `
         <div class="pm-flavor-switcher">
@@ -3058,18 +3104,14 @@ function renderProductModalContent(product) {
                     : getProductSVG(product.tubType, product.tubLabel, product.tubSub)}
             </div>
             <div class="pm-quick-info">
-                <div class="product-rating" style="margin-bottom: 0.6rem;">
-                    ${getProductCoaSummary(product)}
-                </div>
                 <div class="pm-desc">${product.description}</div>
                 <div class="pm-highlights">
                     ${(product.specs || []).map((s, i) => `<span class="pm-highlight-pill ${i === 0 ? 'highlight' : ''}">${s}</span>`).join('')}
-                    <span class="pm-highlight-pill" style="color: #4ade80;">✓ 1 Doypack Gratis Incluido</span>
                 </div>
                 ${modalFlavorsHTML}
                 <div class="pm-price-box">
                     <div class="pm-price-main">${formatPrice(product.price)}</div>
-                    <div class="pm-price-transfer">✓ ${formatPrice(transferPrice)} con Transferencia Bancaria (15% OFF)</div>
+                    <div class="pm-price-transfer">⚡ Hasta 15% OFF según lo que te toque en la Ruleta</div>
                     <div style="font-size:0.76rem; color:var(--text-muted); margin-top:3px;">Hasta 3 cuotas sin interés de ${formatPrice(installmentPrice)}</div>
                 </div>
             </div>
@@ -3079,7 +3121,6 @@ function renderProductModalContent(product) {
         <div class="pm-tabs" role="tablist">
             <button type="button" class="pm-tab-btn ${currentModalTab === 'nutrition' ? 'active' : ''}" id="tabBtn_nutrition" onclick="setModalTab('nutrition')">Nutrición y Aminograma</button>
             <button type="button" class="pm-tab-btn ${currentModalTab === 'timing' ? 'active' : ''}" id="tabBtn_timing" onclick="setModalTab('timing')">Modo de Uso</button>
-            <button type="button" class="pm-tab-btn ${currentModalTab === 'coa' ? 'active' : ''}" id="tabBtn_coa" onclick="setModalTab('coa')">Certificado CoA</button>
         </div>
 
         <!-- TAB 1: TABLA NUTRICIONAL -->
@@ -3127,24 +3168,6 @@ function renderProductModalContent(product) {
                 <div class="timing-card">
                     <div class="timing-card-title">Impacto Fisiológico</div>
                     <div class="timing-card-desc">${timing.goal || 'Máximo rendimiento, hipertrofia muscular y recuperación sin fatiga residual.'}</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 3: CERTIFICADO DE ANÁLISIS (COA) -->
-        <div class="pm-tab-pane ${currentModalTab === 'coa' ? 'active' : ''}" id="tabPane_coa">
-            <div class="coa-seal-box">
-                <div class="coa-seal-title">CERTIFICADO OFICIAL DE ANÁLISIS (CoA)</div>
-                <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 500px; margin: 0 auto 0.8rem auto;">
-                    Cada lote de Tofeprot es sometido a espectrometría HPLC y microfiltración estricta para garantizar 100% de pureza sin adulterantes ni rellenos de amino spiking.
-                </p>
-                <div class="coa-badge-list">
-                    <span class="coa-badge-pill">✓ Pureza: ${coa.purity || '99.8%'}</span>
-                    <span class="coa-badge-pill">✓ Lote: ${coa.batch || '#TF-8829'}</span>
-                    <span class="coa-badge-pill">✓ ${coa.lab || 'Eurofins Lab'}</span>
-                </div>
-                <div style="font-size: 0.8rem; color: #4ade80; font-weight: bold; margin-top: 0.5rem;">
-                    ● ${coa.status || 'ESTADO: APROBADO PARA ALTO RENDIMIENTO'}
                 </div>
             </div>
         </div>
@@ -3434,7 +3457,7 @@ function hydrateRaffleUIFromState(state) {
     if (formEl) formEl.style.display = 'none';
     if (summaryEl) summaryEl.style.display = 'block';
     if (summaryEmail) summaryEmail.textContent = state.email;
-    if (stepTag) stepTag.textContent = '✓ EMAIL REGISTRADO EN EL SORTEO';
+    if (stepTag) stepTag.textContent = '✓ EMAIL REGISTRADO EN LA RULETA';
     if (ticketBadge && state.ticketId) {
         ticketBadge.textContent = `TICKET ${state.ticketId}`;
         ticketBadge.style.display = 'inline-flex';
@@ -3510,7 +3533,7 @@ function unlockRaffleWheel(event) {
             hasSpun: false,
             discountPct: 0,
             extraChances: 1,
-            label: 'Participando en Sorteo Psychotic'
+            label: 'Participando en Ruleta Psychotic'
         };
 
     saveActiveRaffleBenefit(newState);

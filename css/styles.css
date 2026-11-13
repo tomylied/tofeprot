@@ -4772,6 +4772,114 @@ body.theme-light .cart-savings-row {
 }
 
 /* ========================================== */
+/* 6.1 CARRITO EN 2 PASOS (REVISIÓN -> PAGO)  */
+/* ========================================== */
+.cart-step-pane {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.cart-payment-step-body {
+    flex: 1 1 auto;
+    padding: 1.15rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow-y: auto;
+}
+
+.cart-back-btn {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--surface-light);
+    color: var(--text-main);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.16s var(--ease-out), border-color 0.16s var(--ease-out), background-color 0.16s var(--ease-out);
+}
+
+.cart-back-btn:hover {
+    border-color: var(--accent-purple);
+}
+
+.cart-back-btn:active {
+    transform: scale(0.97);
+}
+
+.cart-payment-summary-box {
+    background: var(--surface-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.95rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cart-payment-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.84rem;
+    color: var(--text-muted);
+}
+
+.cart-payment-summary-row strong {
+    color: var(--text-main);
+}
+
+.cart-payment-summary-row.highlight strong {
+    color: #75f0a0;
+}
+
+.cart-payment-summary-row.total {
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.96rem;
+    color: var(--text-main);
+}
+
+.cart-payment-summary-row.total strong {
+    font-family: var(--font-display, 'Russo One', sans-serif);
+    font-size: 1.08rem;
+}
+
+.payment-step-note {
+    margin: 0.7rem 0 0;
+    font-size: 0.77rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+}
+
+body.theme-light .cart-back-btn {
+    background: #fbf9f5;
+    border-color: #e5dec9;
+    color: #1c1917;
+}
+
+body.theme-light .cart-back-btn:hover {
+    border-color: #d97706;
+}
+
+body.theme-light .cart-payment-summary-box {
+    background: #ffffff;
+    border-color: #e5dec9;
+}
+
+body.theme-light .cart-payment-summary-row.highlight strong {
+    color: #059669;
+}
+
+/* ========================================== */
 /* ILUSTRACIONES VECTORIALES DE PRODUCTO      */
 /* ========================================== */
 .vector-tub-wrapper {
