@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Proteínas Whey, Creatina Pura 200 Mesh y Pre-entreno Berserk. Elige tu bando: Luz o Oscuridad.">
     <meta name="twitter:image" content="assets/images/logo-oscuridad.png">
 
-    <link rel="stylesheet" href="css/styles.css?v=5.9">
+    <link rel="stylesheet" href="css/styles.css?v=6.0">
 
     <!-- Pre-detección de bando guardado: ingreso directo sin parpadeo del Gateway -->
     <script>
@@ -389,23 +389,12 @@
     <!-- ========================================== -->
     <div class="section-wrapper raffle-band-wrapper reveal-on-scroll" id="sorteoSection">
         <section class="raffle-section" aria-labelledby="raffleSectionTitle">
-            <!-- TARJETA ÚNICA INTEGRAL (SORTEO + DATOS + RULETA) -->
+            <!-- TARJETA ÚNICA INTEGRAL COMPACTA (VIDEO VERTICAL + INFO A LA IZQUIERDA | DATOS ARRIBA + RULETA A LA DERECHA) -->
             <div class="raffle-unified-card" id="raffleWheelStage">
-                <!-- MITAD IZQUIERDA: CABECERA + IMAGEN PSYCHOTIC + FORMULARIO INTEGRADO -->
+                <!-- MITAD IZQUIERDA: VIDEO VERTICAL COMPACTO AL LADO DEL TEXTO Y PRECIO -->
                 <div class="raffle-unified-left">
-                    <div class="raffle-unified-header">
-                        <div class="raffle-eyebrow-pill">
-                            <span class="raffle-live-dot" aria-hidden="true"></span>
-                            <span>RULETA DIRECTA · SIN COSTO Y ENVÍO GRATIS</span>
-                        </div>
-                        <h2 class="raffle-unified-title" id="raffleSectionTitle">Jugá por el Pre-Entreno o hasta <span>15% OFF</span></h2>
-                        <p class="raffle-unified-subtitle">
-                            Ingresá tu nombre, apellido y mail para habilitar la ruleta al instante. Podés ganar descuentos de <strong>5%, 10% o 15% OFF</strong> o llevarte el <strong>Pre-Entreno Psychotic 100% Sin Costo y con Envío Gratis</strong>.
-                        </p>
-                    </div>
-
-                    <!-- REPRODUCTOR DE VIDEO WEB OPTIMIZADO INTEGRADO EN LA MISMA TARJETA -->
-                    <div class="raffle-inline-showcase">
+                    <div class="raffle-left-split">
+                        <!-- Columna del Video Vertical (9:16 compacto) -->
                         <div class="raffle-inline-photo raffle-video-stage" id="raffleVideoStage">
                             <video
                                 id="raffleShowcaseVideo"
@@ -421,17 +410,17 @@
                                 aria-label="Video del sorteo de Pre-entreno Insane Labz Psychotic">
                             </video>
 
-                            <!-- BARRA DE NAVEGACIÓN DE VIDEO (PAUSAR/REPRODUCIR + PROGRESO + SONIDO) -->
+                            <!-- BARRA DE NAVEGACIÓN COMPACTA DEL VIDEO -->
                             <div class="raffle-video-navbar" role="toolbar" aria-label="Controles del video del sorteo">
                                 <button type="button" class="raffle-vctrl-btn" id="raffleVideoPlayBtn" onclick="toggleRaffleVideoPlay(event)" aria-label="Pausar video" title="Pausar / Reproducir">
-                                    <svg class="vctrl-icon vctrl-icon-pause" id="rafflePlayIconPause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <svg class="vctrl-icon vctrl-icon-pause" id="rafflePlayIconPause" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                         <rect x="6" y="4" width="4" height="16" rx="1"></rect>
                                         <rect x="14" y="4" width="4" height="16" rx="1"></rect>
                                     </svg>
-                                    <svg class="vctrl-icon vctrl-icon-play" id="rafflePlayIconPlay" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display: none;" aria-hidden="true">
+                                    <svg class="vctrl-icon vctrl-icon-play" id="rafflePlayIconPlay" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display: none;" aria-hidden="true">
                                         <polygon points="5 3 19 12 5 21 5 3"></polygon>
                                     </svg>
-                                    <span class="vctrl-btn-text" id="raffleVideoPlayLabel">Pausar</span>
+                                    <span class="vctrl-btn-text sr-only-compact" id="raffleVideoPlayLabel">Pausar</span>
                                 </button>
 
                                 <div class="raffle-video-timeline" id="raffleVideoTimeline" onclick="seekRaffleVideo(event)" role="slider" aria-label="Progreso del video" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
@@ -443,69 +432,82 @@
                                 <span class="raffle-video-time" id="raffleVideoTime">0:00</span>
 
                                 <button type="button" class="raffle-vctrl-btn raffle-vctrl-sound is-muted" id="raffleVideoMuteBtn" onclick="toggleRaffleVideoMute(event)" aria-label="Activar sonido" title="Activar / Silenciar sonido">
-                                    <svg class="vctrl-icon" id="raffleSoundIconMuted" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <svg class="vctrl-icon" id="raffleSoundIconMuted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                                         <line x1="23" y1="9" x2="17" y2="15"></line>
                                         <line x1="17" y1="9" x2="23" y2="15"></line>
                                     </svg>
-                                    <svg class="vctrl-icon" id="raffleSoundIconUnmuted" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: none;" aria-hidden="true">
+                                    <svg class="vctrl-icon" id="raffleSoundIconUnmuted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: none;" aria-hidden="true">
                                         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                                         <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
                                         <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
                                     </svg>
-                                    <span class="vctrl-btn-text" id="raffleVideoMuteLabel">Sonido</span>
+                                    <span class="vctrl-btn-text sr-only-compact" id="raffleVideoMuteLabel">Sonido</span>
                                 </button>
                             </div>
                         </div>
-                        <div class="raffle-inline-specs">
-                            <div class="raffle-price-hook-row">
-                                <div class="raffle-price-hook-left">
-                                    <span class="raffle-prod-tag">Insane Labz Psychotic (35 servicios)</span>
-                                    <div class="raffle-free-perks">
-                                        <span class="raffle-perk-pill">✓ SIN COSTO</span>
-                                        <span class="raffle-perk-pill">🚚 ENVÍO GRATIS</span>
-                                    </div>
+
+                        <!-- Columna de Información + Gancho de Precio $89.000 -> $0 -->
+                        <div class="raffle-left-copy">
+                            <div class="raffle-unified-header">
+                                <div class="raffle-eyebrow-pill">
+                                    <span class="raffle-live-dot" aria-hidden="true"></span>
+                                    <span>RULETA DIRECTA · SIN COSTO Y ENVÍO GRATIS</span>
                                 </div>
-                                <div class="raffle-price-hook-right" aria-label="De 89.000 pesos a 0 pesos sin costo y con envío gratis">
-                                    <span class="raffle-old-price">$89.000</span>
-                                    <span class="raffle-price-arrow" aria-hidden="true">→</span>
-                                    <span class="raffle-zero-price">$0</span>
+                                <h2 class="raffle-unified-title" id="raffleSectionTitle">Jugá por el Pre-Entreno o hasta <span>15% OFF</span></h2>
+                                <p class="raffle-unified-subtitle">
+                                    Completá tus datos arriba de la ruleta para habilitar tu giro al instante. Podés ganar <strong>5%, 10% o 15% OFF</strong> o llevarte el <strong>Pre-Entreno Psychotic 100% Sin Costo y con Envío Gratis</strong>.
+                                </p>
+                            </div>
+
+                            <div class="raffle-inline-showcase">
+                                <div class="raffle-inline-specs">
+                                    <div class="raffle-price-hook-row">
+                                        <div class="raffle-price-hook-left">
+                                            <span class="raffle-prod-tag">Insane Labz Psychotic (35 serv.)</span>
+                                            <div class="raffle-free-perks">
+                                                <span class="raffle-perk-pill">✓ SIN COSTO</span>
+                                                <span class="raffle-perk-pill">🚚 ENVÍO GRATIS</span>
+                                            </div>
+                                        </div>
+                                        <div class="raffle-price-hook-right" aria-label="De 89.000 pesos a 0 pesos sin costo y con envío gratis">
+                                            <span class="raffle-old-price">$89.000</span>
+                                            <span class="raffle-price-arrow" aria-hidden="true">→</span>
+                                            <span class="raffle-zero-price">$0</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- MITAD DERECHA DE LA MISMA TARJETA: DATOS DEL CLIENTE ARRIBA + RULETA DEBAJO -->
+                <!-- MITAD DERECHA: FORMULARIO COMPACTO EN 1 FILA ARRIBA + RULETA DEBAJO -->
                 <div class="raffle-unified-right">
-                    <!-- BLOQUE DE REGISTRO / ESTADO DEL PARTICIPANTE ARRIBA DE LA RULETA -->
                     <div class="raffle-unified-form-zone" id="raffleAccessCard">
                         <div class="raffle-step-header">
                             <span class="raffle-step-tag" id="raffleStepTag">COMPLETÁ TUS DATOS PARA JUGAR</span>
+                            <span class="wheel-status-pill" id="raffleWheelStatus">🔒 Ruleta bloqueada</span>
                             <span class="raffle-ticket-pill" id="raffleTicketBadge" style="display: none;">TICKET #TP-0000</span>
                         </div>
 
                         <form id="raffleRegistrationForm" class="raffle-form" onsubmit="unlockRaffleWheel(event)" novalidate>
-                            <div class="raffle-form-row">
+                            <div class="raffle-form-compact-grid">
                                 <div class="raffle-field">
-                                    <label for="raffleFirstName">Nombre</label>
-                                    <input type="text" id="raffleFirstName" name="firstName" placeholder="Ej: Tomás" autocomplete="given-name" required>
+                                    <label for="raffleFirstName" class="sr-only-label">Nombre</label>
+                                    <input type="text" id="raffleFirstName" name="firstName" placeholder="Nombre" aria-label="Nombre" autocomplete="given-name" required>
                                 </div>
                                 <div class="raffle-field">
-                                    <label for="raffleLastName">Apellido</label>
-                                    <input type="text" id="raffleLastName" name="lastName" placeholder="Ej: Rossi" autocomplete="family-name" required>
+                                    <label for="raffleLastName" class="sr-only-label">Apellido</label>
+                                    <input type="text" id="raffleLastName" name="lastName" placeholder="Apellido" aria-label="Apellido" autocomplete="family-name" required>
                                 </div>
-                            </div>
-
-                            <div class="raffle-form-bottom-row">
                                 <div class="raffle-field">
-                                    <label for="raffleEmail">Email</label>
-                                    <input type="email" id="raffleEmail" name="email" placeholder="tu@email.com" autocomplete="email" required>
+                                    <label for="raffleEmail" class="sr-only-label">Email</label>
+                                    <input type="email" id="raffleEmail" name="email" placeholder="Tu email" aria-label="Email" autocomplete="email" required>
                                 </div>
-
                                 <button type="submit" class="raffle-unlock-btn" id="raffleUnlockBtn">
-                                    <span>HABILITAR RULETA</span>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                    <span>HABILITAR</span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                                 </button>
                             </div>
 
@@ -523,10 +525,6 @@
                                 <button type="button" class="raffle-change-user-btn" onclick="resetRaffleParticipant()">Cambiar datos</button>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="raffle-wheel-topbar">
-                        <span class="wheel-status-pill" id="raffleWheelStatus">🔒 Completá tus datos arriba para habilitar la ruleta</span>
                     </div>
 
                     <div class="raffle-wheel-viewport">
@@ -1222,6 +1220,6 @@
     </a>
 
     <!-- ARCHIVO JS MODULAR -->
-    <script src="js/app.js?v=5.9" defer></script>
+    <script src="js/app.js?v=6.0" defer></script>
 </body>
 </html>
