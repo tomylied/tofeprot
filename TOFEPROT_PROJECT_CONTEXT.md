@@ -248,19 +248,10 @@ La filosofía visual central fue precisada por el propietario: cada facción es 
 Leer obligatoriamente: `docs/brand/ART_DIRECTION_CHURCH_UNIVERSE.md`.
 
 - **Berserker:** catedral oscura, grandes vitrales góticos violetas, piedra negra y una mística de desenvolver el poder interior y desbloquear el potencial.
-- **Iluminado:** santuario luminoso, mármol marfil, oro y grandes ventanales/rósetones solares que evocan glorificación y búsqueda de una mejor versión.
+- **Iluminado:** santuario luminoso, mármol marfil, oro y grandes ventanales/rosetones solares que evocan glorificación y búsqueda de una mejor versión.
 - Ambos mundos comparten lenguaje arquitectónico y escala monumental; la diferencia está en luz, material, color y emoción.
 
-El propietario quiere que ChatGPT desarrolle la dirección artística y los artes; Gemini en Antigravity debe integrarlos técnicamente en el frontend y no generar propuestas visuales alternativas por iniciativa propia.
-
-Emblemas vectoriales incorporados:
-- `assets/images/faction-emblem-berserker.svg`
-- `assets/images/faction-emblem-iluminado.svg`
-
-Los wordmarks originales se conservan. Lockups nuevos y fondos de catedral generados por ChatGPT se entregan como paquete visual para incorporar después de revisión del propietario. No reemplazar logos ni fondos hasta que el propietario apruebe los lockups y la composición responsive.
-
-Mantener SAFE_MODE activo y toda la integridad comercial de la sección 7.
-
+ChatGPT desarrolla la dirección artística y los fondos visuales. Gemini en Antigravity integra esos recursos en el frontend. Los dos wordmarks originales son obligatorios y no pueden recibir símbolos, coronas, halos, aros, laureles ni elementos añadidos.
 
 ---
 
