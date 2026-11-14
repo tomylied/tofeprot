@@ -260,3 +260,19 @@ Emblemas vectoriales incorporados:
 Los wordmarks originales se conservan. Lockups nuevos y fondos de catedral generados por ChatGPT se entregan como paquete visual para incorporar después de revisión del propietario. No reemplazar logos ni fondos hasta que el propietario apruebe los lockups y la composición responsive.
 
 Mantener SAFE_MODE activo y toda la integridad comercial de la sección 7.
+
+
+---
+
+## 13. Decisión aprobada sobre los logos (2026-11-14)
+
+El propietario rechazó los símbolos genéricos que se habían agregado por encima de los wordmarks en las propuestas de lockup. **La decisión vigente es conservar los dos logos originales exactamente como fueron entregados.**
+
+- Berserker: `assets/images/logo-wordmark-oscuridad.png`.
+- Iluminado: `assets/images/logo-wordmark-luz.png`.
+- No agregar emblemas, coronas, halos, aros, laureles ni símbolos adicionales encima o alrededor.
+- El motivo de corona/espinas que ya forma parte del arte original de Iluminado debe mantenerse intacto; no es un emblema nuevo.
+- No redibujar, recolorear, deformar ni alterar los wordmarks o el texto “SUPLEMENTOS DEPORTIVOS”.
+- Los lockups adicionales y los SVG de emblemas quedaron descartados y no deben integrarse en el sitio.
+
+La dirección artística sigue siendo la arquitectura de las dos iglesias. Los nuevos artes de ChatGPT se limitan a fondos limpios de catedral/santuario; Gemini integra los fondos y mantiene los logos originales actuales.
