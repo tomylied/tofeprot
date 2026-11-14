@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 250" role="img" aria-label="Emblema de halo radiante Iluminado">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF7D7"/><stop offset=".3" stop-color="#F6D47A"/><stop offset=".65" stop-color="#C58B24"/><stop offset="1" stop-color="#FFF0B5"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-60%" width="180%" height="220%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0.35 0 0.65 0 0 0.18 0 0 0.15 0 0 0 0 0 .85 0" result="goldGlow"/>
+      <feMerge><feMergeNode in="goldGlow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g fill="none" stroke="url(#gold)" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+    <circle cx="256" cy="129" r="91" stroke-width="4"/><circle cx="256" cy="129" r="103" stroke-width="1.8" opacity=".75"/>
+    <path d="M256 5 L256 42 M256 216 L256 249 M132 129 L169 129 M343 129 L380 129" stroke-width="5"/>
+    <path d="M168 41 L191 69 M321 189 L344 217 M344 41 L321 69 M191 189 L168 217" stroke-width="4"/>
+    <path d="M256 18 L245 55 L256 47 L267 55 Z M256 240 L245 203 L256 211 L267 203 Z" fill="url(#gold)" stroke-width="2"/>
+    <path d="M145 129 L182 118 L174 129 L182 140 Z M367 129 L330 118 L338 129 L330 140 Z" fill="url(#gold)" stroke-width="2"/>
+    <path d="M193 65 L207 88 L190 80 Z M319 65 L305 88 L322 80 Z" fill="url(#gold)" stroke-width="1.5"/>
+  </g>
+  <g fill="url(#gold)" filter="url(#glow)"><path d="M256 81 L268 117 L304 129 L268 141 L256 177 L244 141 L208 129 L244 117 Z"/><circle cx="256" cy="129" r="9" fill="#FFF7D7"/></g>
+</svg>
