@@ -52,17 +52,17 @@ Ambos mundos deben sentirse como dos órdenes dentro de una misma marca. Compart
 6. No incrustar textos, precios, botones ni claims comerciales dentro de las imágenes generadas; deben permanecer como HTML editable y accesible.
 7. No inventar garantías, cuotas, envíos, certificaciones ni afirmaciones de producto. SAFE_MODE continúa activo.
 
-## Logotipos y emblemas
+## Logotipos: conservar los originales sin añadidos
 
-El propietario aprobó como dirección el sistema de lockups mostrado en la lámina de identidad: el wordmark TOFEPROT original acompañado de un emblema superior distinto por facción.
+El propietario rechazó los símbolos/emblemas agregados por encima de los wordmarks porque se ven genéricos y restan identidad. Esta decisión reemplaza cualquier instrucción anterior sobre lockups o emblemas adicionales.
 
-- **Berserker:** corona/aro de espinas violeta, inspirado en el emblema de la lámina conceptual.
-- **Iluminado:** halo solar dorado, inspirado en el emblema de la lámina conceptual.
-- Mantener intacto el wordmark original y el texto exacto “SUPLEMENTOS DEPORTIVOS”.
-- No usar un texto recreado por IA como sustituto del logotipo real.
-- No deformar ni rasterizar nuevamente el logo maestro.
-- Usar los SVG entregados en `assets/images/faction-emblem-berserker.svg` y `assets/images/faction-emblem-iluminado.svg` como capas decorativas sobre los wordmarks originales.
-- La composición final debe equilibrar los emblemas en tamaño, centro óptico, distancia y brillo; evitar que se confundan con un logo separado.
+- **Berserker:** usar exactamente el wordmark original `logo-wordmark-oscuridad.png`.
+- **Iluminado:** usar exactamente el wordmark original `logo-wordmark-luz.png`.
+- No agregar coronas, halos, símbolos, aros, laureles, iconos ni ornamentos por encima o alrededor de ninguno de los logos.
+- En el logo original de Iluminado ya existe un motivo de corona/espinas integrado en la propia ilustración: conservarlo tal cual, porque forma parte del archivo original. No agregar otro símbolo encima.
+- No redibujar, recrear con IA, recortar, recolorear, deformar, retocar ni cambiar el lettering o el subtítulo exacto “SUPLEMENTOS DEPORTIVOS”.
+- Mantener proporción original y usar `object-fit: contain`; ajustar solamente el tamaño de visualización desde CSS.
+- El logo debe tener suficiente espacio de respiración y contraste sobre la iglesia, sin añadir insignias nuevas.
 
 ## Archivos visuales existentes a preservar
 
@@ -78,9 +78,9 @@ Inspeccionar ambos fondos actuales antes de reemplazarlos. La prioridad es prese
 
 ## Rol de ChatGPT y Gemini en el proceso creativo
 
-- ChatGPT define la dirección artística, desarrolla los emblemas vectoriales, redacta el sistema visual y prepara referencias creativas.
+- ChatGPT define la dirección artística de las iglesias y prepara fondos limpios y documentación.
 - Gemini en Antigravity integra esos recursos en HTML/CSS/JS, ajusta responsive, animaciones y comportamiento.
-- Gemini no debe generar nuevos logos, ilustraciones o propuestas de arte por su cuenta para esta etapa. Si falta un recurso, debe solicitarlo o dejar el espacio preparado.
+- Gemini no debe generar nuevos logos, emblemas, ilustraciones o propuestas de arte por su cuenta para esta etapa. Si falta un recurso, debe solicitarlo o dejar el espacio preparado.
 - El propietario valida antes de publicar cambios a `main`.
 
 ## Criterios de aceptación visual
@@ -89,6 +89,6 @@ Inspeccionar ambos fondos actuales antes de reemplazarlos. La prioridad es prese
 - Berserker transmite una catedral oscura con grandes vitrales violetas y poder interior.
 - Iluminado transmite un santuario luminoso de mármol y oro, con glorificación y superación.
 - Los wordmarks conservan su lectura exacta.
-- Los nuevos emblemas complementan, no compiten con el nombre TOFEPROT.
+- Los logos son exactamente los wordmarks originales, sin símbolos añadidos.
 - Ambos temas mantienen una estructura UX equivalente.
 - SAFE_MODE sigue activo y los datos comerciales no se alteran.
