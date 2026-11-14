@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 250" role="img" aria-label="Emblema de corona de espinas Berserker">
+  <defs>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F2D8FF"/><stop offset=".35" stop-color="#C45BFF"/><stop offset=".72" stop-color="#7723C9"/><stop offset="1" stop-color="#E0A7FF"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-60%" width="180%" height="220%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0.65 0 0 0 0.18 0 0.15 0 0 0 0 0 1 0 0.9 0 0 0 0.9 0" result="purpleGlow"/>
+      <feMerge><feMergeNode in="purpleGlow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g fill="none" stroke="url(#violet)" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+    <path d="M55 215 C93 115 169 52 256 40 C343 52 419 115 457 215" stroke-width="5"/>
+    <path d="M77 216 C117 137 180 84 256 73 C332 84 395 137 435 216" stroke-width="2.5" opacity=".8"/>
+    <path d="M111 171 L85 142 L122 153 L132 116 L151 151" stroke-width="4"/>
+    <path d="M165 111 L148 76 L183 96 L198 58 L207 105" stroke-width="4"/>
+    <path d="M226 76 L212 34 L247 61 L256 10 L267 61 L301 34 L286 76" stroke-width="4.5"/>
+    <path d="M305 105 L315 58 L330 96 L364 76 L347 111" stroke-width="4"/>
+    <path d="M361 151 L380 116 L390 153 L427 142 L401 171" stroke-width="4"/>
+    <path d="M76 216 L103 203 L91 237" stroke-width="3"/>
+    <path d="M436 216 L409 203 L421 237" stroke-width="3"/>
+    <path d="M195 86 L179 121 L210 109" stroke-width="3" opacity=".85"/>
+    <path d="M317 86 L333 121 L302 109" stroke-width="3" opacity=".85"/>
+  </g>
+  <g fill="#E8C7FF" opacity=".95" filter="url(#glow)"><circle cx="256" cy="40" r="4"/><circle cx="151" cy="151" r="3"/><circle cx="361" cy="151" r="3"/></g>
+</svg>
