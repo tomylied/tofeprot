@@ -25,7 +25,9 @@
     <meta name="twitter:description" content="Catálogo de suplementación deportiva Tofeprot. Elegí tu facción: Berserker o Iluminado.">
     <meta name="twitter:image" content="assets/images/logo-oscuridad.png">
 
-    <link rel="stylesheet" href="css/styles.css?v=6.6">
+    <link rel="preload" as="image" href="assets/images/hero-cathedral-berserker.webp" type="image/webp">
+    <link rel="preload" as="image" href="assets/images/hero-cathedral-iluminado.webp" type="image/webp">
+    <link rel="stylesheet" href="css/styles.css?v=6.8">
 
     <!-- Pre-detección de bando guardado: ingreso directo sin parpadeo del Gateway -->
     <script>
@@ -83,7 +85,7 @@
                          onclick="selectSide('dark')">
                         <div class="mobile-chamber-header">
                             <img src="assets/images/logo-oscuridad.png" alt="Berserker" class="mobile-chamber-logo">
-                            <span class="mobile-chamber-sub">FUERZA BRUTA • HIERRO FORJADO</span>
+                            <span class="mobile-chamber-sub">CATEDRAL DEL PODER INTERIOR • VITRALES Y PIEDRA NEGRA</span>
                         </div>
                         <button class="btn-chamber btn-chamber-dark" onclick="event.stopPropagation(); selectSide('dark');">
                             <span>BERSERKER</span>
@@ -103,7 +105,7 @@
                          onclick="selectSide('light')">
                         <div class="mobile-chamber-header">
                             <img src="assets/images/logo-luz.png" alt="Iluminado" class="mobile-chamber-logo">
-                            <span class="mobile-chamber-sub">DISCIPLINA SAGRADA • MÁRMOL Y ORO</span>
+                            <span class="mobile-chamber-sub">SANTUARIO DE LA GLORIFICACIÓN • MÁRMOL Y ORO</span>
                         </div>
                         <button class="btn-chamber btn-chamber-light" onclick="event.stopPropagation(); selectSide('light');">
                             <span>ILUMINADO</span>
@@ -179,6 +181,13 @@
 
             <!-- ENLACES DE NAVEGACIÓN -->
             <nav class="drawer-nav-menu">
+                <a class="drawer-nav-item" onclick="document.getElementById('philosophySection').scrollIntoView({behavior:'smooth'}); closeNavDrawer();">
+                    <span class="drawer-item-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                    </span>
+                    <span class="drawer-item-text">LAS DOS IGLESIAS · FILOSOFÍA</span>
+                    <span class="drawer-item-arrow">→</span>
+                </a>
                 <a class="drawer-nav-item" onclick="scrollToProducts(); closeNavDrawer();">
                     <span class="drawer-item-icon">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
@@ -225,14 +234,12 @@
     <div id="userProfile" class="user-profile" style="display: none;" aria-hidden="true"></div>
 
     <!-- ========================================== -->
-    <!-- 6. HERO EDITORIAL BRUTALISTA (OPCIÓN 1)    -->
+    <!-- 6. HERO ARQUITECTÓNICO: LAS DOS IGLESIAS   -->
     <!-- ========================================== -->
     <section class="hero hero-editorial">
-        <img id="heroBgImg" class="hero-image-bg" src="assets/images/hero-bg-iluminado.jpg?v=2.7" alt="Santuario Tofeprot">
-        <video class="hero-video-bg" autoplay loop muted playsinline webkit-playsinline poster="assets/images/hero-bg-iluminado.jpg?v=2.7" preload="metadata">
-            <source src="assets/videos/fondo-hero.mp4" type="video/mp4">
-        </video>
-        <div class="hero-video-overlay"></div>
+        <img id="heroBgImg" class="hero-image-bg" src="assets/images/hero-cathedral-berserker.webp" alt="Catedral Berserker Tofeprot — grandes vitrales violetas y piedra negra" fetchpriority="high" decoding="async">
+        <video class="hero-video-bg" muted playsinline webkit-playsinline poster="assets/images/hero-cathedral-berserker.webp" preload="none" aria-hidden="true"></video>
+        <div class="hero-video-overlay" aria-hidden="true"></div>
 
         <div class="hero-editorial-container">
             <button type="button" class="hero-img-wrapper hero-logo-interactive-stage" id="heroLogoStage" onclick="triggerLogoSideSwitch(event)" aria-label="Cambiar de bando entre Berserker e Iluminado" title="Tocá para cambiar de bando (Berserker / Iluminado)">
@@ -249,19 +256,19 @@
                 <!-- Indicador interactivo sutil de cambio de bando -->
                 <span class="hero-logo-polarity-hint" id="heroLogoPolarityHint">
                     <span class="polarity-spark-dot" aria-hidden="true"></span>
-                    <span id="heroLogoHintText">TOCÁ EL LOGO · CAMBIAR BANDO</span>
+                    <span id="heroLogoHintText">TOCÁ EL LOGO · CAMBIAR A ILUMINADO</span>
                 </span>
             </button>
 
-            <h1 id="heroTitle" class="hero-title-glory">DESATÁ EL <span class="glory-highlight">CAOS</span></h1>
-            <p id="heroDescription">El dolor no se esquiva, se conquista. Suplementación pura sin piedad para doblegar el hierro.</p>
+            <h1 id="heroTitle" class="hero-title-glory">DESATÁ TU <span class="glory-highlight">FUERZA</span></h1>
+            <p id="heroDescription">La fuerza que buscás también está dentro tuyo. Despertá tu potencial y forjá tu propio camino.</p>
 
             <div class="hero-cta-group">
                 <button class="hero-btn-secondary" onclick="scrollToProducts()">
                     <span>EXPLORAR CATÁLOGO</span>
                 </button>
-                <button class="hero-btn-secondary hero-btn-raffle" onclick="openTransferModal()">
-                    <span>CANALES DE COMPRA EN ACTUALIZACIÓN</span>
+                <button class="hero-btn-secondary hero-btn-raffle" onclick="document.getElementById('philosophySection').scrollIntoView({behavior:'smooth'})">
+                    <span>LAS DOS FILOSOFÍAS</span>
                 </button>
             </div>
         </div>
@@ -273,16 +280,81 @@
     <div class="editorial-marquee" aria-hidden="true">
         <div class="editorial-marquee-track">
             <span>TOFEPROT SUPLEMENTACIÓN DEPORTIVA</span><span class="marquee-dot">✦</span>
-            <span>BERSERKER · FUERZA E INTENSIDAD</span><span class="marquee-dot">✦</span>
-            <span>ILUMINADO · DISCIPLINA Y PRECISIÓN</span><span class="marquee-dot">✦</span>
+            <span>BERSERKER · LA CATEDRAL DEL PODER INTERIOR</span><span class="marquee-dot">✦</span>
+            <span>ILUMINADO · EL SANTUARIO DE LA GLORIFICACIÓN</span><span class="marquee-dot">✦</span>
             <span>CATÁLOGO DISPONIBLE EN MODO CONSULTA</span><span class="marquee-dot">✦</span>
             <span>PEDIDOS ONLINE TEMPORALMENTE PAUSADOS</span><span class="marquee-dot">✦</span>
             <span>TOFEPROT SUPLEMENTACIÓN DEPORTIVA</span><span class="marquee-dot">✦</span>
-            <span>BERSERKER · FUERZA E INTENSIDAD</span><span class="marquee-dot">✦</span>
-            <span>ILUMINADO · DISCIPLINA Y PRECISIÓN</span><span class="marquee-dot">✦</span>
+            <span>BERSERKER · LA CATEDRAL DEL PODER INTERIOR</span><span class="marquee-dot">✦</span>
+            <span>ILUMINADO · EL SANTUARIO DE LA GLORIFICACIÓN</span><span class="marquee-dot">✦</span>
             <span>CATÁLOGO DISPONIBLE EN MODO CONSULTA</span><span class="marquee-dot">✦</span>
             <span>PEDIDOS ONLINE TEMPORALMENTE PAUSADOS</span><span class="marquee-dot">✦</span>
         </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 6.5 SECCIÓN EDITORIAL: LAS DOS FILOSOFÍAS  -->
+    <!-- ========================================== -->
+    <div class="section-wrapper philosophy-section-wrapper reveal-on-scroll" id="philosophySection">
+        <section class="philosophy-section" aria-labelledby="philosophySectionTitle">
+            <div class="editorial-section-header philosophy-header">
+                <span class="philosophy-eyebrow">ARQUITECTURA ESPIRITUAL TOFEPROT</span>
+                <h2 class="section-title philosophy-main-title" id="philosophySectionTitle">DOS CAMINOS. UNA MISMA DETERMINACIÓN.</h2>
+                <p class="editorial-subtitle philosophy-lead">
+                    Una misma escala monumental expresada en dos santuarios. Cada facción representa una manera distinta de habitar la disciplina y buscar tu evolución personal.
+                </p>
+            </div>
+
+            <div class="philosophy-grid">
+                <!-- PANEL 1: BERSERKER -->
+                <article class="philosophy-card philosophy-card-berserker is-active-path" id="philosophyCardBerserker">
+                    <div class="philosophy-card-media">
+                        <img src="assets/images/hero-cathedral-berserker.webp" alt="Catedral Berserker con grandes vitrales violetas y piedra negra monumental" loading="lazy" decoding="async">
+                        <div class="philosophy-media-scrim" aria-hidden="true"></div>
+                        <span class="philosophy-temple-badge">ORDEN BERSERKER</span>
+                    </div>
+                    <div class="philosophy-card-body">
+                        <span class="philosophy-kicker">Piedra Negra · Vitrales Violetas · Introspección</span>
+                        <h3 class="philosophy-card-title">Berserker — La catedral del poder interior</h3>
+                        <p class="philosophy-card-copy">
+                            Un templo que representa el viaje hacia adentro: enfrentar tus límites, descubrir tu fuerza y liberar el potencial que llevás dentro.
+                        </p>
+                        <div class="philosophy-attributes" aria-label="Atributos del camino Berserker">
+                            <span class="philosophy-attr-pill">Vitrales Góticos Púrpura</span>
+                            <span class="philosophy-attr-pill">Piedra Negra y Hierro</span>
+                            <span class="philosophy-attr-pill">Despertar del Poder</span>
+                        </div>
+                        <button type="button" class="philosophy-switch-btn" id="philosophyBtnBerserker" onclick="activatePhilosophySide('dark')" aria-pressed="true">
+                            CAMINO ACTIVO · BERSERKER
+                        </button>
+                    </div>
+                </article>
+
+                <!-- PANEL 2: ILUMINADO -->
+                <article class="philosophy-card philosophy-card-iluminado" id="philosophyCardIluminado">
+                    <div class="philosophy-card-media">
+                        <img src="assets/images/hero-cathedral-iluminado.webp" alt="Santuario Iluminado de mármol blanco, detalles dorados y grandes ventanales solares" loading="lazy" decoding="async">
+                        <div class="philosophy-media-scrim" aria-hidden="true"></div>
+                        <span class="philosophy-temple-badge">ORDEN ILUMINADO</span>
+                    </div>
+                    <div class="philosophy-card-body">
+                        <span class="philosophy-kicker">Mármol Marfil · Oro · Elevación</span>
+                        <h3 class="philosophy-card-title">Iluminado — El santuario de la glorificación</h3>
+                        <p class="philosophy-card-copy">
+                            Un santuario que representa la elevación constante: disciplina, constancia y la búsqueda consciente de una mejor versión de vos mismo.
+                        </p>
+                        <div class="philosophy-attributes" aria-label="Atributos del camino Iluminado">
+                            <span class="philosophy-attr-pill">Mármol Blanco y Oro</span>
+                            <span class="philosophy-attr-pill">Ventanales y Luz Solar</span>
+                            <span class="philosophy-attr-pill">Superación Personal</span>
+                        </div>
+                        <button type="button" class="philosophy-switch-btn" id="philosophyBtnIluminado" onclick="activatePhilosophySide('light')" aria-pressed="false">
+                            CAMBIAR A ILUMINADO →
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </section>
     </div>
 
     <!-- ========================================== -->
@@ -604,6 +676,6 @@
     </button>
 
     <!-- ARCHIVO JS MODULAR -->
-    <script src="js/app.js?v=6.6" defer></script>
+    <script src="js/app.js?v=6.7" defer></script>
 </body>
 </html>

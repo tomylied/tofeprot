@@ -538,34 +538,54 @@ function applySideTheme(side) {
     const heroVideoBg = document.querySelector('.hero-video-bg');
 
     body.className = side === 'light' ? 'theme-light' : 'theme-dark';
+    document.documentElement.className = side === 'light' ? 'theme-light' : 'theme-dark';
     
     if (side === 'light') {
-        if (logoImg) logoImg.src = 'assets/images/logo-wordmark-luz.png';
+        if (logoImg) logoImg.src = 'assets/images/logo-wordmark-luz.png?v=3.0';
         if (logoGhost) logoGhost.src = 'assets/images/logo-wordmark-oscuridad.png?v=3.0';
-        if (logoHintText) logoHintText.textContent = 'TOCÁ EL LOGO · DESATAR MODO BERSERKER';
-        if (heroTitle) heroTitle.innerHTML = 'ASCENDÉ A LA <span class="glory-highlight">GLORIA</span>';
-        if (heroDesc) heroDesc.textContent = "Disciplina, devoción y pureza absoluta. Hacé de cada gota de sudor tu ofrenda más sagrada.";
+        if (logoHintText) logoHintText.textContent = 'TOCÁ EL LOGO · CAMBIAR A BERSERKER';
+        if (heroTitle) heroTitle.innerHTML = 'DOMINÁ TU <span class="glory-highlight">DISCIPLINA</span>';
+        if (heroDesc) heroDesc.textContent = "La evolución se construye con constancia y propósito. Cada día es una oportunidad para elevar tu mejor versión.";
         if (heroBgImg) {
-            heroBgImg.src = 'assets/images/hero-bg-iluminado.jpg?v=2.8';
-            heroBgImg.alt = 'Santuario Iluminado Tofeprot';
+            heroBgImg.src = 'assets/images/hero-cathedral-iluminado.webp';
+            heroBgImg.alt = 'Santuario Iluminado Tofeprot — mármol blanco, detalles dorados y grandes ventanales';
         }
         if (heroVideoBg) {
-            heroVideoBg.poster = 'assets/images/hero-bg-iluminado.jpg?v=2.8';
+            heroVideoBg.poster = 'assets/images/hero-cathedral-iluminado.webp';
         }
     } else {
         if (logoImg) logoImg.src = 'assets/images/logo-wordmark-oscuridad.png?v=3.0';
-        if (logoGhost) logoGhost.src = 'assets/images/logo-wordmark-luz.png';
-        if (logoHintText) logoHintText.textContent = 'TOCÁ EL LOGO · TRANSMUTAR A ILUMINADO';
-        if (heroTitle) heroTitle.innerHTML = 'DESATÁ EL <span class="glory-highlight">CAOS</span>';
-        if (heroDesc) heroDesc.textContent = "El dolor no se esquiva, se conquista. Suplementación pura sin piedad para doblegar el hierro.";
+        if (logoGhost) logoGhost.src = 'assets/images/logo-wordmark-luz.png?v=3.0';
+        if (logoHintText) logoHintText.textContent = 'TOCÁ EL LOGO · CAMBIAR A ILUMINADO';
+        if (heroTitle) heroTitle.innerHTML = 'DESATÁ TU <span class="glory-highlight">FUERZA</span>';
+        if (heroDesc) heroDesc.textContent = "La fuerza que buscás también está dentro tuyo. Despertá tu potencial y forjá tu propio camino.";
         if (heroBgImg) {
-            heroBgImg.src = 'assets/images/hero-bg.jpg?v=2.8';
-            heroBgImg.alt = 'Fondo Hero Tofeprot Berserker';
+            heroBgImg.src = 'assets/images/hero-cathedral-berserker.webp';
+            heroBgImg.alt = 'Catedral Berserker Tofeprot — grandes vitrales violetas y piedra negra';
         }
         if (heroVideoBg) {
-            heroVideoBg.poster = 'assets/images/hero-bg.jpg?v=2.8';
+            heroVideoBg.poster = 'assets/images/hero-cathedral-berserker.webp';
         }
     }
+
+    const cardBerserker = document.getElementById('philosophyCardBerserker');
+    const cardIluminado = document.getElementById('philosophyCardIluminado');
+    const btnBerserker = document.getElementById('philosophyBtnBerserker');
+    const btnIluminado = document.getElementById('philosophyBtnIluminado');
+
+    if (cardBerserker && cardIluminado) {
+        cardBerserker.classList.toggle('is-active-path', side !== 'light');
+        cardIluminado.classList.toggle('is-active-path', side === 'light');
+    }
+    if (btnBerserker) {
+        btnBerserker.textContent = side !== 'light' ? 'CAMINO ACTIVO · BERSERKER' : 'CAMBIAR A BERSERKER →';
+        btnBerserker.setAttribute('aria-pressed', side !== 'light' ? 'true' : 'false');
+    }
+    if (btnIluminado) {
+        btnIluminado.textContent = side === 'light' ? 'CAMINO ACTIVO · ILUMINADO' : 'CAMBIAR A ILUMINADO →';
+        btnIluminado.setAttribute('aria-pressed', side === 'light' ? 'true' : 'false');
+    }
+
     const dualityBtn = document.getElementById('dualityBandoBtn');
     if (dualityBtn) {
         dualityBtn.title = side === 'light' ? 'Cambiar a bando Berserker (Oscuridad)' : 'Cambiar a bando Iluminado (Luz)';
@@ -575,6 +595,16 @@ function applySideTheme(side) {
     } catch (e) {}
     if (typeof updateLiveBiometrics === 'function') {
         updateLiveBiometrics();
+    }
+}
+
+function activatePhilosophySide(targetSide) {
+    const currentSide = document.body.classList.contains('theme-light') ? 'light' : 'dark';
+    if (currentSide !== targetSide) {
+        switchSide();
+    } else {
+        const heroEl = document.querySelector('.hero-editorial');
+        if (heroEl) heroEl.scrollIntoView({ behavior: 'smooth' });
     }
 }
 
