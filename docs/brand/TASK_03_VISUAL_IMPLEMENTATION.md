@@ -16,20 +16,19 @@ No convertir estas ideas en una tienda de gimnasio genérica. No reemplazar la a
 
 ## Recursos visuales que entrega el propietario/ChatGPT
 
-Antes de editar, confirmar que estos archivos estén copiados dentro de `assets/images/` desde el paquete visual entregado:
+Antes de editar, confirmar que estos archivos de fondo estén copiados dentro de `assets/images/` desde el paquete visual corregido:
 
 - `hero-cathedral-berserker.webp`
 - `hero-cathedral-iluminado.webp`
-- `logo-lockup-berserker.png`
-- `logo-lockup-iluminado.png`
-- `faction-emblem-berserker.svg`
-- `faction-emblem-iluminado.svg`
 
-Los dos wordmarks originales siguen disponibles:
-- `logo-wordmark-oscuridad.png`
-- `logo-wordmark-luz.png`
+Los logos ya existentes en el repositorio son los originales aprobados y deben permanecer exactamente como están:
 
-Los lockups nuevos conservan los wordmarks originales y suman un emblema superior. Usar los lockups como primera opción para el logo grande del Hero, pero ajustar su ancho/alto de forma responsive para que no desplacen ni tapen el contenido. Si un lockup resulta demasiado alto para una ubicación pequeña, usar el wordmark original y el emblema SVG como marca compacta. No estirar, deformar ni editar el texto del wordmark.
+- Berserker: `logo-wordmark-oscuridad.png`
+- Iluminado: `logo-wordmark-luz.png`
+
+**Decisión expresa del propietario:** no le gustaron los emblemas genéricos añadidos por encima de los logos. No utilizar `logo-lockup-berserker.png`, `logo-lockup-iluminado.png`, `faction-emblem-berserker.svg` ni `faction-emblem-iluminado.svg`. No agregar ningún símbolo, corona, halo, aro, laurel o icono adicional sobre los wordmarks.
+
+Importante: el motivo de corona/espinas que ya forma parte del wordmark original de Iluminado debe conservarse intacto; es parte del diseño original, no un añadido nuevo. No alterar letras, colores, proporciones ni el subtítulo “SUPLEMENTOS DEPORTIVOS”.
 
 ## Archivos a inspeccionar y posibles cambios
 
@@ -49,11 +48,11 @@ Los lockups nuevos conservan los wordmarks originales y suman un emblema superio
 - En móvil, ajustar la posición del recorte para conservar grandes ventanales y altar.
 
 ### 2. Logos principales
-- En el Hero, cambiar la imagen activa y la imagen ghost para que correspondan al lockup del bando activo/opuesto.
-- Berserker: `logo-lockup-berserker.png`.
-- Iluminado: `logo-lockup-iluminado.png`.
-- No tocar los originales. No generar logos nuevos con IA ni volver a dibujar las letras.
-- Verificar que la animación de cambio de bando siga funcionando y que los dos logos tengan presencia y tamaño óptico equilibrados.
+- Mantener las rutas actuales de los wordmarks originales: `logo-wordmark-oscuridad.png` para Berserker y `logo-wordmark-luz.png` para Iluminado.
+- No reemplazar los archivos por lockups nuevos.
+- No sumar emblemas arriba, abajo ni alrededor.
+- No modificar el arte original; solo ajustar el tamaño responsive en CSS, con proporción preservada y `object-fit: contain`.
+- Verificar que la animación de cambio de bando siga funcionando con las imágenes originales.
 
 ### 3. Mensaje del Hero
 Copy sugerido:
@@ -88,8 +87,8 @@ Usar los fondos de iglesia entregados como imagen de ambiente o composición der
 
 1. La primera impresión de Berserker es una catedral oscura, de escala monumental y grandes vitrales violetas.
 2. La primera impresión de Iluminado es un santuario luminoso de mármol y oro, con grandes ventanales y luz de glorificación.
-3. El cambio de bando actualiza fondo, logo, paleta y copy sin recargar la página.
-4. Los logos se leen correctamente, sin deformación ni cambios en la palabra TOFEPROT o el subtítulo SUPLEMENTOS DEPORTIVOS.
+3. El cambio de bando actualiza fondo, logo original, paleta y copy sin recargar la página.
+4. Los logos son los originales exactos, sin emblemas añadidos, sin deformación ni cambios en la palabra TOFEPROT o el subtítulo SUPLEMENTOS DEPORTIVOS.
 5. La nueva sección explica la filosofía de ambos caminos de forma clara.
 6. La navegación y catálogo continúan funcionando.
 7. SAFE_MODE permanece activo y ninguna función comercial se reactiva.
@@ -102,7 +101,7 @@ Usar los fondos de iglesia entregados como imagen de ambiente o composición der
 El propietario utiliza `main` para previsualizar la web mediante GitHub Pages.
 
 1. Ejecutar `git status` y confirmar que el repositorio local contiene los commits de contexto y dirección artística más recientes.
-2. Confirmar la presencia de los seis recursos de `assets/images/` enumerados arriba. Si faltan, no sustituirlos con arte propio: avisar al propietario.
+2. Confirmar la presencia de los dos fondos WebP y verificar que los dos wordmarks originales continúan presentes. Si falta un recurso, no sustituirlo con arte propio: avisar al propietario.
 3. El propietario desea continuar trabajando en `main` para visualizar cambios; respetar ese flujo una vez confirmada la copia local correcta.
 4. Realizar cambios acotados en `index.html`, `js/app.js` y `css/styles.css`.
 5. Probar localmente ambos bandos en desktop y móvil.
