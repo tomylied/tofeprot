@@ -8844,6 +8844,1357 @@ body.theme-light .philosophy-card-iluminado {
     }
 }
 
+/* ========================================================= */
+/* TAREA 03C — PORTADA CINEMATOGRÁFICA INTEGRADA             */
+/* ========================================================= */
+
+#gatewayScreen,
+#floatingNavBtn {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.hero.hero-dual.hero-cinematic {
+    --scene-px: 0px;
+    --scene-py: 0px;
+    position: relative;
+    min-height: 92vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 0;
+    overflow: hidden;
+    background-color: #050308;
+}
+
+body.theme-light .hero.hero-dual.hero-cinematic {
+    background-color: #0b0804;
+}
+
+/* 1. Header de una sola línea integrado en la escena superior */
+.cinematic-topbar {
+    position: relative;
+    z-index: 15;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0.72rem 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.2rem;
+    background: linear-gradient(180deg, rgba(5, 4, 10, 0.78) 0%, rgba(5, 4, 10, 0.34) 70%, transparent 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cinematic-topbar-left,
+.cinematic-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+}
+
+.cinematic-menu-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 40px;
+    padding: 0.42rem 0.88rem;
+    background: rgba(12, 9, 20, 0.72);
+    border: 1px solid rgba(192, 132, 252, 0.34);
+    border-radius: 4px;
+    color: #f8fafc;
+    font-family: 'Cinzel', 'Orbitron', serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.16s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+body.theme-light .cinematic-menu-trigger {
+    background: rgba(22, 16, 8, 0.76);
+    border-color: rgba(251, 191, 36, 0.44);
+    color: #fef3c7;
+}
+
+.cinematic-menu-trigger:hover {
+    border-color: rgba(216, 180, 254, 0.85);
+    background: rgba(139, 47, 201, 0.24);
+}
+
+body.theme-light .cinematic-menu-trigger:hover {
+    border-color: rgba(253, 230, 138, 0.9);
+    background: rgba(217, 119, 6, 0.24);
+}
+
+.cinematic-menu-trigger:active {
+    transform: scale(0.97);
+}
+
+.cinematic-nav-links {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.cinematic-nav-link {
+    background: transparent;
+    border: 1px solid transparent;
+    color: rgba(241, 245, 249, 0.84);
+    padding: 0.38rem 0.72rem;
+    border-radius: 4px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.cinematic-nav-link:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.cinematic-nav-link:active {
+    transform: scale(0.97);
+}
+
+.cinematic-safemode-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.48rem;
+    padding: 0.34rem 0.78rem;
+    background: rgba(10, 8, 16, 0.68);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 3px;
+}
+
+.safemode-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #c084fc;
+    box-shadow: 0 0 8px rgba(192, 132, 252, 0.9);
+    flex-shrink: 0;
+}
+
+body.theme-light .safemode-dot {
+    background: #fbbf24;
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.9);
+}
+
+.safemode-text {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: rgba(241, 245, 249, 0.88);
+}
+
+.cinematic-utility-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.cinematic-icon-btn {
+    position: relative;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0.45rem 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    background: rgba(12, 9, 20, 0.74);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: #ffffff;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.16s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.cinematic-icon-btn:hover {
+    border-color: rgba(192, 132, 252, 0.75);
+    background: rgba(139, 47, 201, 0.24);
+}
+
+body.theme-light .cinematic-icon-btn:hover {
+    border-color: rgba(251, 191, 36, 0.85);
+    background: rgba(217, 119, 6, 0.24);
+}
+
+.cinematic-icon-btn:active {
+    transform: scale(0.96);
+}
+
+/* 2. Escenario arquitectónico integrado (Una sola escena continua) */
+.cinematic-scene-stage {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.dual-backdrop-pane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    will-change: transform, opacity;
+    transform: translate3d(calc(var(--scene-px) * -0.5), calc(var(--scene-py) * -0.5), 0);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.55s ease;
+}
+
+.dual-backdrop-pane.pane-berserker {
+    left: 0;
+    width: 55.5%;
+    z-index: 2;
+    -webkit-mask-image: linear-gradient(90deg, #000000 0%, #000000 78%, rgba(0, 0, 0, 0.62) 89%, rgba(0, 0, 0, 0.18) 96%, transparent 100%);
+    mask-image: linear-gradient(90deg, #000000 0%, #000000 78%, rgba(0, 0, 0, 0.62) 89%, rgba(0, 0, 0, 0.18) 96%, transparent 100%);
+}
+
+.dual-backdrop-pane.pane-iluminado {
+    right: 0;
+    width: 55.5%;
+    z-index: 1;
+}
+
+.dual-backdrop-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+    transform: scale(1.02);
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.55s ease;
+}
+
+.hero-cinematic[data-active-side="dark"] .pane-berserker .dual-backdrop-img {
+    transform: scale(1.03);
+    opacity: 1;
+}
+
+.hero-cinematic[data-active-side="dark"] .pane-iluminado .dual-backdrop-img {
+    transform: scale(1.015);
+    opacity: 0.92;
+}
+
+.hero-cinematic[data-active-side="light"] .pane-iluminado .dual-backdrop-img {
+    transform: scale(1.03);
+    opacity: 1;
+}
+
+.hero-cinematic[data-active-side="light"] .pane-berserker .dual-backdrop-img {
+    transform: scale(1.015);
+    opacity: 0.92;
+}
+
+.dual-pane-scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.dual-pane-scrim.scrim-berserker {
+    background:
+        radial-gradient(circle at 46% 30%, rgba(168, 85, 247, 0.12) 0%, rgba(10, 6, 18, 0.16) 52%, rgba(5, 3, 10, 0.62) 100%),
+        linear-gradient(180deg, rgba(5, 3, 10, 0.34) 0%, rgba(6, 4, 12, 0.04) 26%, rgba(6, 4, 12, 0.16) 58%, rgba(5, 4, 10, 0.86) 100%);
+}
+
+.dual-pane-scrim.scrim-iluminado {
+    background:
+        radial-gradient(circle at 54% 30%, rgba(251, 191, 36, 0.12) 0%, rgba(22, 15, 6, 0.14) 52%, rgba(12, 8, 4, 0.58) 100%),
+        linear-gradient(180deg, rgba(16, 11, 5, 0.32) 0%, rgba(18, 13, 6, 0.04) 26%, rgba(18, 13, 6, 0.16) 58%, rgba(12, 9, 4, 0.84) 100%);
+}
+
+/* Haces de luz volumétricos desde los vitrales */
+.cinematic-godrays {
+    position: absolute;
+    top: -6%;
+    width: 46%;
+    height: 82%;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.55;
+    animation: godrayBreathe 6.5s ease-in-out infinite alternate;
+}
+
+.cinematic-godrays.rays-berserker {
+    left: 2%;
+    background:
+        conic-gradient(from 142deg at 46% 18%, transparent 0deg, rgba(168, 85, 247, 0.18) 14deg, transparent 28deg, rgba(192, 132, 252, 0.12) 42deg, transparent 58deg);
+    transform: rotate(-4deg);
+}
+
+.cinematic-godrays.rays-iluminado {
+    right: 2%;
+    background:
+        conic-gradient(from 192deg at 54% 18%, transparent 0deg, rgba(251, 191, 36, 0.2) 14deg, transparent 28deg, rgba(254, 243, 199, 0.14) 42deg, transparent 58deg);
+    transform: rotate(4deg);
+    animation-delay: -3.2s;
+}
+
+@keyframes godrayBreathe {
+    0% { opacity: 0.42; transform: scale(0.98); }
+    100% { opacity: 0.68; transform: scale(1.03); }
+}
+
+/* Estandartes arquitectónicos verticales en las columnas */
+.cinematic-banner {
+    position: absolute;
+    top: 8%;
+    width: 34px;
+    height: 48%;
+    z-index: 3;
+    pointer-events: none;
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%);
+    opacity: 0.72;
+}
+
+.banner-berserker-outer {
+    left: 3.2%;
+    background: linear-gradient(180deg, rgba(26, 12, 42, 0.92) 0%, rgba(12, 6, 22, 0.96) 100%);
+    border-left: 1px solid rgba(192, 132, 252, 0.45);
+    border-right: 1px solid rgba(192, 132, 252, 0.45);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.75);
+}
+
+.banner-berserker-inner {
+    left: 11.5%;
+    height: 38%;
+    width: 26px;
+    background: linear-gradient(180deg, rgba(22, 10, 36, 0.85) 0%, rgba(10, 5, 18, 0.9) 100%);
+    border-left: 1px solid rgba(168, 85, 247, 0.35);
+    border-right: 1px solid rgba(168, 85, 247, 0.35);
+}
+
+.banner-iluminado-inner {
+    right: 11.5%;
+    height: 38%;
+    width: 26px;
+    background: linear-gradient(180deg, rgba(48, 34, 14, 0.82) 0%, rgba(26, 18, 8, 0.88) 100%);
+    border-left: 1px solid rgba(251, 191, 36, 0.42);
+    border-right: 1px solid rgba(251, 191, 36, 0.42);
+}
+
+.banner-iluminado-outer {
+    right: 3.2%;
+    background: linear-gradient(180deg, rgba(56, 40, 16, 0.9) 0%, rgba(28, 20, 8, 0.94) 100%);
+    border-left: 1px solid rgba(253, 230, 138, 0.52);
+    border-right: 1px solid rgba(253, 230, 138, 0.52);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7);
+}
+
+/* Alas escultóricas laterales, pedestales y braseros integrados */
+.cinematic-statue-wing {
+    position: absolute;
+    bottom: 6%;
+    width: 18%;
+    height: 68%;
+    z-index: 4;
+    pointer-events: none;
+    transform: translate3d(calc(var(--scene-px) * 0.8), calc(var(--scene-py) * 0.6), 0);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wing-berserker {
+    left: 0;
+    background: radial-gradient(ellipse 75% 60% at 28% 68%, rgba(139, 47, 201, 0.22) 0%, transparent 72%);
+}
+
+.wing-iluminado {
+    right: 0;
+    background: radial-gradient(ellipse 75% 60% at 72% 68%, rgba(245, 158, 11, 0.22) 0%, transparent 72%);
+}
+
+.statue-pedestal {
+    position: absolute;
+    bottom: 0;
+    width: 130px;
+    height: 110px;
+    clip-path: polygon(14% 0, 86% 0, 100% 18%, 94% 100%, 6% 100%, 0 18%);
+}
+
+.pedestal-berserker {
+    left: 12%;
+    background: linear-gradient(180deg, rgba(24, 16, 36, 0.92) 0%, rgba(8, 5, 14, 0.98) 100%);
+    border-top: 2px solid rgba(192, 132, 252, 0.48);
+    box-shadow: 0 -10px 28px rgba(139, 47, 201, 0.28);
+}
+
+.pedestal-iluminado {
+    right: 12%;
+    background: linear-gradient(180deg, rgba(46, 34, 18, 0.9) 0%, rgba(18, 13, 6, 0.98) 100%);
+    border-top: 2px solid rgba(251, 191, 36, 0.55);
+    box-shadow: 0 -10px 28px rgba(245, 158, 11, 0.28);
+}
+
+.brazier-flame {
+    position: absolute;
+    bottom: 98px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    animation: brazierFlicker 3.2s ease-in-out infinite alternate;
+}
+
+.flame-berserker {
+    left: calc(12% + 33px);
+    background: radial-gradient(circle, rgba(232, 121, 249, 0.72) 0%, rgba(147, 51, 234, 0.34) 48%, transparent 74%);
+}
+
+.flame-iluminado {
+    right: calc(12% + 33px);
+    background: radial-gradient(circle, rgba(254, 240, 138, 0.76) 0%, rgba(217, 119, 6, 0.36) 48%, transparent 74%);
+    animation-delay: -1.5s;
+}
+
+@keyframes brazierFlicker {
+    0% { transform: scale(0.92) translateY(2px); opacity: 0.68; }
+    100% { transform: scale(1.1) translateY(-3px); opacity: 0.96; }
+}
+
+/* Eje/Altar central compartido y pulso único al cambiar de facción */
+.cinematic-altar-axis {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 180px;
+    transform: translateX(-50%);
+    z-index: 3;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 46% 52% at 50% 42%, rgba(168, 85, 247, 0.22) 0%, rgba(245, 158, 11, 0.14) 52%, transparent 84%),
+        linear-gradient(90deg, transparent 0%, rgba(8, 5, 14, 0.42) 45%, rgba(18, 13, 6, 0.42) 55%, transparent 100%);
+}
+
+.hero-cinematic[data-active-side="light"] .cinematic-altar-axis {
+    background:
+        radial-gradient(ellipse 46% 52% at 50% 42%, rgba(251, 191, 36, 0.24) 0%, rgba(168, 85, 247, 0.14) 52%, transparent 84%),
+        linear-gradient(90deg, transparent 0%, rgba(8, 5, 14, 0.4) 45%, rgba(20, 14, 6, 0.42) 55%, transparent 100%);
+}
+
+.altar-central-spire {
+    position: absolute;
+    top: 12%;
+    bottom: 14%;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, transparent 0%, rgba(192, 132, 252, 0.42) 28%, rgba(251, 191, 36, 0.42) 72%, transparent 100%);
+    opacity: 0.58;
+}
+
+.altar-steps-base {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 340px;
+    height: 76px;
+    transform: translateX(-50%);
+    clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
+    background: linear-gradient(180deg, rgba(20, 15, 24, 0.65) 0%, rgba(8, 6, 12, 0.92) 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.hero-cinematic.is-seam-pulsing.switching-to-light .cinematic-altar-axis {
+    animation: altarPulseGold 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-cinematic.is-seam-pulsing.switching-to-dark .cinematic-altar-axis {
+    animation: altarPulseViolet 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes altarPulseGold {
+    0% { opacity: 0.85; transform: translateX(-50%) scaleX(1); }
+    42% { opacity: 1; transform: translateX(-50%) scaleX(1.45); filter: drop-shadow(0 0 28px rgba(251, 191, 36, 0.65)); }
+    100% { opacity: 0.85; transform: translateX(-50%) scaleX(1); filter: none; }
+}
+
+@keyframes altarPulseViolet {
+    0% { opacity: 0.85; transform: translateX(-50%) scaleX(1); }
+    42% { opacity: 1; transform: translateX(-50%) scaleX(1.45); filter: drop-shadow(0 0 28px rgba(168, 85, 247, 0.68)); }
+    100% { opacity: 0.85; transform: translateX(-50%) scaleX(1); filter: none; }
+}
+
+/* Piso de piedra con reflejo y neblina en primer plano */
+.cinematic-stone-floor {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 24%;
+    z-index: 3;
+    background:
+        radial-gradient(ellipse 36% 60% at 26% 100%, rgba(139, 47, 201, 0.18) 0%, transparent 75%),
+        radial-gradient(ellipse 36% 60% at 74% 100%, rgba(217, 119, 6, 0.18) 0%, transparent 75%),
+        linear-gradient(180deg, transparent 0%, rgba(6, 4, 10, 0.65) 55%, rgba(5, 4, 8, 0.94) 100%);
+}
+
+.cinematic-mist-layer {
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    bottom: 4%;
+    height: 180px;
+    z-index: 4;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 40% 50% at 28% 65%, rgba(168, 85, 247, 0.12) 0%, transparent 75%),
+        radial-gradient(ellipse 40% 50% at 72% 65%, rgba(251, 191, 36, 0.12) 0%, transparent 75%);
+    animation: cinematicMistDrift 14s ease-in-out infinite alternate;
+}
+
+@keyframes cinematicMistDrift {
+    0% { transform: translate3d(-1.5%, 0, 0); opacity: 0.65; }
+    100% { transform: translate3d(1.5%, -4px, 0); opacity: 0.92; }
+}
+
+.cinematic-dust-motes {
+    position: absolute;
+    inset: 10% 12% 24% 12%;
+    z-index: 4;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle at 18% 28%, rgba(233, 213, 255, 0.45) 1px, transparent 2px),
+        radial-gradient(circle at 34% 62%, rgba(216, 180, 254, 0.35) 1px, transparent 2px),
+        radial-gradient(circle at 66% 32%, rgba(254, 240, 138, 0.45) 1px, transparent 2px),
+        radial-gradient(circle at 82% 58%, rgba(253, 230, 138, 0.35) 1px, transparent 2px);
+    opacity: 0.55;
+    animation: dustFloatSlow 11s ease-in-out infinite alternate;
+}
+
+@keyframes dustFloatSlow {
+    0% { transform: translate3d(0, 3px, 0); opacity: 0.4; }
+    100% { transform: translate3d(0, -5px, 0); opacity: 0.68; }
+}
+
+/* 3. Contenedor central del escenario e Identidad de marca (sin cápsula) */
+.cinematic-hero-content {
+    position: relative;
+    z-index: 8;
+    max-width: 1320px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0.4rem 2.2rem 1.8rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cinematic-brand-crown {
+    position: relative;
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 620px;
+    width: 100%;
+    padding: 0.2rem 0.5rem 0;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.hero-cinematic .hero-logo-interactive-stage {
+    margin-bottom: 0.25rem;
+    padding: 0.2rem 0.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .hero-cinematic .hero-logo-interactive-stage:hover {
+        transform: translateY(-2px) scale(1.015);
+    }
+}
+
+.hero-cinematic .hero-logo-interactive-stage:active {
+    transform: scale(0.97) !important;
+}
+
+.hero-cinematic .hero-logo-heartbeat-core {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0.15rem 0.4rem;
+    animation: none !important;
+}
+
+.hero-cinematic .hero-main-img {
+    width: clamp(280px, 29vw, 410px);
+    height: auto;
+    object-fit: contain;
+    display: block;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.92)) drop-shadow(0 0 18px rgba(168, 85, 247, 0.32));
+    transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.24s ease;
+}
+
+body.theme-light .hero-cinematic .hero-main-img {
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.92)) drop-shadow(0 0 20px rgba(245, 158, 11, 0.36));
+}
+
+.hero-cinematic .hero-logo-ghost {
+    position: absolute;
+    inset: 0.15rem 0.4rem;
+    width: calc(100% - 0.8rem) !important;
+    height: calc(100% - 0.3rem) !important;
+    object-fit: contain;
+    pointer-events: none;
+    opacity: 0;
+    mix-blend-mode: normal;
+    transform: scale3d(1, 1, 1);
+    animation: none !important;
+}
+
+.hero-cinematic .hero-logo-aura-back {
+    inset: -12% -8%;
+    opacity: 0.26;
+    animation: none !important;
+    background: radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.4) 0%, rgba(139, 47, 201, 0.16) 50%, transparent 74%);
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.theme-light .hero-cinematic .hero-logo-aura-back {
+    background: radial-gradient(ellipse at 50% 50%, rgba(251, 191, 36, 0.42) 0%, rgba(217, 119, 6, 0.16) 50%, transparent 74%);
+}
+
+/* Sweep fino de energía que cruza el eje central (750ms) */
+.logo-energy-sweep {
+    position: absolute;
+    top: -6%;
+    bottom: -6%;
+    left: 0;
+    width: 34%;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 4;
+    transform: translate3d(-145%, 0, 0) skewX(-18deg);
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(192, 132, 252, 0.2) 24%,
+        rgba(255, 255, 255, 0.94) 50%,
+        rgba(251, 191, 36, 0.34) 76%,
+        transparent 100%
+    );
+    will-change: transform, opacity;
+}
+
+.hero-logo-interactive-stage.switching-to-light .logo-energy-sweep {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(245, 158, 11, 0.24) 22%,
+        rgba(254, 243, 199, 0.96) 50%,
+        rgba(251, 191, 36, 0.46) 78%,
+        transparent 100%
+    );
+}
+
+.hero-logo-interactive-stage.switching-to-dark .logo-energy-sweep {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(168, 85, 247, 0.26) 22%,
+        rgba(243, 232, 255, 0.96) 50%,
+        rgba(139, 47, 201, 0.46) 78%,
+        transparent 100%
+    );
+}
+
+.hero-logo-interactive-stage.is-switching-logo #heroLogoGhost {
+    animation: wordmarkOutgoingFade 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+.hero-logo-interactive-stage.is-switching-logo #heroLogoImg {
+    animation: wordmarkIncomingReveal 0.74s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+.hero-logo-interactive-stage.is-switching-logo .logo-energy-sweep {
+    animation: wordmarkSweepAcross 0.68s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+.hero-logo-interactive-stage.is-switching-logo .hero-logo-aura-back {
+    animation: wordmarkAuraPulse 0.74s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+@keyframes wordmarkOutgoingFade {
+    0% {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale3d(0.95, 0.95, 1);
+    }
+}
+
+@keyframes wordmarkIncomingReveal {
+    0%, 20% {
+        opacity: 0;
+        transform: scale3d(0.95, 0.95, 1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes wordmarkSweepAcross {
+    0% {
+        opacity: 0;
+        transform: translate3d(-140%, 0, 0) skewX(-18deg);
+    }
+    16% {
+        opacity: 1;
+    }
+    84% {
+        opacity: 0.9;
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(280%, 0, 0) skewX(-18deg);
+    }
+}
+
+@keyframes wordmarkAuraPulse {
+    0% {
+        opacity: 0.26;
+        transform: scale3d(0.95, 0.95, 1);
+    }
+    45% {
+        opacity: 0.58;
+        transform: scale3d(1.05, 1.05, 1);
+    }
+    100% {
+        opacity: 0.26;
+        transform: scale3d(0.95, 0.95, 1);
+    }
+}
+
+/* Lemas institucionales únicos debajo del wordmark */
+.dual-brand-motto {
+    margin: 0.1rem 0 0.28rem 0 !important;
+    font-family: 'Cinzel', Georgia, serif !important;
+    font-style: normal !important;
+    font-size: clamp(1rem, 1.45vw, 1.28rem) !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.22em !important;
+    text-transform: uppercase;
+    color: #ffffff !important;
+    text-shadow: 0 3px 16px rgba(0, 0, 0, 0.96) !important;
+}
+
+.cinematic-motto-divider {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    width: 240px;
+    margin: 0.05rem 0 0.3rem;
+}
+
+.cinematic-motto-divider .divider-wing {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.55) 100%);
+}
+
+.cinematic-motto-divider .divider-wing:last-child {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.55) 0%, transparent 100%);
+}
+
+.cinematic-motto-divider .divider-diamond {
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    background: #c084fc;
+    box-shadow: 0 0 8px rgba(192, 132, 252, 0.85);
+}
+
+body.theme-light .cinematic-motto-divider .divider-diamond {
+    background: #fbbf24;
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.85);
+}
+
+.dual-brand-submotto {
+    margin: 0 !important;
+    font-family: 'Cinzel', 'Orbitron', serif !important;
+    font-style: normal !important;
+    font-size: clamp(0.68rem, 0.92vw, 0.8rem) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase;
+    color: rgba(241, 245, 249, 0.9) !important;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95) !important;
+}
+
+body.theme-light .dual-brand-submotto {
+    color: rgba(254, 243, 199, 0.94) !important;
+}
+
+/* 4. Placas ornamentales talladas en piedra y metal (Único selector de cada facción) */
+.cinematic-plaques-stage {
+    position: relative;
+    z-index: 9;
+    width: 100%;
+    max-width: 1180px;
+    margin: auto auto 0;
+    padding-top: 11.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4.5rem;
+    align-items: end;
+}
+
+.ornamental-plaque {
+    position: relative;
+    width: 100%;
+    min-height: 118px;
+    padding: 1.45rem 2.2rem 1.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    outline: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    opacity: 0.82;
+    transform: translateY(0);
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+}
+
+.ornamental-plaque:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 6px;
+}
+
+.ornamental-plaque.is-selected {
+    opacity: 1;
+    transform: translateY(-4px);
+}
+
+.ornamental-plaque:active {
+    transform: scale(0.97) !important;
+}
+
+.ornamental-plaque.is-confirming {
+    animation: plaqueConfirmPulse 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes plaqueConfirmPulse {
+    0% { transform: translateY(-4px) scale(1); }
+    50% { transform: translateY(-4px) scale(1.02); }
+    100% { transform: translateY(-4px) scale(1); }
+}
+
+/* Superficie biselada de piedra y metal dentro del polígono achaflanado */
+.plaque-stone-surface {
+    position: absolute;
+    inset: 2px;
+    z-index: 0;
+    clip-path: polygon(19px 0, calc(100% - 19px) 0, 100% 19px, 100% calc(100% - 19px), calc(100% - 19px) 100%, 19px 100%, 0 calc(100% - 19px), 0 19px);
+    transition: background-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.plaque-berserker .plaque-stone-surface {
+    background:
+        radial-gradient(ellipse 80% 70% at 50% 50%, rgba(36, 16, 58, 0.84) 0%, rgba(11, 7, 20, 0.94) 72%, rgba(6, 4, 11, 0.98) 100%);
+    box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.85);
+}
+
+.plaque-berserker.is-selected .plaque-stone-surface {
+    background:
+        radial-gradient(ellipse 85% 75% at 50% 45%, rgba(58, 22, 92, 0.9) 0%, rgba(16, 9, 28, 0.95) 68%, rgba(8, 5, 14, 0.98) 100%);
+    box-shadow: inset 0 0 32px rgba(168, 85, 247, 0.25);
+}
+
+.plaque-iluminado .plaque-stone-surface {
+    background:
+        radial-gradient(ellipse 80% 70% at 50% 50%, rgba(56, 39, 16, 0.84) 0%, rgba(22, 15, 7, 0.94) 72%, rgba(12, 8, 4, 0.98) 100%);
+    box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.85);
+}
+
+.plaque-iluminado.is-selected .plaque-stone-surface {
+    background:
+        radial-gradient(ellipse 85% 75% at 50% 45%, rgba(78, 52, 18, 0.9) 0%, rgba(28, 19, 8, 0.95) 68%, rgba(14, 10, 4, 0.98) 100%);
+    box-shadow: inset 0 0 32px rgba(251, 191, 36, 0.25);
+}
+
+/* Halo proyectado sobre la escalinata debajo de la placa activa */
+.plaque-pedestal-glow {
+    position: absolute;
+    inset: -14px -18px;
+    z-index: -1;
+    border-radius: 24px;
+    opacity: 0.24;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.plaque-berserker .plaque-pedestal-glow {
+    background: radial-gradient(ellipse 72% 62% at 50% 55%, rgba(168, 85, 247, 0.58) 0%, rgba(88, 28, 135, 0.24) 55%, transparent 78%);
+}
+
+.plaque-iluminado .plaque-pedestal-glow {
+    background: radial-gradient(ellipse 72% 62% at 50% 55%, rgba(251, 191, 36, 0.56) 0%, rgba(180, 83, 9, 0.24) 55%, transparent 78%);
+}
+
+.ornamental-plaque.is-selected .plaque-pedestal-glow {
+    opacity: 0.88;
+    transform: scale(1.04);
+}
+
+/* Marco SVG ornamental biselado (metal forjado y piedra tallada) */
+.plaque-filigree-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.plaque-filigree-svg .filigree-outer {
+    fill: none;
+    stroke-width: 2;
+    transition: stroke 0.35s ease, opacity 0.35s ease;
+}
+
+.plaque-filigree-svg .filigree-inner {
+    fill: none;
+    stroke-width: 1;
+    transition: stroke 0.35s ease, opacity 0.35s ease;
+}
+
+.plaque-filigree-svg .filigree-accent {
+    stroke-width: 2.4;
+    transition: stroke 0.35s ease, opacity 0.35s ease;
+}
+
+.plaque-filigree-svg .filigree-node {
+    transition: fill 0.35s ease, opacity 0.35s ease;
+}
+
+.plaque-berserker .filigree-outer {
+    stroke: rgba(168, 85, 247, 0.48);
+}
+.plaque-berserker .filigree-inner {
+    stroke: rgba(216, 180, 254, 0.26);
+}
+.plaque-berserker .filigree-accent {
+    stroke: rgba(192, 132, 252, 0.65);
+}
+.plaque-berserker .filigree-node {
+    fill: rgba(192, 132, 252, 0.72);
+}
+
+.plaque-berserker.is-selected .filigree-outer {
+    stroke: #d8b4fe;
+}
+.plaque-berserker.is-selected .filigree-inner {
+    stroke: rgba(233, 213, 255, 0.65);
+}
+.plaque-berserker.is-selected .filigree-accent {
+    stroke: #f3e8ff;
+}
+.plaque-berserker.is-selected .filigree-node {
+    fill: #f3e8ff;
+}
+
+.plaque-iluminado .filigree-outer {
+    stroke: rgba(245, 158, 11, 0.5);
+}
+.plaque-iluminado .filigree-inner {
+    stroke: rgba(253, 230, 138, 0.28);
+}
+.plaque-iluminado .filigree-accent {
+    stroke: rgba(251, 191, 36, 0.68);
+}
+.plaque-iluminado .filigree-node {
+    fill: rgba(251, 191, 36, 0.75);
+}
+
+.plaque-iluminado.is-selected .filigree-outer {
+    stroke: #fde68a;
+}
+.plaque-iluminado.is-selected .filigree-inner {
+    stroke: rgba(254, 243, 199, 0.68);
+}
+.plaque-iluminado.is-selected .filigree-accent {
+    stroke: #fffbeb;
+}
+.plaque-iluminado.is-selected .filigree-node {
+    fill: #fffbeb;
+}
+
+/* Recorrido sutil de luz sobre el borde en hover */
+.plaque-border-shimmer {
+    position: absolute;
+    inset: 2px;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+    clip-path: polygon(19px 0, calc(100% - 19px) 0, 100% 19px, 100% calc(100% - 19px), calc(100% - 19px) 100%, 19px 100%, 0 calc(100% - 19px), 0 19px);
+}
+
+.plaque-border-shimmer::after {
+    content: "";
+    position: absolute;
+    top: -20%;
+    bottom: -20%;
+    left: 0;
+    width: 36%;
+    opacity: 0;
+    transform: translate3d(-150%, 0, 0) skewX(-22deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.22) 50%, transparent 100%);
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .ornamental-plaque:hover {
+        opacity: 1;
+        transform: translateY(-4px);
+    }
+    .ornamental-plaque:hover .plaque-border-shimmer::after {
+        opacity: 1;
+        transform: translate3d(320%, 0, 0) skewX(-22deg);
+    }
+}
+
+/* Inscripción en relieve dentro de cada placa (solo nombre + lema corto) */
+.plaque-inscription {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.32rem;
+}
+
+.plaque-faction-name {
+    font-family: 'Cinzel', 'Orbitron', serif;
+    font-size: clamp(0.76rem, 0.95vw, 0.88rem);
+    font-weight: 800;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+}
+
+.plaque-berserker .plaque-faction-name {
+    color: #e9d5ff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 14px rgba(168, 85, 247, 0.55);
+}
+
+.plaque-iluminado .plaque-faction-name {
+    color: #fef3c7;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 14px rgba(251, 191, 36, 0.55);
+}
+
+.plaque-faction-motto {
+    display: block;
+    line-height: 1.08;
+    text-transform: uppercase;
+}
+
+.plaque-berserker .plaque-faction-motto {
+    font-family: 'Black Ops One', 'Russo One', sans-serif;
+    font-size: clamp(1.42rem, 2.05vw, 1.98rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.95);
+}
+
+.plaque-iluminado .plaque-faction-motto {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: clamp(1.36rem, 1.95vw, 1.88rem);
+    font-weight: 900;
+    letter-spacing: 0.09em;
+    color: #ffffff;
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.95);
+}
+
+.glory-highlight-dark {
+    font-style: normal;
+    color: #c084fc;
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.82);
+}
+
+.glory-highlight-light {
+    font-style: normal;
+    color: #fbbf24;
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
+}
+
+/* 5. Franja arquitectónica inferior (Zócalo de templo integrado al escenario) */
+.cinematic-architrave-strip {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    background: linear-gradient(90deg, rgba(10, 6, 18, 0.94) 0%, rgba(16, 12, 18, 0.96) 50%, rgba(20, 14, 7, 0.94) 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 0.82rem 1.5rem;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.65);
+}
+
+.dual-info-strip-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.55rem 1.35rem;
+    text-align: center;
+}
+
+.dual-info-item {
+    font-family: 'Cinzel', 'Orbitron', serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: rgba(248, 250, 252, 0.92);
+    text-transform: uppercase;
+}
+
+body.theme-light .dual-info-item {
+    color: #fef3c7;
+}
+
+/* 6. Responsive: Tablet (769px – 1080px) */
+@media (max-width: 1080px) and (min-width: 769px) {
+    .cinematic-topbar {
+        padding: 0.65rem 1.35rem;
+    }
+    .safemode-text {
+        font-size: 0.64rem;
+    }
+    .hero-cinematic .hero-main-img {
+        width: clamp(240px, 27vw, 320px);
+    }
+    .cinematic-plaques-stage {
+        padding-top: 8.5rem;
+        gap: 2rem;
+    }
+    .ornamental-plaque {
+        padding: 1.2rem 1.4rem;
+        min-height: 104px;
+    }
+}
+
+/* 7. Responsive: Móvil (<= 768px) — Escenario único continuo sin cards planas */
+@media (max-width: 768px) {
+    .hero.hero-dual.hero-cinematic {
+        min-height: 100svh;
+        background-color: #06040a;
+    }
+
+    .cinematic-topbar {
+        padding: 0.55rem 0.85rem;
+        gap: 0.5rem;
+    }
+
+    .cinematic-nav-links {
+        display: none;
+    }
+
+    .cinematic-menu-trigger {
+        min-height: 38px;
+        padding: 0.35rem 0.68rem;
+        font-size: 0.64rem;
+        letter-spacing: 0.12em;
+    }
+
+    .cinematic-topbar-right {
+        gap: 0.45rem;
+    }
+
+    .cinematic-safemode-indicator {
+        padding: 0.26rem 0.52rem;
+    }
+
+    .safemode-text {
+        font-size: 0.55rem;
+        letter-spacing: 0.03em;
+    }
+
+    .cinematic-icon-btn {
+        min-width: 38px;
+        min-height: 38px;
+        padding: 0.35rem 0.5rem;
+    }
+
+    /* En móvil ambos templos se funden en una composición diagonal/vertical dentro del mismo escenario */
+    .dual-backdrop-pane.pane-berserker {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 64%;
+        bottom: auto;
+        z-index: 2;
+        -webkit-mask-image: linear-gradient(172deg, #000000 0%, #000000 66%, rgba(0, 0, 0, 0.45) 84%, transparent 100%);
+        mask-image: linear-gradient(172deg, #000000 0%, #000000 66%, rgba(0, 0, 0, 0.45) 84%, transparent 100%);
+    }
+
+    .dual-backdrop-pane.pane-iluminado {
+        top: 36%;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 64%;
+        z-index: 1;
+    }
+
+    .dual-backdrop-img {
+        object-position: center 26%;
+    }
+
+    .cinematic-banner,
+    .altar-steps-base {
+        display: none;
+    }
+
+    .cinematic-statue-wing {
+        width: 28%;
+        height: 42%;
+    }
+
+    .wing-berserker {
+        top: 22%;
+        bottom: auto;
+    }
+
+    .wing-iluminado {
+        bottom: 8%;
+    }
+
+    .statue-pedestal {
+        width: 72px;
+        height: 64px;
+    }
+
+    .brazier-flame {
+        bottom: 54px;
+        width: 44px;
+        height: 44px;
+    }
+
+    .cinematic-hero-content {
+        padding: 0.35rem 1rem 1.15rem;
+        justify-content: flex-start;
+        gap: 1.1rem;
+    }
+
+    .cinematic-brand-crown {
+        padding-top: 0.1rem;
+    }
+
+    .hero-cinematic .hero-main-img {
+        width: clamp(220px, 62vw, 275px);
+    }
+
+    .dual-brand-motto {
+        font-size: 0.86rem !important;
+        letter-spacing: 0.15em !important;
+    }
+
+    .cinematic-motto-divider {
+        width: 170px;
+        margin: 0.05rem 0 0.2rem;
+    }
+
+    .dual-brand-submotto {
+        font-size: 0.62rem !important;
+        letter-spacing: 0.11em !important;
+    }
+
+    /* Las dos placas ornamentales se apilan dentro del mismo escenario arquitectónico */
+    .cinematic-plaques-stage {
+        padding-top: 0.6rem;
+        margin-top: auto;
+        grid-template-columns: 1fr;
+        gap: 2.35rem;
+    }
+
+    .ornamental-plaque {
+        min-height: 98px;
+        padding: 1.1rem 1.25rem;
+        opacity: 0.9;
+    }
+
+    .ornamental-plaque.is-selected {
+        transform: none;
+    }
+
+    .plaque-berserker .plaque-faction-motto,
+    .plaque-iluminado .plaque-faction-motto {
+        font-size: 1.38rem;
+    }
+
+    .cinematic-architrave-strip {
+        padding: 0.62rem 0.75rem;
+    }
+
+    .dual-info-strip-inner {
+        gap: 0.32rem 0.68rem;
+    }
+
+    .dual-info-item {
+        font-size: 0.58rem;
+        letter-spacing: 0.09em;
+    }
+}
+
+/* 8. Accesibilidad: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .hero-logo-interactive-stage.is-switching-logo #heroLogoGhost,
+    .hero-logo-interactive-stage.is-switching-logo #heroLogoImg,
+    .hero-logo-interactive-stage.is-switching-logo .logo-energy-sweep,
+    .hero-logo-interactive-stage.is-switching-logo .hero-logo-aura-back,
+    .hero-cinematic.is-seam-pulsing .cinematic-altar-axis,
+    .cinematic-godrays,
+    .brazier-flame,
+    .cinematic-mist-layer,
+    .cinematic-dust-motes {
+        animation: none !important;
+    }
+}
+
+
+
 
 
 

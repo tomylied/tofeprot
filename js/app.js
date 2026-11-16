@@ -440,26 +440,15 @@ function loadState() {
             cart = JSON.parse(savedCart);
         }
 
-        // Si ya hay bando registrado previamente, aplicar tema e ingresar directamente sin pasar por el Gateway
-        if (savedSide === 'light' || savedSide === 'dark') {
-            applySideTheme(savedSide);
-            const gateway = document.getElementById('gatewayScreen');
-            if (gateway) {
-                gateway.style.display = 'none';
-                gateway.style.visibility = 'hidden';
-                gateway.style.opacity = '0';
-                gateway.setAttribute('aria-hidden', 'true');
-            }
-        } else {
-            // Primer ingreso del usuario: mostrar el Gateway para que elija su bando
-            applySideTheme('dark');
-            const gateway = document.getElementById('gatewayScreen');
-            if (gateway) {
-                gateway.style.display = 'flex';
-                gateway.style.visibility = 'visible';
-                gateway.style.opacity = '1';
-                gateway.removeAttribute('aria-hidden');
-            }
+        // Portada dual permanente: ocultar el antiguo gateway modal y reflejar el bando activo (por defecto Berserker)
+        const activeInitialSide = (savedSide === 'light' || savedSide === 'dark') ? savedSide : 'dark';
+        applySideTheme(activeInitialSide, { persist: savedSide === 'light' || savedSide === 'dark' });
+        const gateway = document.getElementById('gatewayScreen');
+        if (gateway) {
+            gateway.style.display = 'none';
+            gateway.style.visibility = 'hidden';
+            gateway.style.opacity = '0';
+            gateway.setAttribute('aria-hidden', 'true');
         }
 
         const unlockModal = document.getElementById('unlockModal');
@@ -488,6 +477,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initCard3DTilt();
     initScrollReveal();
     initSmartHeader();
+    initCinematicParallax();
     updateLiveBiometrics();
     initRaffleSection();
     document.addEventListener('keydown', function(e) {
@@ -525,502 +515,239 @@ window.addEventListener('storage', function(e) {
 });
 
 // ========================================== */
-// SELECCIÓN DE BANDO Y TEMAS                 */
+// SELECCIÓN DE BANDO Y PORTADA DUAL          */
 // ========================================== */
-function applySideTheme(side) {
+function applySideTheme(side, options) {
+    const activeSide = side === 'light' ? 'light' : 'dark';
+    const shouldPersist = !options || options.persist !== false;
+    const skipGhostSync = Boolean(options && options.skipGhostSync);
+
     const body = document.body;
+    const dualHero = document.getElementById('dualHeroSection');
+    const logoStage = document.getElementById('heroLogoStage');
     const logoImg = document.getElementById('heroLogoImg');
     const logoGhost = document.getElementById('heroLogoGhost');
     const logoHintText = document.getElementById('heroLogoHintText');
-    const heroTitle = document.getElementById('heroTitle');
-    const heroDesc = document.getElementById('heroDescription');
-    const heroBgImg = document.getElementById('heroBgImg');
-    const heroVideoBg = document.querySelector('.hero-video-bg');
 
-    body.className = side === 'light' ? 'theme-light' : 'theme-dark';
-    document.documentElement.className = side === 'light' ? 'theme-light' : 'theme-dark';
-    
-    if (side === 'light') {
-        if (logoImg) logoImg.src = 'assets/images/logo-wordmark-luz.png?v=3.0';
-        if (logoGhost) logoGhost.src = 'assets/images/logo-wordmark-oscuridad.png?v=3.0';
-        if (logoHintText) logoHintText.textContent = 'TOCÁ EL LOGO · CAMBIAR A BERSERKER';
-        if (heroTitle) heroTitle.innerHTML = 'DOMINÁ TU <span class="glory-highlight">DISCIPLINA</span>';
-        if (heroDesc) heroDesc.textContent = "La evolución se construye con constancia y propósito. Cada día es una oportunidad para elevar tu mejor versión.";
-        if (heroBgImg) {
-            heroBgImg.src = 'assets/images/hero-cathedral-iluminado.webp';
-            heroBgImg.alt = 'Santuario Iluminado Tofeprot — mármol blanco, detalles dorados y grandes ventanales';
+    body.className = activeSide === 'light' ? 'theme-light' : 'theme-dark';
+    document.documentElement.className = activeSide === 'light' ? 'theme-light' : 'theme-dark';
+
+    if (dualHero) {
+        dualHero.setAttribute('data-active-side', activeSide);
+    }
+
+    if (activeSide === 'light') {
+        if (logoImg) {
+            logoImg.src = 'assets/images/logo-wordmark-luz.png?v=3.0';
+            logoImg.alt = 'Tofeprot Logotipo Oficial — Iluminado';
         }
-        if (heroVideoBg) {
-            heroVideoBg.poster = 'assets/images/hero-cathedral-iluminado.webp';
+        if (logoGhost && !skipGhostSync) {
+            logoGhost.src = 'assets/images/logo-wordmark-oscuridad.png?v=3.0';
+        }
+        if (logoHintText) {
+            logoHintText.textContent = 'TOCÁ EL LOGO · CAMBIAR A BERSERKER';
+        }
+        if (logoStage) {
+            logoStage.setAttribute('aria-label', 'Alternar facción activa entre Berserker e Iluminado (actual: Iluminado)');
         }
     } else {
-        if (logoImg) logoImg.src = 'assets/images/logo-wordmark-oscuridad.png?v=3.0';
-        if (logoGhost) logoGhost.src = 'assets/images/logo-wordmark-luz.png?v=3.0';
-        if (logoHintText) logoHintText.textContent = 'TOCÁ EL LOGO · CAMBIAR A ILUMINADO';
-        if (heroTitle) heroTitle.innerHTML = 'DESATÁ TU <span class="glory-highlight">FUERZA</span>';
-        if (heroDesc) heroDesc.textContent = "La fuerza que buscás también está dentro tuyo. Despertá tu potencial y forjá tu propio camino.";
-        if (heroBgImg) {
-            heroBgImg.src = 'assets/images/hero-cathedral-berserker.webp';
-            heroBgImg.alt = 'Catedral Berserker Tofeprot — grandes vitrales violetas y piedra negra';
+        if (logoImg) {
+            logoImg.src = 'assets/images/logo-wordmark-oscuridad.png?v=3.0';
+            logoImg.alt = 'Tofeprot Logotipo Oficial — Berserker';
         }
-        if (heroVideoBg) {
-            heroVideoBg.poster = 'assets/images/hero-cathedral-berserker.webp';
+        if (logoGhost && !skipGhostSync) {
+            logoGhost.src = 'assets/images/logo-wordmark-luz.png?v=3.0';
+        }
+        if (logoHintText) {
+            logoHintText.textContent = 'TOCÁ EL LOGO · CAMBIAR A ILUMINADO';
+        }
+        if (logoStage) {
+            logoStage.setAttribute('aria-label', 'Alternar facción activa entre Berserker e Iluminado (actual: Berserker)');
         }
     }
 
+    // Sincronización de las placas ornamentales integradas (Tarea 03C)
+    const panelBerserker = document.getElementById('dualPanelBerserker');
+    const panelIluminado = document.getElementById('dualPanelIluminado');
+
+    if (panelBerserker) {
+        panelBerserker.classList.toggle('is-selected', activeSide === 'dark');
+        panelBerserker.setAttribute('aria-pressed', activeSide === 'dark' ? 'true' : 'false');
+    }
+    if (panelIluminado) {
+        panelIluminado.classList.toggle('is-selected', activeSide === 'light');
+        panelIluminado.setAttribute('aria-pressed', activeSide === 'light' ? 'true' : 'false');
+    }
+
+    // Sincronización de la sección de filosofía
     const cardBerserker = document.getElementById('philosophyCardBerserker');
     const cardIluminado = document.getElementById('philosophyCardIluminado');
-    const btnBerserker = document.getElementById('philosophyBtnBerserker');
-    const btnIluminado = document.getElementById('philosophyBtnIluminado');
 
     if (cardBerserker && cardIluminado) {
-        cardBerserker.classList.toggle('is-active-path', side !== 'light');
-        cardIluminado.classList.toggle('is-active-path', side === 'light');
-    }
-    if (btnBerserker) {
-        btnBerserker.textContent = side !== 'light' ? 'CAMINO ACTIVO · BERSERKER' : 'CAMBIAR A BERSERKER →';
-        btnBerserker.setAttribute('aria-pressed', side !== 'light' ? 'true' : 'false');
-    }
-    if (btnIluminado) {
-        btnIluminado.textContent = side === 'light' ? 'CAMINO ACTIVO · ILUMINADO' : 'CAMBIAR A ILUMINADO →';
-        btnIluminado.setAttribute('aria-pressed', side === 'light' ? 'true' : 'false');
+        cardBerserker.classList.toggle('is-active-path', activeSide === 'dark');
+        cardIluminado.classList.toggle('is-active-path', activeSide === 'light');
     }
 
-    const dualityBtn = document.getElementById('dualityBandoBtn');
-    if (dualityBtn) {
-        dualityBtn.title = side === 'light' ? 'Cambiar a bando Berserker (Oscuridad)' : 'Cambiar a bando Iluminado (Luz)';
+    if (shouldPersist) {
+        try {
+            localStorage.setItem('tofeprot_side', activeSide);
+        } catch (e) {}
     }
-    try {
-        localStorage.setItem('tofeprot_side', side);
-    } catch (e) {}
+
     if (typeof updateLiveBiometrics === 'function') {
         updateLiveBiometrics();
     }
 }
 
-function activatePhilosophySide(targetSide) {
+let isSwitchingSide = false;
+
+function runFactionTransition(targetSide) {
+    const normalizedTarget = targetSide === 'light' ? 'light' : 'dark';
     const currentSide = document.body.classList.contains('theme-light') ? 'light' : 'dark';
-    if (currentSide !== targetSide) {
-        switchSide();
+
+    if (isSwitchingSide) return;
+
+    // Si ya está en ese bando, solo persistir y dar confirmación sutil en la placa sin alternar al otro bando
+    if (currentSide === normalizedTarget) {
+        applySideTheme(normalizedTarget, { persist: true });
+        const activePanel = document.getElementById(normalizedTarget === 'light' ? 'dualPanelIluminado' : 'dualPanelBerserker');
+        if (activePanel) {
+            activePanel.classList.remove('is-confirming');
+            void activePanel.offsetWidth;
+            activePanel.classList.add('is-confirming');
+            setTimeout(() => activePanel.classList.remove('is-confirming'), 450);
+        }
+        return;
+    }
+
+    const prefersReducedMotion = Boolean(
+        window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    );
+
+    playSFX(normalizedTarget === 'light' ? 'sideLight' : 'sideDark');
+
+    if (prefersReducedMotion) {
+        applySideTheme(normalizedTarget, { persist: true });
+        return;
+    }
+
+    isSwitchingSide = true;
+
+    const stage = document.getElementById('heroLogoStage');
+    const dualHero = document.getElementById('dualHeroSection');
+    const logoGhost = document.getElementById('heroLogoGhost');
+
+    // Colocar el wordmark saliente en la capa ghost para que baje a 95% de escala y se atenúe
+    if (logoGhost) {
+        logoGhost.src = currentSide === 'light'
+            ? 'assets/images/logo-wordmark-luz.png?v=3.0'
+            : 'assets/images/logo-wordmark-oscuridad.png?v=3.0';
+    }
+
+    // Actualizar tema, placas y wordmark entrante (reveal + crossfade de 750ms)
+    applySideTheme(normalizedTarget, { persist: true, skipGhostSync: true });
+
+    const dirClass = normalizedTarget === 'light' ? 'switching-to-light' : 'switching-to-dark';
+    if (stage) {
+        stage.classList.remove('is-switching-logo', 'switching-to-light', 'switching-to-dark');
+        void stage.offsetWidth;
+        stage.classList.add('is-switching-logo', dirClass);
+    }
+    if (dualHero) {
+        dualHero.classList.remove('is-seam-pulsing', 'switching-to-light', 'switching-to-dark');
+        void dualHero.offsetWidth;
+        dualHero.classList.add('is-seam-pulsing', dirClass);
+    }
+
+    setTimeout(() => {
+        if (stage) {
+            stage.classList.remove('is-switching-logo', 'switching-to-light', 'switching-to-dark');
+        }
+        if (dualHero) {
+            dualHero.classList.remove('is-seam-pulsing', 'switching-to-light', 'switching-to-dark');
+        }
+        if (logoGhost) {
+            logoGhost.src = normalizedTarget === 'light'
+                ? 'assets/images/logo-wordmark-oscuridad.png?v=3.0'
+                : 'assets/images/logo-wordmark-luz.png?v=3.0';
+        }
+        isSwitchingSide = false;
+    }, 760);
+}
+
+function initCinematicParallax() {
+    const hero = document.getElementById('dualHeroSection');
+    if (!hero) return;
+    if (window.matchMedia && (
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        !window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    )) {
+        return;
+    }
+
+    let rafId = null;
+    let targetX = 0;
+    let targetY = 0;
+
+    hero.addEventListener('pointermove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0) return;
+        targetX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        targetY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+        if (!rafId) {
+            rafId = requestAnimationFrame(() => {
+                hero.style.setProperty('--scene-px', `${(targetX * 6).toFixed(2)}px`);
+                hero.style.setProperty('--scene-py', `${(targetY * 4).toFixed(2)}px`);
+                rafId = null;
+            });
+        }
+    }, { passive: true });
+
+    hero.addEventListener('pointerleave', () => {
+        hero.style.setProperty('--scene-px', '0px');
+        hero.style.setProperty('--scene-py', '0px');
+    }, { passive: true });
+}
+
+function chooseFaction(side) {
+    const targetSide = side === 'light' ? 'light' : 'dark';
+    runFactionTransition(targetSide);
+}
+
+function activatePhilosophySide(targetSide) {
+    const normalizedTarget = targetSide === 'light' ? 'light' : 'dark';
+    const currentSide = document.body.classList.contains('theme-light') ? 'light' : 'dark';
+    if (currentSide !== normalizedTarget) {
+        runFactionTransition(normalizedTarget);
     } else {
-        const heroEl = document.querySelector('.hero-editorial');
+        const heroEl = document.getElementById('dualHeroSection') || document.querySelector('.hero-editorial');
         if (heroEl) heroEl.scrollIntoView({ behavior: 'smooth' });
     }
 }
 
 function selectSide(side) {
-    playSFX(side === 'light' ? 'sideLight' : 'sideDark');
-    const gateway = document.getElementById('gatewayScreen');
-    applySideTheme(side);
-
-    if (side === 'light') {
-        gateway.classList.add('transition-light');
-    } else {
-        gateway.classList.add('transition-dark');
-    }
-
-    setTimeout(() => {
-        gateway.style.display = 'none';
-        gateway.style.visibility = 'hidden';
-        gateway.style.opacity = '0';
-        gateway.setAttribute('aria-hidden', 'true');
-        gateway.classList.remove('transition-light', 'transition-dark');
-
-        if (!document.getElementById('gatewayPreHide')) {
-            const style = document.createElement('style');
-            style.id = 'gatewayPreHide';
-            style.textContent = '#gatewayScreen { display: none !important; visibility: hidden !important; opacity: 0 !important; }';
-            document.head.appendChild(style);
-        }
-    }, 650);
+    chooseFaction(side);
 }
-
-let isSwitchingSide = false;
 
 function triggerLogoSideSwitch(event) {
     if (event) event.stopPropagation();
     if (isSwitchingSide) return;
-
-    const stage = document.getElementById('heroLogoStage');
-    if (stage) {
-        stage.classList.remove('is-discharging');
-        void stage.offsetWidth;
-        stage.classList.add('is-discharging');
-        setTimeout(() => {
-            stage.classList.remove('is-discharging');
-        }, 700);
-    }
-
-    if (typeof pulseLogoLightningDischarge === 'function') {
-        pulseLogoLightningDischarge();
-    }
-
-    switchSide();
+    const currentSide = document.body.classList.contains('theme-light') ? 'light' : 'dark';
+    const nextSide = currentSide === 'light' ? 'dark' : 'light';
+    runFactionTransition(nextSide);
 }
 
-// ========================================== */
-// MOTOR PROCEDURAL DE RAYOS FRACTALES (VFX)  */
-// ========================================== */
-let logoLightningBurstUntil = 0;
-
-function pulseLogoLightningDischarge() {
-    logoLightningBurstUntil = performance.now() + 680;
-}
+function pulseLogoLightningDischarge() {}
 
 function initHeroLogoLightning() {
-    const canvas = document.getElementById('heroLogoLightningCanvas');
-    const stage = document.getElementById('heroLogoStage');
-    if (!canvas || !stage) return;
-
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        return;
-    }
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let cssW = 0;
-    let cssH = 0;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
-    let isHovered = false;
-    let isVisible = true;
-    let activeBolts = [];
-    let lastGenTime = 0;
-    const cycleStart = performance.now();
-
-    function resizeLightningCanvas() {
-        const rect = canvas.getBoundingClientRect();
-        if (rect.width > 0 && rect.height > 0) {
-            dpr = Math.min(window.devicePixelRatio || 1, 2);
-            cssW = rect.width;
-            cssH = rect.height;
-            canvas.width = Math.round(cssW * dpr);
-            canvas.height = Math.round(cssH * dpr);
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        }
-    }
-
-    resizeLightningCanvas();
-    window.addEventListener('resize', resizeLightningCanvas);
-    const logoImg = document.getElementById('heroLogoImg');
-    if (logoImg) {
-        logoImg.addEventListener('load', resizeLightningCanvas);
-    }
-
-    stage.addEventListener('pointerenter', () => {
-        isHovered = true;
-        lastGenTime = 0;
-    });
-    stage.addEventListener('pointerleave', () => {
-        isHovered = false;
-    });
-
-    if ('IntersectionObserver' in window) {
-        const obs = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                isVisible = entry.isIntersecting;
-            });
-        }, { threshold: 0.05 });
-        obs.observe(stage);
-    }
-
-    // Subdivisión recursiva por desplazamiento de punto medio (Midpoint Displacement Fractal)
-    function buildFractalPoints(x1, y1, x2, y2, displace, depth) {
-        if (depth <= 0 || displace < 1.2) {
-            return [{ x: x1, y: y1 }, { x: x2, y: y2 }];
-        }
-        const midX = (x1 + x2) * 0.5;
-        const midY = (y1 + y2) * 0.5;
-        const dx = x2 - x1;
-        const dy = y2 - y1;
-        const len = Math.hypot(dx, dy) || 1;
-        const nx = -dy / len;
-        const ny = dx / len;
-        const jitter = (Math.random() - 0.5) * displace;
-        const mx = midX + nx * jitter + (Math.random() - 0.5) * (displace * 0.18);
-        const my = midY + ny * jitter + (Math.random() - 0.5) * (displace * 0.18);
-
-        const left = buildFractalPoints(x1, y1, mx, my, displace * 0.54, depth - 1);
-        const right = buildFractalPoints(mx, my, x2, y2, displace * 0.54, depth - 1);
-        return left.slice(0, -1).concat(right);
-    }
-
-    // Genera un filamento eléctrico fino y localizado con a lo sumo 1 dendrita sutil
-    function createHighVoltageBolt(x1, y1, x2, y2, palette, intensityScale) {
-        const dist = Math.hypot(x2 - x1, y2 - y1);
-        const initialDisplace = Math.min(14, Math.max(5, dist * 0.14)) * intensityScale;
-        const trunk = buildFractalPoints(x1, y1, x2, y2, initialDisplace, 4);
-        const branches = [];
-
-        const mainAngle = Math.atan2(y2 - y1, x2 - x1);
-        const numBranches = Math.random() < 0.7 ? 1 : 0;
-
-        for (let b = 0; b < numBranches; b++) {
-            const idx = Math.floor(trunk.length * (0.3 + Math.random() * 0.4));
-            const origin = trunk[idx];
-            if (!origin) continue;
-
-            const sideSign = Math.random() < 0.5 ? -1 : 1;
-            const branchAngle = mainAngle + sideSign * (0.32 + Math.random() * 0.35);
-            const branchLen = dist * (0.24 + Math.random() * 0.18);
-            const bx2 = origin.x + Math.cos(branchAngle) * branchLen;
-            const by2 = origin.y + Math.sin(branchAngle) * branchLen;
-
-            const branchPts = buildFractalPoints(origin.x, origin.y, bx2, by2, initialDisplace * 0.4, 3);
-            branches.push({ points: branchPts, weight: 0.48 });
-        }
-
-        return {
-            trunk,
-            branches,
-            palette,
-            alpha: 0.55 + Math.random() * 0.15
-        };
-    }
-
-    // Rutas cortas y periféricas que bordean el contorno del logotipo sin saturarlo
-    function spawnBoltSet(count, intensityScale) {
-        if (cssW === 0 || cssH === 0) resizeLightningCanvas();
-        if (cssW === 0 || cssH === 0) return [];
-
-        const isLightMode = document.body.classList.contains('theme-light');
-
-        const berserkCrimson = {
-            outer: 'rgba(255, 24, 76, 0.14)',
-            mid: 'rgba(255, 42, 95, 0.65)',
-            core: 'rgba(255, 255, 255, 0.82)',
-            flare: '#ff4d79'
-        };
-        const berserkViolet = {
-            outer: 'rgba(168, 85, 247, 0.15)',
-            mid: 'rgba(192, 132, 252, 0.65)',
-            core: 'rgba(255, 255, 255, 0.82)',
-            flare: '#e879f9'
-        };
-        const iluminadoGold = {
-            outer: 'rgba(245, 158, 11, 0.14)',
-            mid: 'rgba(251, 191, 36, 0.62)',
-            core: 'rgba(255, 255, 255, 0.80)',
-            flare: '#fef08a'
-        };
-
-        const anchors = [
-            // 1. Filamento corto en el borde superior izquierdo
-            {
-                x1: cssW * (0.14 + Math.random() * 0.04),
-                y1: cssH * (0.36 + Math.random() * 0.06),
-                x2: cssW * (0.31 + Math.random() * 0.05),
-                y2: cssH * (0.26 + Math.random() * 0.06),
-                pal: isLightMode ? berserkCrimson : berserkViolet
-            },
-            // 2. Filamento corto en la corona superior derecha
-            {
-                x1: cssW * (0.84 - Math.random() * 0.04),
-                y1: cssH * (0.35 + Math.random() * 0.06),
-                x2: cssW * (0.67 - Math.random() * 0.05),
-                y2: cssH * (0.26 + Math.random() * 0.06),
-                pal: isLightMode ? berserkViolet : iluminadoGold
-            },
-            // 3. Micro-arco en el flanco inferior izquierdo
-            {
-                x1: cssW * (0.18 + Math.random() * 0.05),
-                y1: cssH * (0.64 + Math.random() * 0.05),
-                x2: cssW * (0.36 + Math.random() * 0.05),
-                y2: cssH * (0.71 + Math.random() * 0.05),
-                pal: isLightMode ? berserkCrimson : iluminadoGold
-            },
-            // 4. Micro-arco en el flanco inferior derecho
-            {
-                x1: cssW * (0.82 - Math.random() * 0.05),
-                y1: cssH * (0.63 + Math.random() * 0.05),
-                x2: cssW * (0.64 - Math.random() * 0.05),
-                y2: cssH * (0.70 + Math.random() * 0.05),
-                pal: berserkViolet
-            }
-        ];
-
-        const shuffled = anchors.sort(() => Math.random() - 0.5).slice(0, count);
-        return shuffled.map(a => createHighVoltageBolt(a.x1, a.y1, a.x2, a.y2, a.pal, intensityScale));
-    }
-
-    function strokePolylineTapering(points, baseWidth, color, shadowColor, shadowBlur, alpha) {
-        if (!points || points.length < 2) return;
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        ctx.strokeStyle = color;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        if (shadowBlur > 0 && shadowColor) {
-            ctx.shadowColor = shadowColor;
-            ctx.shadowBlur = shadowBlur;
-        }
-
-        // Trazado segmentado en 3 tramos (inicio ahusado -> cuerpo central potente -> punta afilada)
-        const n = points.length;
-        const p1 = Math.max(1, Math.floor(n * 0.18));
-        const p2 = Math.max(p1 + 1, Math.floor(n * 0.82));
-
-        const sections = [
-            { start: 0, end: p1, w: baseWidth * 0.68 },
-            { start: p1, end: p2, w: baseWidth },
-            { start: p2, end: n - 1, w: baseWidth * 0.55 }
-        ];
-
-        for (const sec of sections) {
-            if (sec.end <= sec.start) continue;
-            ctx.beginPath();
-            ctx.lineWidth = sec.w;
-            ctx.moveTo(points[sec.start].x, points[sec.start].y);
-            for (let i = sec.start + 1; i <= sec.end; i++) {
-                ctx.lineTo(points[i].x, points[i].y);
-            }
-            ctx.stroke();
-        }
-        ctx.restore();
-    }
-
-    function drawContactFlare(pt, color, radius, alpha) {
-        if (!pt) return;
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        const grad = ctx.createRadialGradient(pt.x, pt.y, 0.5, pt.x, pt.y, radius);
-        grad.addColorStop(0, '#ffffff');
-        grad.addColorStop(0.35, color);
-        grad.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(pt.x, pt.y, radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-    }
-
-    function renderBolt(bolt, masterAlpha) {
-        const a = bolt.alpha * masterAlpha;
-        if (a <= 0.02) return;
-        const pal = bolt.palette;
-
-        // 1. Halo exterior muy tenue y fino
-        strokePolylineTapering(bolt.trunk, 4.2, pal.outer, pal.mid, 8, a * 0.55);
-        // 2. Canal medio delicado
-        strokePolylineTapering(bolt.trunk, 1.45, pal.mid, pal.mid, 5, a * 0.72);
-        // 3. Hilo central ultrafino
-        strokePolylineTapering(bolt.trunk, 0.65, pal.core, '#ffffff', 2, a * 0.85);
-
-        // Ramificación sutil
-        for (const br of bolt.branches) {
-            const w = br.weight;
-            strokePolylineTapering(br.points, 2.4 * w, pal.outer, pal.mid, 4, a * 0.45);
-            strokePolylineTapering(br.points, 0.95 * w, pal.mid, null, 0, a * 0.6);
-            strokePolylineTapering(br.points, 0.45 * w, pal.core, null, 0, a * 0.7);
-        }
-
-        // Micro-destello discreto en el punto de contacto
-        drawContactFlare(bolt.trunk[0], pal.flare, 4.5, a * 0.42);
-    }
-
-    function animateLightningLoop(now) {
-        requestAnimationFrame(animateLightningLoop);
-        if (!isVisible) return;
-
-        ctx.clearRect(0, 0, cssW, cssH);
-
-        const isBursting = now < logoLightningBurstUntil;
-        const cycleDuration = isHovered ? 2400 : 4200;
-        const phase = ((now - cycleStart) % cycleDuration) / cycleDuration;
-
-        // Descargas sutiles únicamente en el pico del latido (10%-20% y un susurro en 60%-66%)
-        let dischargeIntensity = 0;
-        let desiredBolts = 0;
-
-        if (isBursting) {
-            dischargeIntensity = 0.85;
-            desiredBolts = 3;
-        } else if (phase >= 0.10 && phase <= 0.21) {
-            const localT = (phase - 0.10) / 0.11;
-            dischargeIntensity = Math.sin(localT * Math.PI) * (isHovered ? 0.72 : 0.52);
-            desiredBolts = isHovered ? 2 : 1;
-        } else if (phase >= 0.60 && phase <= 0.67) {
-            const localT = (phase - 0.60) / 0.07;
-            dischargeIntensity = Math.sin(localT * Math.PI) * (isHovered ? 0.55 : 0.36);
-            desiredBolts = 1;
-        } else if (isHovered && phase >= 0.36 && phase <= 0.42) {
-            const localT = (phase - 0.36) / 0.06;
-            dischargeIntensity = Math.sin(localT * Math.PI) * 0.4;
-            desiredBolts = 1;
-        }
-
-        if (dischargeIntensity <= 0.02 || desiredBolts === 0) {
-            activeBolts = [];
-            return;
-        }
-
-        const refreshInterval = isBursting ? 45 : 70;
-        if (now - lastGenTime > refreshInterval || activeBolts.length !== desiredBolts) {
-            activeBolts = spawnBoltSet(desiredBolts, isBursting ? 1.1 : 0.9);
-            lastGenTime = now;
-        }
-
-        ctx.save();
-        ctx.globalCompositeOperation = 'lighter';
-        for (const bolt of activeBolts) {
-            renderBolt(bolt, dischargeIntensity);
-        }
-        ctx.restore();
-    }
-
-    requestAnimationFrame(animateLightningLoop);
+    // Relámpagos fractales reemplazados por el barrido de energía limpio (Task 03B)
 }
 
 function switchSide() {
     if (isSwitchingSide) return;
-    isSwitchingSide = true;
-
     const currentSide = document.body.classList.contains('theme-light') ? 'light' : 'dark';
     const targetSide = currentSide === 'light' ? 'dark' : 'light';
-
-    // Efecto de sonido temático al transmutar
-    playSFX(targetSide === 'light' ? 'sideLight' : 'sideDark');
-
-    const overlay = document.getElementById('sideTransitionOverlay');
-    const runeName = document.getElementById('portalRuneName');
-
-    if (overlay) {
-        if (targetSide === 'light') {
-            overlay.classList.remove('to-dark');
-            overlay.classList.add('to-light');
-            if (runeName) runeName.textContent = 'MODO ILUMINADO';
-        } else {
-            overlay.classList.remove('to-light');
-            overlay.classList.add('to-dark');
-            if (runeName) runeName.textContent = 'MODO BERSERKER';
-        }
-
-        // 1. Despliegue suave y lento del velo cinematográfico
-        overlay.classList.add('active');
-
-        // 2. En el cenit de la transición (pantalla velada), aplicar el cambio de bando
-        setTimeout(() => {
-            applySideTheme(targetSide);
-            try {
-                localStorage.setItem('tofeprot_side', targetSide);
-            } catch (e) {}
-
-            // Pausa cinematográfica para asimilar la atmósfera antes de desvanecer
-            setTimeout(() => {
-                overlay.classList.remove('active');
-
-                // 3. Finalización y liberación de interacción
-                setTimeout(() => {
-                    overlay.classList.remove('to-light', 'to-dark');
-                    isSwitchingSide = false;
-                }, 850);
-            }, 300);
-        }, 650);
-    } else {
-        // Fallback directo
-        applySideTheme(targetSide);
-        isSwitchingSide = false;
-    }
+    runFactionTransition(targetSide);
 }
 
 function reopenGateway() {
