@@ -267,3 +267,24 @@ El propietario rechazó los símbolos genéricos que se habían agregado por enc
 - Los lockups adicionales y los SVG de emblemas quedaron descartados y no deben integrarse en el sitio.
 
 La dirección artística sigue siendo la arquitectura de las dos iglesias. Los nuevos artes de ChatGPT se limitan a fondos limpios de catedral/santuario; Gemini integra los fondos y mantiene los logos originales actuales.
+
+
+---
+
+## 14. Dirección visual vigente para portada (2026-11-15)
+
+El propietario rechazó la primera portada dual implementada porque repetía la selección de facción, usaba tarjetas genéricas y carecía de profundidad/detalle visual. No continuar con pequeños retoques a ese concepto.
+
+La especificación vigente es `docs/brand/TASK_03C_CINEMATIC_HOMEPAGE.md`. Esta reemplaza las propuestas de layout de Tarea 03 y 03B para la portada. Mantener las decisiones de marca y la filosofía de iglesias de documentos anteriores.
+
+Resumen obligatorio:
+- Una sola escena cinematográfica continua, inspirada en la cuarta imagen de referencia enviada por el propietario.
+- Conservar exactamente los fondos actuales de iglesia Berserker e Iluminado.
+- Conservar los wordmarks originales, sin símbolos añadidos.
+- El escenario debe tener riqueza visual y profundidad: estatuas integradas en arquitectura, vitrales, estandartes, altar, pedestales, braseros, bruma y haces de luz.
+- Un único logo principal central; una sola selección por facción, en placas ornamentales integradas al escenario.
+- Eliminar pistas repetidas como “tocá el logo”, chips “bando activo/camino disponible” y botones duplicados “elegir bando”.
+- Logo interactivo cambia de facción con crossfade/sweep lumínico elegante.
+- No usar tarjetas redondeadas genéricas como sustituto de la composición arquitectónica.
+- No incluir datos comerciales no verificados ni desactivar SAFE_MODE.
+- Implementar por pasos y mostrar capturas antes de publicar.
